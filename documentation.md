@@ -127,3 +127,61 @@ graph TD
 1. **Exact Match**: The normalized token is checked against keys in the taxonomy database.
 2. **Alias Mapping**: The token is mapped against the aliases array defined for each canonical skill.
 3. **Fuzzy String Comparison**: Leverages the RapidFuzz Levenshtein distance calculation to compare tokens. Matches with a score above 85 are accepted.
+
+---
+
+## 5. Ingestion Field Schemas
+
+### Default (Canonical) Output Schema
+This represents the raw, un-flattened, un-projected candidate profile structure produced by the builder:
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `candidate_id` | `string` | Unique SHA-256 hash generated from the primary email. |
+| `full_name` | `string` | Title-case formatted candidate name. |
+| `emails` | `string[]` | Array of RFC 5322 valid email addresses. |
+| `phones` | `string[]` | Array of E.164 formatted phone numbers. |
+| `location` | `object` | `{ city, region, country }` (country: ISO-3166 Alpha-2 code). |
+| `links` | `object` | `{ linkedin: string, github: string, portfolio: string[], other: string[] }` |
+| `headline` | `string` | Headline or short self-summary. |
+| `years_experience`| `number` | Programmatically computed non-overlapping years of work history. |
+| `skills` | `object[]` | Array of `{ name, confidence, sources[] }` skill entries. |
+| `experience` | `object[]` | Array of `{ company, title, start, end, summary, concurrent, sources, confidence }` |
+| `education` | `object[]` | Array of `{ institution, degree, field, end_year, sources, confidence }` |
+| `provenance` | `object[]` | Deep audit log tracking resolution strategy, winning values, and claims. |
+| `overall_confidence`| `number` | Weighted confidence score from 0.0 to 1.0. |
+| `pipeline_run_timestamp`| `string` | ISO-8601 Zulu timestamp of the pipeline run execution. |
+| `sources_processed` | `string[]` | List of filenames analyzed for this profile. |
+| `warnings` | `string[]` | List of non-fatal execution warnings. |
+
+---
+
+## 6. Configuration & Reshaping Engine
+
+The projection configuration reshaping system maps paths inside the canonical candidate to custom outputs.
+
+### Global Settings Toggles
+- **`include_confidence` (boolean)**: Set to `true` to retain `overall_confidence` and skill-level confidence scores in the output; set to `false` to strip them.
+- **`include_provenance` (boolean)**: Set to `true` to keep the audit trail (`provenance`) in the output; set to `false` to strip it out entirely.
+- **`on_missing` (enum)**: Determines behavior when a mapped field resolves to null:
+  - `"null"`: populates the field value as `null`.
+  - `"omit"`: removes the field key from the JSON output.
+  - `"error"`: throws a `ProjectionError` halting execution.
+
+### Field Specification Mappings
+Each field mapping in `fields` requires:
+- **`path` (string)**: The key name inside the output payload.
+- **`from` (string, optional)**: The dot-notation path pointing to the field in the canonical candidate profile (e.g. `emails[0]`, `experience[0].company`, `links.github`). If omitted, defaults to the target `path` name.
+- **`type` (enum)**: Validates target types. Allowed types are:
+  - `"string"`: Coerces the resolved value to a string.
+  - `"string[]"`: Formats the value as a list of strings.
+  - `"number"`: Coerces the value to a floating-point number.
+  - `"boolean"`: Converts the value to a boolean.
+  - `"object"`: Retains the nested dictionary structure (e.g., location, links).
+  - `"object[]"`: Retains lists of dictionaries (e.g., experience, education, provenance).
+- **`normalize` (enum, optional)**: Applies re-normalizations on the projected field:
+  - `"lowercase"`: Converts text characters to lowercase.
+  - `"E164"`: Formats phone numbers to international standard.
+  - `"canonical"`: Maps skill names against the skills taxonomy ontology.
+  - `"iso3166"`: Resolves country names to ISO codes.
+- **`required` (boolean, optional)**: If `true`, throws a validation error if the path resolves to null.
