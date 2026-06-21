@@ -1,6 +1,6 @@
-# Multi-Source Candidate Data Transformer
+# Multi-Source Candidate Data Transformer: A Trust-Aware Evidence Fusion Pipeline
 
-The **Multi-Source Candidate Data Transformer** is a production-grade, extensible data standardization engine written in Python. It ingests messy candidate profile data from multiple structured (CSV spreadsheet) and unstructured sources (resumes in PDF, scanned/image PDF, and DOCX formats), aligns them by identity, arbitrates competing claims using an evidence-based consensus system, projects the resolved profile into client-defined JSON payloads at runtime, and runs validation models to produce schema diagnostics.
+The **Multi-Source Candidate Data Transformer** is a production-grade, trust-aware evidence fusion pipeline written in Python. It ingests heterogeneous candidate profile data from multiple structured (CSV spreadsheet) and unstructured sources (resumes in PDF, scanned/image PDF, and DOCX formats), aligns them by identity, arbitrates competing evidence using an evidence-based consensus system, projects the resolved canonical profile into client-defined JSON payloads at runtime, and runs validation models to produce schema diagnostics—all while preserving full provenance and confidence metrics for every decision.
 
 ---
 
@@ -33,7 +33,7 @@ graph TD
 3. **Claims Extraction (`csv_extractor.py`, `resume_extractor.py`)**
    - Parses structured CSV rows mapping fuzzy column name heuristics (e.g. "Candidate Name", "full_name") to target properties.
    - For resumes, segments layouts using standard header indicators (EXPERIENCE, EDUCATION, SKILLS, CONTACT) to isolate regex searches.
-   - Initiates OCR fallback (via pytesseract) on scanned image PDFs.
+   - Initiates OCR fallback (via easyocr) on scanned image PDFs.
 4. **Claim Compilation (`models.py`)**
    - Encapsulates every raw value into an immutable `Claim` schema documenting:
      - Extraction field
@@ -48,12 +48,12 @@ graph TD
    - standardizes timelines and verbal month keywords (e.g., "Present", "Current") into `YYYY-MM` formats relative to the pipeline's runtime timestamp.
    - Maps country text matching major lists to ISO-3166 Alpha-2 country codes.
    - Maps skill listings onto a structured taxonomy ontology using fuzzy token alignments.
-6. **Cross-Source Alignment (`arbitration.py`)**
-   - Grouping all normalized claims by the candidate's primary email address (SHA-256 hashed to protect identity).
-7. **Cross-Source Arbitration (`arbitration.py`)**
-   - **Union Strategy**: Dedupes lists (emails, phones, skills, experience, education). Identical entries receive a **+0.15 corroboration confidence bonus**.
-   - **Highest Confidence Strategy**: Resolves single-value fields (full name, location, headline).
-   - **Conflict Detection**: Flags fields where competing claims have a close confidence margin (<= 0.05).
+6. **Evidence Alignment & Identity Resolution (`arbitration.py`)**
+   - Groups all normalized evidence claims by the candidate's primary email identity (SHA-256 hashed to protect identity).
+7. **Evidence Arbitration (`arbitration.py`)**
+   - **Union Strategy**: Pools and dedupes list-based evidence (emails, phones, skills, experience, education). Identical entries receive a **+0.15 corroboration confidence bonus**.
+   - **Highest Confidence Strategy**: Resolves single-value evidence fields (full name, location, headline) based on source and method trust weights.
+   - **Conflict Detection**: Flags fields where competing evidence claims have a close confidence margin (<= 0.05).
 8. **Experience Years Union (`arbitration.py`)**
    - standardizes dates of work roles to monthly ranges and projects them on a single chronological timeline.
    - Dedupes overlapping freelance contracts or parallel jobs using interval range union math, calculating a net sum of years of experience rounded to 1 decimal place.

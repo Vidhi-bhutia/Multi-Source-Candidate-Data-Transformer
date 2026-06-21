@@ -1,6 +1,6 @@
-# Candidate Transformer - Comprehensive Technical Reference
+# Candidate Transformer: A Trust-Aware Evidence Fusion Pipeline Architecture
 
-This document provides a highly detailed architectural, functional, and developer-level breakdown of the Multi-Source Candidate Data Transformer engine.
+This document provides a highly detailed architectural, functional, and developer-level breakdown of the Multi-Source Candidate Data Transformer: a trust-aware evidence fusion pipeline.
 
 ---
 
@@ -18,11 +18,11 @@ The pipeline ingests candidate data from multiple sources (both structured and u
 3. **Claims Extraction (`csv_extractor.py`, `resume_extractor.py`)**: Extracts raw text blocks. Structured CSV files map headers to canonical fields using fuzzy column name heuristics. Unstructured resumes segment layout boundaries (CONTACT, EXPERIENCE, EDUCATION, SKILLS) before running regular expression capture groups and taxonomy alignments.
 4. **Claim Compilation (`models.py`)**: Encapsulates raw extracted values into immutable `Claim` objects documenting the source file, extraction method, position in the document, and a raw confidence weight.
 5. **Normalization Engine (`normalizer.py`)**: Standardizes text formats: E.164 phone formats (via Google `phonenumbers`), Title Case name formatting, ISO-3166 country mapping, YYYY-MM dates, and skills taxonomy alignments.
-6. **Cross-Source Alignment (`arbitration.py`)**: Groups all normalized claims by the primary email address.
-7. **Cross-Source Arbitration (`arbitration.py`)**: Performs field merging:
-   - **Union Strategy**: Merges array fields (emails, phones, skills, experience, education). Identical entries receive a **+0.15 corroboration bonus**.
-   - **Highest Confidence Strategy**: Resolves single-value fields (name, location, headline).
-   - **Conflict Detection**: Compares winning claims against competitor claims; if the confidence margin is <= 0.05, a conflict flag is raised in provenance.
+6. **Evidence Alignment & Identity Resolution (`arbitration.py`)**: Groups all normalized evidence claims by the candidate's primary email identity.
+7. **Evidence Arbitration (`arbitration.py`)**: Performs field merging:
+   - **Union Strategy**: Pools and dedupes list-based evidence (emails, phones, skills, experience, education), boosting identical entries with a **+0.15 corroboration bonus**.
+   - **Highest Confidence Strategy**: Resolves single-value evidence fields (name, location, headline) based on source and method trust weights.
+   - **Conflict Detection**: Compares winning evidence claims against competing claims; if the confidence margin is <= 0.05, a conflict flag is raised in provenance.
 8. **Years of Experience Union (`arbitration.py`)**: Resolves concurrent jobs and overlapping contracts by projecting timelines onto a unified array of work months, counting only the net sum of non-overlapping months.
 9. **Canonical Profile Builder (`canonical_builder.py`)**: Creates a secure, immutable `CanonicalCandidate` object with a unique SHA-256 ID.
 10. **Output Projector (`projector.py`)**: Reshapes outputs at runtime by evaluating dot-notation paths (e.g. `emails[0]`, `experience[0].company`) onto client-specified fields, honoring global toggles for confidence and provenance. Under custom configurations, the output `provenance` records are dynamically filtered to only include entries matching the selected custom fields.
