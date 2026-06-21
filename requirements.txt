@@ -1,0 +1,12 @@
+# Python packages for candidate extraction, parsing, normalization, validation, and testing.
+flask
+pdfplumber
+python-docx
+phonenumbers
+pydantic
+rapidfuzz
+Pillow
+pytesseract
+python-magic
+chardet
+pytest

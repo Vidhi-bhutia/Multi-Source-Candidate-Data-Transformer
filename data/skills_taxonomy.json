@@ -1,0 +1,357 @@
+{
+  "python": {
+    "canonical": "Python",
+    "aliases": ["python3", "python 3", "py", "python2", "python programming", "cpython"],
+    "category": "languages"
+  },
+  "javascript": {
+    "canonical": "JavaScript",
+    "aliases": ["js", "javascript programming", "js script", "ecmascript", "es6", "es5"],
+    "category": "languages"
+  },
+  "typescript": {
+    "canonical": "TypeScript",
+    "aliases": ["ts", "typescript programming", "microsoft typescript", "ts-node", "typescrip"],
+    "category": "languages"
+  },
+  "cpp": {
+    "canonical": "C++",
+    "aliases": ["c plus plus", "c/c++", "cpp11", "cpp14", "cpp17", "cpp20"],
+    "category": "languages"
+  },
+  "c": {
+    "canonical": "C",
+    "aliases": ["c programming", "ansi c", "pure c", "c language"],
+    "category": "languages"
+  },
+  "r_lang": {
+    "canonical": "R",
+    "aliases": ["r programming", "r-project", "r language", "r statistics", "r-lang"],
+    "category": "languages"
+  },
+  "sql": {
+    "canonical": "SQL",
+    "aliases": ["structured query language", "plsql", "t-sql", "sql programming", "pl/sql", "tsql"],
+    "category": "languages"
+  },
+  "react": {
+    "canonical": "React",
+    "aliases": ["react.js", "reactjs", "react library", "react component", "react native", "react hook"],
+    "category": "frontend"
+  },
+  "nodejs": {
+    "canonical": "Node.js",
+    "aliases": ["node", "nodejs runtime", "node.js runtime", "node js", "node-js"],
+    "category": "frontend"
+  },
+  "nextjs": {
+    "canonical": "Next.js",
+    "aliases": ["next", "nextjs framework", "next.js framework", "next js", "next-js"],
+    "category": "frontend"
+  },
+  "html": {
+    "canonical": "HTML",
+    "aliases": ["html5", "xhtml", "markup language", "hypertext markup language", "htm"],
+    "category": "frontend"
+  },
+  "css": {
+    "canonical": "CSS",
+    "aliases": ["css3", "cascading style sheets", "scss", "sass", "less css"],
+    "category": "frontend"
+  },
+  "flask": {
+    "canonical": "Flask",
+    "aliases": ["flask framework", "python flask", "flask python", "flask microframework", "flask-restful"],
+    "category": "backend"
+  },
+  "express": {
+    "canonical": "Express",
+    "aliases": ["expressjs", "express.js", "express framework", "express nodejs", "express.js framework"],
+    "category": "backend"
+  },
+  "fastapi": {
+    "canonical": "FastAPI",
+    "aliases": ["fast api", "fastapi framework", "python fastapi", "fast-api", "fastapi python"],
+    "category": "backend"
+  },
+  "restapi": {
+    "canonical": "REST API",
+    "aliases": ["restful api", "rest apis", "restful apis", "representational state transfer", "rest web services", "rest service"],
+    "category": "backend"
+  },
+  "mysql": {
+    "canonical": "MySQL",
+    "aliases": ["my sql", "mysql database", "mysql server", "oracle mysql", "mysql db"],
+    "category": "databases"
+  },
+  "mongodb": {
+    "canonical": "MongoDB",
+    "aliases": ["mongo", "mongo db", "mongodb database", "mongodb server", "nosql mongo"],
+    "category": "databases"
+  },
+  "oracle": {
+    "canonical": "Oracle Database",
+    "aliases": ["oracle db", "oracle 19c", "oracle 12c", "oracle database server", "oracle rdbms", "oracle sql"],
+    "category": "databases"
+  },
+  "cosmosdb": {
+    "canonical": "Azure Cosmos DB",
+    "aliases": ["cosmos db", "cosmosdb", "azure cosmos", "microsoft cosmos db", "cosmos database"],
+    "category": "databases"
+  },
+  "sqlite": {
+    "canonical": "SQLite",
+    "aliases": ["sqlite3", "sqlite 3", "sqlite database", "sql lite", "sqlite db"],
+    "category": "databases"
+  },
+  "powerbi": {
+    "canonical": "Power BI",
+    "aliases": ["powerbi", "power-bi", "ms power bi", "microsoft power bi", "power query", "dax"],
+    "category": "data_analytics"
+  },
+  "excel": {
+    "canonical": "Microsoft Excel",
+    "aliases": ["ms excel", "excel spreadsheets", "vba excel", "advanced excel", "excel macros", "xlsx"],
+    "category": "data_analytics"
+  },
+  "datavisualization": {
+    "canonical": "Data Visualization",
+    "aliases": ["data viz", "dataviz", "charts and graphs", "visualizing data", "data visualization techniques", "information visualization"],
+    "category": "data_analytics"
+  },
+  "statistics": {
+    "canonical": "Statistics",
+    "aliases": ["statistical analysis", "stats", "biostatistics", "probability and statistics", "inferential statistics", "descriptive statistics"],
+    "category": "data_analytics"
+  },
+  "datacleaning": {
+    "canonical": "Data Cleaning",
+    "aliases": ["data cleansing", "data wrangling", "data preprocessing", "data preparation", "cleansing data"],
+    "category": "data_analytics"
+  },
+  "pandas": {
+    "canonical": "Pandas",
+    "aliases": ["pandas library", "python pandas", "pd", "pandas dataframe", "pandas dataframes"],
+    "category": "data_analytics"
+  },
+  "numpy": {
+    "canonical": "NumPy",
+    "aliases": ["numpy library", "python numpy", "np", "numpy array", "numerical python"],
+    "category": "data_analytics"
+  },
+  "machinelearning": {
+    "canonical": "Machine Learning",
+    "aliases": ["ml", "machine-learning", "statistical learning", "predictive modeling", "ml algorithms", "supervised learning", "unsupervised learning"],
+    "category": "ml_ai"
+  },
+  "deeplearning": {
+    "canonical": "Deep Learning",
+    "aliases": ["dl", "deep-learning", "neural networks", "artificial neural networks", "ann", "deep neural networks"],
+    "category": "ml_ai"
+  },
+  "generativeai": {
+    "canonical": "Generative AI",
+    "aliases": ["genai", "gen ai", "generative artificial intelligence", "large language models", "llm", "llms", "gpt"],
+    "category": "ml_ai"
+  },
+  "promptengineering": {
+    "canonical": "Prompt Engineering",
+    "aliases": ["prompting", "llm prompting", "prompt design", "prompt optimization", "system prompts"],
+    "category": "ml_ai"
+  },
+  "agenticai": {
+    "canonical": "Agentic AI",
+    "aliases": ["ai agents", "autonomous agents", "agentic systems", "multi-agent systems", "ai agent development", "autonomous ai"],
+    "category": "ml_ai"
+  },
+  "nlp": {
+    "canonical": "Natural Language Processing",
+    "aliases": ["nlp", "text processing", "text mining", "computational linguistics", "natural language understanding", "nlu"],
+    "category": "ml_ai"
+  },
+  "computervision": {
+    "canonical": "Computer Vision",
+    "aliases": ["cv", "image processing", "object detection", "image classification", "vision systems", "computervision"],
+    "category": "ml_ai"
+  },
+  "modelevaluation": {
+    "canonical": "Model Evaluation",
+    "aliases": ["model validation", "performance metrics", "cross validation", "confusion matrix", "auc roc", "accuracy metrics"],
+    "category": "ml_ai"
+  },
+  "keras": {
+    "canonical": "Keras",
+    "aliases": ["keras library", "tf.keras", "keras neural networks", "keras python", "deep learning with keras"],
+    "category": "ml_ai"
+  },
+  "tensorflow": {
+    "canonical": "TensorFlow",
+    "aliases": ["tf", "tensorflow2", "tensorflow library", "tf2", "tensor flow"],
+    "category": "ml_ai"
+  },
+  "scikitlearn": {
+    "canonical": "scikit-learn",
+    "aliases": ["sklearn", "scikit learn", "scikit-learn library", "sklearn python", "scikitlearn"],
+    "category": "ml_ai"
+  },
+  "aigovernance": {
+    "canonical": "AI Governance",
+    "aliases": ["ai ethics", "responsible ai", "ethical ai", "ai compliance", "explainable ai", "xai", "trustworthy ai"],
+    "category": "ml_ai"
+  },
+  "langchain": {
+    "canonical": "LangChain",
+    "aliases": ["lang chain", "langchain framework", "langchain python", "langchain js", "llm orchestration"],
+    "category": "ml_ai"
+  },
+  "langgraph": {
+    "canonical": "LangGraph",
+    "aliases": ["lang graph", "langgraph framework", "langgraph python", "agentic workflows with langgraph", "stateful agents"],
+    "category": "ml_ai"
+  },
+  "aws": {
+    "canonical": "Amazon Web Services",
+    "aliases": ["aws", "amazon cloud", "aws cloud", "amazon web services platform", "aws infrastructure"],
+    "category": "cloud"
+  },
+  "azure": {
+    "canonical": "Microsoft Azure",
+    "aliases": ["azure cloud", "ms azure", "azure platform", "microsoft cloud azure", "azure devops"],
+    "category": "cloud"
+  },
+  "gcp": {
+    "canonical": "Google Cloud Platform",
+    "aliases": ["google cloud", "gcp cloud", "google cloud platform services", "gpc", "google cloud console"],
+    "category": "cloud"
+  },
+  "cicd": {
+    "canonical": "CI/CD",
+    "aliases": ["continuous integration", "continuous deployment", "ci-cd", "delivery pipelines", "continuous delivery", "ci cd pipelines"],
+    "category": "cloud"
+  },
+  "ec2": {
+    "canonical": "Amazon EC2",
+    "aliases": ["elastic compute cloud", "ec2 instances", "aws ec2", "virtual servers in aws", "ec2 virtualization"],
+    "category": "cloud"
+  },
+  "iam": {
+    "canonical": "Identity and Access Management",
+    "aliases": ["iam", "aws iam", "identity access management", "cloud iam", "iam policies", "access control"],
+    "category": "cloud"
+  },
+  "autoscaling": {
+    "canonical": "Auto Scaling",
+    "aliases": ["automatic scaling", "auto-scaling", "scale groups", "horizontal scaling", "aws auto scaling", "dynamic scaling"],
+    "category": "cloud"
+  },
+  "loadbalancing": {
+    "canonical": "Load Balancing",
+    "aliases": ["load balancer", "elb", "alb", "application load balancer", "traffic routing", "network load balancing"],
+    "category": "cloud"
+  },
+  "cloudtrail": {
+    "canonical": "AWS CloudTrail",
+    "aliases": ["cloudtrail", "cloud trail", "aws trail", "aws audit logs", "cloudtrail monitoring"],
+    "category": "cloud"
+  },
+  "cloudwatch": {
+    "canonical": "AWS CloudWatch",
+    "aliases": ["cloudwatch", "cloud watch", "aws metrics", "cloudwatch logs", "cloudwatch alarms"],
+    "category": "cloud"
+  },
+  "azureblobstorage": {
+    "canonical": "Azure Blob Storage",
+    "aliases": ["blob storage", "azure blob", "microsoft blob storage", "azure object storage", "azure storage account"],
+    "category": "cloud"
+  },
+  "azureboards": {
+    "canonical": "Azure Boards",
+    "aliases": ["azure boards", "boards azure", "azure devops boards", "azure work items", "azure kanban"],
+    "category": "cloud"
+  },
+  "n8n": {
+    "canonical": "n8n",
+    "aliases": ["n8n workflow", "n8n automation", "n8n.io", "nodal automation", "n8n tool"],
+    "category": "automation"
+  },
+  "apintegrations": {
+    "canonical": "API Integrations",
+    "aliases": ["api integration", "third party apis", "rest api integration", "connecting apis", "api connections", "webhook integrations"],
+    "category": "automation"
+  },
+  "workflowautomation": {
+    "canonical": "Workflow Automation",
+    "aliases": ["workflow engine", "process automation", "business process automation", "task automation", "automated workflows"],
+    "category": "automation"
+  },
+  "webscraping": {
+    "canonical": "Web Scraping",
+    "aliases": ["data scraping", "web crawling", "screen scraping", "html parsing", "web extraction", "crawling websites"],
+    "category": "automation"
+  },
+  "beautifulsoup": {
+    "canonical": "Beautiful Soup",
+    "aliases": ["bs4", "beautifulsoup4", "beautiful soup 4", "beautifulsoup python", "html parsing with soup"],
+    "category": "automation"
+  },
+  "opal": {
+    "canonical": "Opal",
+    "aliases": ["opal security", "opal access", "opal authorization", "opal automation", "opal policy"],
+    "category": "automation"
+  },
+  "git": {
+    "canonical": "Git",
+    "aliases": ["git version control", "git bash", "git repository", "git branching", "git commands"],
+    "category": "devtools"
+  },
+  "github": {
+    "canonical": "GitHub",
+    "aliases": ["gh", "github.com", "github repository", "github actions", "github workflow"],
+    "category": "devtools"
+  },
+  "jira": {
+    "canonical": "Jira",
+    "aliases": ["atlassian jira", "jira software", "jira service desk", "jira ticket management", "jira boards"],
+    "category": "devtools"
+  },
+  "teamcity": {
+    "canonical": "TeamCity",
+    "aliases": ["jetbrains teamcity", "team city", "teamcity server", "teamcity build agent", "teamcity ci"],
+    "category": "devtools"
+  },
+  "msipackaging": {
+    "canonical": "MSI Packaging",
+    "aliases": ["windows installer", "msi builder", "msi deployment", "msi installer", "wix toolset", "msi repackaging"],
+    "category": "devtools"
+  },
+  "authentication": {
+    "canonical": "Authentication",
+    "aliases": ["authn", "user login", "mfa", "2fa", "sso", "single sign-on", "oauth2"],
+    "category": "security"
+  },
+  "rbac": {
+    "canonical": "Role-Based Access Control",
+    "aliases": ["rbac", "role based access control", "access management", "user permissions", "role assignment"],
+    "category": "security"
+  },
+  "authorizeddevicevalidation": {
+    "canonical": "Authorized Device Validation",
+    "aliases": ["device trust", "device authorization", "trusted device validation", "device fingerprinting", "device validation", "authorized devices"],
+    "category": "security"
+  },
+  "dsa": {
+    "canonical": "Data Structures and Algorithms",
+    "aliases": ["dsa", "data structures", "algorithms", "algorithmic problem solving", "leetcoding", "big o notation"],
+    "category": "algorithms"
+  },
+  "oop": {
+    "canonical": "Object-Oriented Programming",
+    "aliases": ["object oriented programming", "oops", "object-oriented design", "polymorphism", "encapsulation", "inheritance"],
+    "category": "algorithms"
+  },
+  "federatedlearning": {
+    "canonical": "Federated Learning",
+    "aliases": ["collaborative learning", "decentralized machine learning", "privacy-preserving ml", "federated optimization", "federated model training"],
+    "category": "algorithms"
+  }
+}

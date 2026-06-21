@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "Candidate Transformer" }}</title>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        wine: {
+                            50: '#fdf2f4',
+                            100: '#fbe6e9',
+                            200: '#f7d0d6',
+                            300: '#f0aab5',
+                            400: '#e57a8e',
+                            500: '#d44e6b',
+                            600: '#be3353',
+                            700: '#9f2441',
+                            800: '#842037',
+                            900: '#6f1d31',
+                            950: '#3e0b16',
+                        },
+                        dark: {
+                            50: '#f6f6f7',
+                            100: '#eef0f2',
+                            200: '#dbe0e5',
+                            300: '#bdc6cf',
+                            400: '#9aa7b5',
+                            500: '#7e8e9e',
+                            600: '#647384',
+                            700: '#525e6d',
+                            800: '#272d37',
+                            900: '#0f1115',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom styling overriding browser defaults -->
+    <style>
+        body {
+            background-color: #fcf9fa;
+            color: #1f2937;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #be3353;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Navbar with Burgundy Accents -->
+    <nav class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">🔷</span>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-800 flex items-center gap-2">
+                    Candidate Transformer
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-wine-50 text-wine-700 border border-wine-100">PIPELINE ENGINE</span>
+                </h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="text-sm font-medium text-slate-500">Eightfold Assignment</span>
+            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex flex-col">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,809 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .step-timeline-line {
+        position: absolute;
+        left: 19px;
+        top: 24px;
+        bottom: -24px;
+        width: 2px;
+        background-color: #e2e8f0;
+    }
+    .step-item:last-child .step-timeline-line {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col lg:flex-row gap-6 p-6 flex-grow overflow-hidden h-[calc(100vh-73px)]">
+    
+    <!-- SECTION 1: INPUT PANEL (35% width) -->
+    <div class="w-full lg:w-[35%] flex flex-col gap-5 overflow-y-auto pr-1">
+        
+        <!-- Box 1: Upload Sources -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span>📁</span> Upload Sources
+            </h2>
+            
+            <form id="pipeline-form" class="space-y-4">
+                <!-- CSV Dropzone -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-2">Structured Ingestion (CSV)</label>
+                    <div id="csv-dropzone" class="border-2 border-dashed border-slate-200 hover:border-wine-500 rounded-xl p-4 text-center cursor-pointer transition bg-slate-50 flex flex-col items-center justify-center group">
+                        <span class="text-2xl mb-1 group-hover:scale-110 transition duration-200">📊</span>
+                        <p class="text-xs text-slate-600 font-medium" id="csv-label">Drag & drop candidates.csv or click to upload</p>
+                        <span class="text-[10px] text-slate-400 mt-1">Accepts CSV files (max 5MB)</span>
+                        <input type="file" id="csv-file" name="csv_file" accept=".csv" class="hidden" />
+                    </div>
+                    <div id="csv-warn" class="hidden text-xs text-amber-600 mt-1 flex items-center gap-1">
+                        <span>⚠️</span> Warning: File size exceeds 5MB. Processing may take longer.
+                    </div>
+                </div>
+
+                <!-- Resume Dropzone -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-2">Unstructured Ingestion (PDF / DOCX)</label>
+                    <div id="resume-dropzone" class="border-2 border-dashed border-slate-200 hover:border-wine-500 rounded-xl p-4 text-center cursor-pointer transition bg-slate-50 flex flex-col items-center justify-center group">
+                        <span class="text-2xl mb-1 group-hover:scale-110 transition duration-200">📄</span>
+                        <p class="text-xs text-slate-600 font-medium" id="resume-label">Drag & drop resume.pdf/.docx or click to upload</p>
+                        <span class="text-[10px] text-slate-400 mt-1">Accepts PDF, DOCX (OCR supported)</span>
+                        <input type="file" id="resume-file" name="resume_file" accept=".pdf,.docx" class="hidden" />
+                    </div>
+                </div>
+            </form>
+            <p class="text-[10px] text-slate-400 mt-3 text-center italic">
+                Need at least one structured (CSV) or unstructured (Resume) source to run.
+            </p>
+        </div>
+
+        <!-- Box 2: Output Config -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex-grow flex flex-col min-h-[300px]">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider flex items-center gap-2">
+                    <span>⚙️</span> Output Config
+                </h2>
+                
+                <!-- Toggle Switch -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-500 font-medium">Custom</span>
+                    <button id="config-toggle" class="relative inline-flex h-5 w-10 items-center rounded-full bg-slate-200 transition" onclick="toggleConfig()">
+                        <span id="config-toggle-dot" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition translate-x-1"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuration Options -->
+            <div class="flex-grow flex flex-col space-y-3">
+                <div id="default-config-msg" class="flex-grow flex flex-col justify-center items-center text-center p-6 bg-slate-50 border border-slate-100 rounded-xl">
+                    <span class="text-3xl mb-2">⚡</span>
+                    <p class="text-xs font-semibold text-slate-800">Default Pass-Through Active</p>
+                    <p class="text-[10px] text-slate-500 mt-1 max-w-[200px]">Returns full Canonical Candidate profiles including confidence and provenance.</p>
+                </div>
+
+                <div id="custom-config-area" class="hidden flex-grow flex flex-col space-y-3">
+                    <textarea id="config-text" class="flex-grow w-full h-[180px] p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-mono focus:outline-none focus:border-wine-500 focus:ring-1 focus:ring-wine-500" placeholder="Paste projection JSON here..."></textarea>
+                    
+                    <div class="flex items-center justify-between gap-3">
+                        <button onclick="validateConfig()" class="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-200 hover:bg-slate-300 rounded-lg transition">
+                            Validate Config
+                        </button>
+                        <div id="validation-pill" class="hidden px-2.5 py-1 text-[10px] font-bold rounded-full"></div>
+                    </div>
+                    <div id="validation-errors" class="hidden text-[10px] text-red-650 font-mono bg-red-50 border border-red-200 p-2.5 rounded-lg max-h-[80px] overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Big Execution Button -->
+        <button id="run-btn" onclick="executePipeline()" class="w-full bg-wine-700 hover:bg-wine-600 text-white font-bold py-3 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-wine-900/30 disabled:opacity-50 disabled:cursor-not-allowed">
+            <span id="run-text">🚀 Run Transformation Pipeline</span>
+            <span id="run-spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+        </button>
+    </div>
+
+    <!-- SECTION 2: PIPELINE LOG (30% width) -->
+    <div class="w-full lg:w-[30%] bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col overflow-hidden">
+        <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider mb-4 flex items-center gap-2 pb-3 border-b border-slate-100">
+            <span>📊</span> Ingestion Log
+        </h2>
+        
+        <!-- Timeline Stepper Container -->
+        <div class="flex-grow overflow-y-auto relative pr-2 space-y-6 pt-2" id="log-container">
+            <!-- Empty state for logs -->
+            <div id="log-empty-state" class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
+                <span class="text-4xl mb-3 text-slate-300">⏳</span>
+                <p class="text-xs text-slate-500 font-semibold">Log pipeline processes</p>
+                <p class="text-[10px] text-slate-400 mt-1">Start run to inspect step-by-step progress</p>
+            </div>
+            
+            <!-- Dynamically populated timeline elements -->
+            <div id="log-timeline-list" class="hidden space-y-6"></div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: RESULTS PANEL (35% width) -->
+    <div class="w-full lg:w-[35%] bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col overflow-hidden">
+        
+        <!-- Tabs Header -->
+        <div class="bg-slate-50 border-b border-slate-200 flex text-xs">
+            <button onclick="switchTab('tab-default')" id="btn-tab-default" class="flex-1 py-3.5 px-2 text-center font-semibold text-wine-700 border-b-2 border-wine-500 bg-white transition">
+                Default Output
+            </button>
+            <button onclick="switchTab('tab-custom')" id="btn-tab-custom" class="flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
+                Projected
+            </button>
+            <button onclick="switchTab('tab-inspector')" id="btn-tab-inspector" class="flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
+                Claims
+            </button>
+            <button onclick="switchTab('tab-validation')" id="btn-tab-validation" class="flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
+                Metrics
+            </button>
+        </div>
+
+        <!-- Tab Body Content -->
+        <div class="flex-grow overflow-hidden relative" id="results-container">
+            
+            <!-- Empty state for Results -->
+            <div id="results-empty-state" class="absolute inset-0 flex flex-col justify-center items-center text-center p-6 bg-white">
+                <span class="text-5xl mb-4">🔷</span>
+                <p class="text-sm text-slate-700 font-semibold">Transformation results dashboard</p>
+                <p class="text-xs text-slate-400 mt-1 max-w-[240px]">Submit at least one candidate record source file to inspect arbitrated claims, mappings, and validator diagnostics.</p>
+            </div>
+
+            <!-- Red Error Alert box -->
+            <div id="pipeline-error-box" class="hidden absolute inset-0 flex flex-col justify-center items-center p-6 bg-red-50 border border-red-200 z-10 overflow-y-auto">
+                <span class="text-4xl mb-2">🚨</span>
+                <h3 class="text-sm font-bold text-red-700 uppercase tracking-wider">Pipeline Execution Crashed</h3>
+                <p id="error-message-text" class="text-xs text-red-600 mt-2 text-center max-w-[280px] font-medium"></p>
+                <pre id="error-traceback" class="hidden w-full mt-4 p-3 text-[10px] bg-slate-50 border border-red-200 rounded-lg text-red-800 overflow-x-auto text-left font-mono"></pre>
+                <button onclick="dismissError()" class="mt-4 px-4 py-2 text-xs font-semibold text-red-700 bg-red-100 hover:bg-red-200 rounded-lg border border-red-300 transition">
+                    Dismiss Error
+                </button>
+            </div>
+
+            <!-- Tab 1: Default Canonical JSON -->
+            <div id="tab-default" class="hidden p-4 h-full flex flex-col space-y-3">
+                <div class="flex justify-between items-center bg-slate-50 px-3 py-2 border border-slate-200 rounded-lg">
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Canonical Profile Schema (JSON)</span>
+                    <button onclick="copyToClipboard('default-pre-code')" class="px-2.5 py-1 text-[10px] font-semibold text-wine-700 bg-wine-50 border border-wine-200 hover:bg-wine-100 rounded transition">Copy JSON</button>
+                </div>
+                <div class="flex-grow overflow-auto p-4 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[10px] leading-relaxed">
+                    <pre><code id="default-pre-code" class="text-slate-800 whitespace-pre-wrap"></code></pre>
+                </div>
+            </div>
+
+            <!-- Tab 2: Custom config Projected Output JSON -->
+            <div id="tab-custom" class="hidden p-4 h-full flex flex-col space-y-3">
+                <div class="flex justify-between items-center bg-slate-50 px-3 py-2 border border-slate-200 rounded-lg">
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Projected Output Payload (JSON)</span>
+                    <button onclick="copyToClipboard('custom-pre-code')" class="px-2.5 py-1 text-[10px] font-semibold text-wine-700 bg-wine-50 border border-wine-200 hover:bg-wine-100 rounded transition">Copy JSON</button>
+                </div>
+                <div class="flex-grow overflow-auto p-4 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[10px] leading-relaxed">
+                    <pre><code id="custom-pre-code" class="text-slate-800 whitespace-pre-wrap"></code></pre>
+                </div>
+            </div>
+
+            <!-- Tab 3: Evidence Inspector Claims Table -->
+            <div id="tab-inspector" class="hidden p-4 h-full flex flex-col space-y-3">
+                <!-- Filters header -->
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Ingested Claims Audit Trail</span>
+                    <!-- Source filter select -->
+                    <div class="flex items-center gap-1.5">
+                        <label class="text-[10px] text-slate-500 font-medium">Source Filter:</label>
+                        <select id="claims-source-filter" onchange="filterClaimsTable()" class="bg-slate-50 border border-slate-200 text-xs px-2 py-1 rounded text-slate-800 focus:outline-none">
+                            <option value="ALL">All Sources</option>
+                            <!-- Dynamically loaded -->
+                        </select>
+                    </div>
+                </div>
+                <!-- Claims table container -->
+                <div class="flex-grow overflow-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-[10px]">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
+                                <th class="p-2.5">Field</th>
+                                <th class="p-2.5">Raw Value</th>
+                                <th class="p-2.5">Source</th>
+                                <th class="p-2.5">Method</th>
+                                <th class="p-2.5">Pos.</th>
+                                <th class="p-2.5">Conf</th>
+                            </tr>
+                        </thead>
+                        <tbody id="claims-table-body" class="divide-y divide-slate-100 bg-white">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 4: Validation Dashboard -->
+            <div id="tab-validation" class="hidden p-4 h-full flex flex-col space-y-4 overflow-y-auto">
+                <!-- Overall Confidence Meter -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">Overall Profile Confidence</span>
+                        <span id="validation-score" class="text-sm font-bold text-wine-700">0.0%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2">
+                        <div id="validation-score-bar" class="bg-wine-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-2">Score is calculated as a weighted confidence average across populated canonical attributes.</p>
+                </div>
+
+                <!-- Diagnostics Summary Blocks -->
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                        <span class="block text-xl" id="validation-status-icon">⚪</span>
+                        <span class="block text-[10px] text-slate-500 mt-1 uppercase font-semibold">Validator Status</span>
+                        <span class="block text-xs font-bold text-slate-800 mt-0.5" id="validation-status-text">NOT RUN</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                        <span class="block text-xl text-amber-600" id="warnings-count">0</span>
+                        <span class="block text-[10px] text-slate-500 mt-1 uppercase font-semibold">Active Warnings</span>
+                        <span class="block text-xs font-bold text-slate-800 mt-0.5" id="warnings-severity">NONE</span>
+                    </div>
+                </div>
+
+                <!-- Validation Issues (Errors / Warnings lists) -->
+                <div class="space-y-3 flex-grow">
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Diagnostic Details</h3>
+                    <div id="validation-issues-list" class="space-y-2">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Global elements
+    const csvFile = document.getElementById("csv-file");
+    const csvLabel = document.getElementById("csv-label");
+    const csvWarn = document.getElementById("csv-warn");
+    const csvDropzone = document.getElementById("csv-dropzone");
+
+    const resumeFile = document.getElementById("resume-file");
+    const resumeLabel = document.getElementById("resume-label");
+    const resumeDropzone = document.getElementById("resume-dropzone");
+
+    const runBtn = document.getElementById("run-btn");
+    const runText = document.getElementById("run-text");
+    const runSpinner = document.getElementById("run-spinner");
+
+    const configToggle = document.getElementById("config-toggle");
+    const configToggleDot = document.getElementById("config-toggle-dot");
+    const defaultConfigMsg = document.getElementById("default-config-msg");
+    const customConfigArea = document.getElementById("custom-config-area");
+    const configText = document.getElementById("config-text");
+    const valPill = document.getElementById("validation-pill");
+    const valErrors = document.getElementById("validation-errors");
+
+    // State Variables
+    let isCustomConfig = false;
+    let pipelineLogData = [];
+    let claimsData = [];
+
+    // Pre-filled custom config sample
+    const sampleCustomConfig = {
+        "fields": [
+            {"path": "full_name", "type": "string", "required": true},
+            {"path": "primary_email", "from": "emails[0]", "type": "string", "required": true},
+            {"path": "phone", "from": "phones[0]", "type": "string", "normalize": "E164"},
+            {"path": "skills", "from": "skills[].name", "type": "string[]", "normalize": "canonical"}
+        ],
+        "include_confidence": true,
+        "include_provenance": false,
+        "on_missing": "null"
+    };
+
+    // Initialize custom config textarea
+    configText.value = JSON.stringify(sampleCustomConfig, null, 2);
+
+    // Setup Dropzone Event Handlers
+    function setupDropzone(zone, input, label, sizeCheck = false) {
+        zone.addEventListener("click", () => input.click());
+        
+        zone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            zone.classList.remove("border-slate-200");
+            zone.classList.add("border-wine-500", "bg-wine-50/20");
+        });
+        
+        zone.addEventListener("dragleave", () => {
+            zone.classList.remove("border-wine-500", "bg-wine-50/20");
+            zone.classList.add("border-slate-200");
+        });
+        
+        zone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            zone.classList.remove("border-wine-500", "bg-wine-50/20");
+            zone.classList.add("border-slate-200");
+            
+            if (e.dataTransfer.files.length) {
+                input.files = e.dataTransfer.files;
+                updateFileLabel(input.files[0], label, sizeCheck);
+            }
+        });
+
+        input.addEventListener("change", () => {
+            if (input.files.length) {
+                updateFileLabel(input.files[0], label, sizeCheck);
+            }
+        });
+    }
+
+    function updateFileLabel(file, labelElement, sizeCheck) {
+        labelElement.innerHTML = `<span class="text-slate-800 font-semibold">${file.name}</span> (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        if (sizeCheck) {
+            // Check > 5MB (5 * 1024 * 1024)
+            if (file.size > 5242880) {
+                csvWarn.classList.remove("hidden");
+            } else {
+                csvWarn.classList.add("hidden");
+            }
+        }
+    }
+
+    setupDropzone(csvDropzone, csvFile, csvLabel, true);
+    setupDropzone(resumeDropzone, resumeFile, resumeLabel);
+
+    // Config Toggle controller
+    function toggleConfig() {
+        isCustomConfig = !isCustomConfig;
+        if (isCustomConfig) {
+            configToggle.classList.remove("bg-slate-200");
+            configToggle.classList.add("bg-wine-600");
+            configToggleDot.classList.remove("translate-x-1");
+            configToggleDot.classList.add("translate-x-5");
+            defaultConfigMsg.classList.add("hidden");
+            customConfigArea.classList.remove("hidden");
+        } else {
+            configToggle.classList.remove("bg-wine-600");
+            configToggle.classList.add("bg-slate-200");
+            configToggleDot.classList.remove("translate-x-5");
+            configToggleDot.classList.add("translate-x-1");
+            defaultConfigMsg.classList.remove("hidden");
+            customConfigArea.classList.add("hidden");
+            valPill.classList.add("hidden");
+            valErrors.classList.add("hidden");
+        }
+    }
+
+    // Validate Config function (POST /api/validate-config)
+    async function validateConfig() {
+        const text = configText.value.trim();
+        valPill.classList.remove("hidden");
+        valErrors.classList.add("hidden");
+        
+        try {
+            const parsed = JSON.parse(text);
+            const response = await fetch("/api/validate-config", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(parsed)
+            });
+            const res = await response.json();
+            
+            if (res.valid) {
+                valPill.className = "px-2.5 py-1 text-[10px] font-bold rounded-full bg-green-50 text-green-700 border border-green-200";
+                valPill.innerText = "VALID CONFIG";
+            } else {
+                valPill.className = "px-2.5 py-1 text-[10px] font-bold rounded-full bg-red-50 text-red-700 border border-red-200";
+                valPill.innerText = "INVALID CONFIG";
+                valErrors.classList.remove("hidden");
+                valErrors.innerHTML = res.errors.map(err => `• ${err}`).join("<br>");
+            }
+        } catch (e) {
+            valPill.className = "px-2.5 py-1 text-[10px] font-bold rounded-full bg-red-50 text-red-700 border border-red-200";
+            valPill.innerText = "JSON SYNTAX ERROR";
+            valErrors.classList.remove("hidden");
+            valErrors.innerText = e.message;
+        }
+    }
+
+    // Render Steps Timeline
+    function renderTimeline(logs) {
+        const list = document.getElementById("log-timeline-list");
+        const empty = document.getElementById("log-empty-state");
+        
+        if (!logs || logs.length === 0) {
+            empty.classList.remove("hidden");
+            list.classList.add("hidden");
+            return;
+        }
+        
+        empty.classList.add("hidden");
+        list.classList.remove("hidden");
+        list.innerHTML = "";
+
+        logs.forEach(item => {
+            const isCrashed = item.step.includes("Crashed") || item.step.includes("Failed");
+            const isComplete = item.step.includes("Completed") || item.step.includes("Success") || item.step.includes("Built") || item.step.includes("Detected");
+            
+            let statusIcon = "⏳";
+            let iconClass = "bg-slate-200 text-slate-500 border-slate-300";
+            
+            if (isCrashed) {
+                statusIcon = "❌";
+                iconClass = "bg-red-100 text-red-700 border-red-300";
+            } else if (isComplete) {
+                statusIcon = "✅";
+                iconClass = "bg-wine-50 text-wine-700 border-wine-200";
+            } else {
+                iconClass = "bg-wine-50 text-wine-700 border-wine-300 animate-pulse";
+            }
+
+            const stepEl = document.createElement("div");
+            stepEl.className = "flex gap-3 relative step-item";
+            stepEl.innerHTML = `
+                <div class="step-timeline-line"></div>
+                <div class="w-10 h-10 rounded-full border flex items-center justify-center text-xs z-10 shrink-0 ${iconClass}">
+                    ${statusIcon}
+                </div>
+                <div class="pt-1 select-none">
+                    <h4 class="text-xs font-bold text-slate-800 tracking-wide">${item.step}</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed">${item.details}</p>
+                </div>
+            `;
+            list.appendChild(stepEl);
+        });
+    }
+
+    // JSON syntax highlighting parser
+    function syntaxHighlight(json) {
+        if (typeof json != 'string') {
+             json = JSON.stringify(json, undefined, 2);
+        }
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
+            var cls = 'text-amber-700'; // number
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'text-indigo-600 font-semibold'; // key
+                } else {
+                    cls = 'text-emerald-700'; // string
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'text-orange-600';
+            } else if (/null/.test(match)) {
+                cls = 'text-slate-400';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+
+    // Switch Tabs controller
+    function switchTab(tabId) {
+        // Toggle view blocks
+        ["tab-default", "tab-custom", "tab-inspector", "tab-validation"].forEach(id => {
+            const el = document.getElementById(id);
+            if (id === tabId) {
+                el.classList.remove("hidden");
+            } else {
+                el.classList.add("hidden");
+            }
+        });
+
+        // Toggle button styling
+        ["btn-tab-default", "btn-tab-custom", "btn-tab-inspector", "btn-tab-validation"].forEach(id => {
+            const btn = document.getElementById(id);
+            const targetBtnId = "btn-" + tabId;
+            if (id === targetBtnId) {
+                btn.className = "flex-1 py-3.5 px-2 text-center font-bold text-wine-700 border-b-2 border-wine-500 bg-white transition";
+            } else {
+                btn.className = "flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition";
+            }
+        });
+    }
+
+    // Copy element string utility
+    function copyToClipboard(elementId) {
+        const codeEl = document.getElementById(elementId);
+        const range = document.createRange();
+        range.selectNode(codeEl);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        
+        try {
+            document.execCommand("copy");
+            const btn = document.querySelector(`[onclick="copyToClipboard('${elementId}')"]`);
+            const prevText = btn.innerText;
+            btn.innerText = "COPIED!";
+            setTimeout(() => { btn.innerText = prevText; }, 1500);
+        } catch (err) {
+            console.error("Copy failed", err);
+        }
+        window.getSelection().removeAllRanges();
+    }
+
+    // Filter Claims Table
+    function filterClaimsTable() {
+        const sourceVal = document.getElementById("claims-source-filter").value;
+        const rows = document.querySelectorAll(".claim-row-item");
+        
+        rows.forEach(row => {
+            const rowSource = row.getAttribute("data-source-file");
+            if (sourceVal === "ALL" || rowSource === sourceVal) {
+                row.classList.remove("hidden");
+            } else {
+                row.classList.add("hidden");
+            }
+        });
+    }
+
+    // Populate Claims Inspector tab
+    function renderClaimsTable(claims) {
+        const body = document.getElementById("claims-table-body");
+        const select = document.getElementById("claims-source-filter");
+        
+        body.innerHTML = "";
+        
+        if (!claims || claims.length === 0) {
+            body.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No raw claims available</td></tr>`;
+            return;
+        }
+
+        // Populate filter options dropdown
+        const uniqueSources = listUniqueSourcesFromClaims(claims);
+        select.innerHTML = `<option value="ALL">All Sources (${claims.length})</option>`;
+        uniqueSources.forEach(src => {
+            const count = claims.filter(c => c.source === src).length;
+            select.innerHTML += `<option value="${src}">${src} (${count})</option>`;
+        });
+
+        claims.forEach(c => {
+            let confClass = "text-red-700 bg-red-100 border border-red-300";
+            if (c.confidence > 0.8) {
+                confClass = "text-green-700 bg-green-100 border border-green-300";
+            } else if (c.confidence >= 0.5) {
+                confClass = "text-amber-700 bg-amber-100 border border-amber-300";
+            }
+
+            const row = document.createElement("tr");
+            row.className = "claim-row-item border-b border-slate-100 hover:bg-slate-50 text-slate-700 transition";
+            row.setAttribute("data-source-file", c.source);
+            
+            // Format raw value to prevent layout overflows
+            let displayVal = typeof c.raw_value === 'object' ? JSON.stringify(c.raw_value) : String(c.raw_value);
+            if (displayVal.length > 25) {
+                displayVal = displayVal.substring(0, 22) + "...";
+            }
+
+            row.innerHTML = `
+                <td class="p-2 font-mono text-[9px] text-wine-700 font-semibold">${c.field}</td>
+                <td class="p-2 text-slate-850 truncate max-w-[120px]" title="${JSON.stringify(c.raw_value)}">${displayVal}</td>
+                <td class="p-2 text-slate-500 truncate max-w-[80px]" title="${c.source}">${c.source}</td>
+                <td class="p-2 text-slate-400">${c.extraction_method}</td>
+                <td class="p-2 text-slate-400">${c.extraction_position}</td>
+                <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[8px] font-bold ${confClass}">${c.confidence.toFixed(2)}</span></td>
+            `;
+            body.appendChild(row);
+        });
+    }
+
+    function listUniqueSourcesFromClaims(claims) {
+        const sources = new Set();
+        claims.forEach(c => {
+            if (c.source) sources.add(c.source);
+        });
+        return Array.from(sources);
+    }
+
+    // Populate Validation Metrics tab
+    function renderValidationDashboard(valResult, overallConf) {
+        const valScore = document.getElementById("validation-score");
+        const valScoreBar = document.getElementById("validation-score-bar");
+        const valStatusIcon = document.getElementById("validation-status-icon");
+        const valStatusText = document.getElementById("validation-status-text");
+        const warningsCount = document.getElementById("warnings-count");
+        const warningsSeverity = document.getElementById("warnings-severity");
+        const issuesList = document.getElementById("validation-issues-list");
+
+        // Set Confidence scores
+        const percent = (overallConf * 100).toFixed(0);
+        valScore.innerText = `${percent}%`;
+        valScoreBar.style.width = `${percent}%`;
+
+        // Update color rating bar on score
+        if (overallConf > 0.8) {
+            valScoreBar.className = "bg-green-500 h-2 rounded-full transition-all duration-500";
+        } else if (overallConf >= 0.5) {
+            valScoreBar.className = "bg-yellow-500 h-2 rounded-full transition-all duration-500";
+        } else {
+            valScoreBar.className = "bg-red-500 h-2 rounded-full transition-all duration-500";
+        }
+
+        // Set schema validity statuses
+        if (valResult.valid) {
+            valStatusIcon.innerText = "✅";
+            valStatusText.innerText = "VALID";
+            valStatusText.className = "block text-xs font-bold text-green-600 mt-0.5";
+        } else {
+            valStatusIcon.innerText = "❌";
+            valStatusText.innerText = "ERRORS";
+            valStatusText.className = "block text-xs font-bold text-red-600 mt-0.5";
+        }
+
+        // Set Warnings metric
+        const warnCountVal = valResult.warnings ? valResult.warnings.length : 0;
+        warningsCount.innerText = warnCountVal;
+        if (warnCountVal > 3) {
+            warningsSeverity.innerText = "HIGH";
+            warningsSeverity.className = "block text-xs font-bold text-red-650 mt-0.5";
+        } else if (warnCountVal > 0) {
+            warningsSeverity.innerText = "MODERATE";
+            warningsSeverity.className = "block text-xs font-bold text-amber-600 mt-0.5";
+        } else {
+            warningsSeverity.innerText = "CLEAN";
+            warningsSeverity.className = "block text-xs font-bold text-green-600 mt-0.5";
+        }
+
+        // Render Issue timelines
+        issuesList.innerHTML = "";
+        
+        // Show Errors first
+        if (valResult.errors && valResult.errors.length > 0) {
+            valResult.errors.forEach(err => {
+                const item = document.createElement("div");
+                item.className = "flex gap-2.5 p-2.5 bg-red-50 border border-red-200 rounded-xl text-red-700 items-start";
+                item.innerHTML = `
+                    <span class="text-xs">🔴</span>
+                    <div>
+                        <h4 class="text-xs font-bold font-mono text-red-600">${err.field}</h4>
+                        <p class="text-[10px] text-red-600/80 mt-0.5">${err.error}</p>
+                    </div>
+                `;
+                issuesList.appendChild(item);
+            });
+        }
+
+        // Show Warnings next
+        if (valResult.warnings && valResult.warnings.length > 0) {
+            valResult.warnings.forEach(warn => {
+                const item = document.createElement("div");
+                item.className = "flex gap-2.5 p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 items-start";
+                item.innerHTML = `
+                    <span class="text-xs">⚠️</span>
+                    <div>
+                        <p class="text-[10px] text-amber-700 font-medium">${warn}</p>
+                    </div>
+                `;
+                issuesList.appendChild(item);
+            });
+        }
+
+        if (issuesList.innerHTML === "") {
+            issuesList.innerHTML = `<div class="p-4 text-center text-slate-400 text-xs italic bg-slate-50 border border-slate-200 rounded-xl">No active warnings or configuration conflicts.</div>`;
+        }
+    }
+
+    // Dismiss Route Error alerts
+    function dismissError() {
+        document.getElementById("pipeline-error-box").classList.add("hidden");
+    }
+
+    // Main execute call dispatcher
+    async function executePipeline() {
+        // Trigger loaders
+        runBtn.disabled = true;
+        runSpinner.classList.remove("hidden");
+        runText.innerText = "Processing Ingestions...";
+        
+        // Show active logs timeline container
+        document.getElementById("log-empty-state").classList.add("hidden");
+        const timelineList = document.getElementById("log-timeline-list");
+        timelineList.classList.remove("hidden");
+        timelineList.innerHTML = `
+            <div class="flex gap-3 relative step-item animate-pulse">
+                <div class="w-10 h-10 rounded-full border border-wine-300 bg-wine-50 text-wine-700 flex items-center justify-center text-xs z-10 shrink-0">⏳</div>
+                <div class="pt-1">
+                    <h4 class="text-xs font-bold text-slate-800 tracking-wide">Initializing Pipeline Run</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Scaffolding temporary sandboxes and preparing extractors...</p>
+                </div>
+            </div>
+        `;
+
+        // Hide old outputs/errors
+        document.getElementById("pipeline-error-box").classList.add("hidden");
+
+        const formData = new FormData();
+        if (csvFile.files[0]) formData.append("csv_file", csvFile.files[0]);
+        if (resumeFile.files[0]) formData.append("resume_file", resumeFile.files[0]);
+        
+        if (isCustomConfig) {
+            formData.append("config", configText.value);
+        }
+
+        try {
+            const response = await fetch("/run", {
+                method: "POST",
+                body: formData
+            });
+
+            const res = await response.json();
+            
+            // Clean loader locks
+            runBtn.disabled = false;
+            runSpinner.classList.add("hidden");
+            runText.innerText = "🚀 Run Transformation Pipeline";
+
+            if (response.status === 200 && res.success) {
+                // Populate log list
+                renderTimeline(res.pipeline_log);
+
+                // Populate Outputs
+                const result = res.result;
+                
+                // Show default canonical pre-code
+                document.getElementById("default-pre-code").innerHTML = syntaxHighlight(result.canonical);
+
+                // Show projected pre-code
+                document.getElementById("custom-pre-code").innerHTML = syntaxHighlight(result.projected);
+
+                // Load Inspector claims
+                const allClaims = result.canonical.provenance.reduce((acc, prov) => {
+                    const parsedClaims = prov.all_claims.map(c => {
+                        return {
+                            field: c.field,
+                            raw_value: c.raw_value,
+                            source: c.source,
+                            extraction_method: c.extraction_method,
+                            extraction_position: c.extraction_position,
+                            confidence: c.confidence
+                        };
+                    });
+                    return acc.concat(parsedClaims);
+                }, []);
+                renderClaimsTable(allClaims);
+
+                // Render Diagnostics
+                renderValidationDashboard(result.validation, result.canonical.overall_confidence);
+
+                // Reveal results section
+                document.getElementById("results-empty-state").classList.add("hidden");
+                const resultsContainer = document.getElementById("results-container");
+                resultsContainer.classList.remove("opacity-0");
+                resultsContainer.classList.add("opacity-100", "transition-opacity", "duration-500");
+                
+                // Set default display tab
+                switchTab("tab-default");
+
+            } else {
+                // Pipeline error response received
+                renderTimeline(res.pipeline_log || [{step: "Run Failed", details: res.error || "Internal Error"}]);
+                
+                const errBox = document.getElementById("pipeline-error-box");
+                errBox.classList.remove("hidden");
+                document.getElementById("error-message-text").innerText = res.error || "Execution crashed on raw input structures.";
+                
+                const trace = document.getElementById("error-traceback");
+                if (res.traceback) {
+                    trace.classList.remove("hidden");
+                    trace.innerText = res.traceback;
+                } else {
+                    trace.classList.add("hidden");
+                }
+            }
+
+        } catch (e) {
+            // Route/Network crashes
+            runBtn.disabled = false;
+            runSpinner.classList.add("hidden");
+            runText.innerText = "🚀 Run Transformation Pipeline";
+
+            const errBox = document.getElementById("pipeline-error-box");
+            errBox.classList.remove("hidden");
+            document.getElementById("error-message-text").innerText = `Network or connection failure: ${e.message}`;
+            document.getElementById("error-traceback").classList.add("hidden");
+        }
+    }
+</script>
+{% endblock %}
