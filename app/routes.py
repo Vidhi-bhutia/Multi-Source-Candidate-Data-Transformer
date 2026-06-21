@@ -150,7 +150,10 @@ def get_sample_config():
                 {"path": "full_name", "type": "string", "required": True},
                 {"path": "primary_email", "from": "emails[0]", "type": "string", "required": True},
                 {"path": "phone", "from": "phones[0]", "type": "string", "normalize": "E164"},
-                {"path": "skills", "from": "skills[].name", "type": "string[]", "normalize": "canonical"}
+                {"path": "skills", "from": "skills[].name", "type": "string[]", "normalize": "canonical"},
+                {"path": "years_experience", "type": "number", "required": False},
+                {"path": "current_company", "from": "experience[0].company", "type": "string", "required": False},
+                {"path": "linkedin", "from": "links.linkedin", "type": "string", "required": False}
             ],
             "include_confidence": True,
             "include_provenance": False,
@@ -178,7 +181,7 @@ def validate_config():
                 errors.append(f"fields[{idx}] is missing the required key 'path'.")
             if "type" not in field:
                 errors.append(f"fields[{idx}] is missing the required key 'type'.")
-            elif field["type"] not in ["string", "string[]", "number", "boolean"]:
+            elif field["type"] not in ["string", "string[]", "number", "boolean", "object", "object[]"]:
                 errors.append(f"fields[{idx}] contains an invalid type value: '{field['type']}'.")
 
         on_missing = data.get("on_missing", "null")

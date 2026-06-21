@@ -8,23 +8,36 @@ This document lists the candidate ingestion edge cases handled by the transforme
 
 ### A. Scanned Resumes (OCR Fallback)
 - **Problem**: Resumes that are scanned images wrapped in a PDF envelope contain zero text stream characters, causing standard text parsers to return empty files.
-- **Solution**: The `SourceDetector` monitors character counts. If a PDF contains fewer than 100 characters in its first three pages, it flags the file as `image_pdf`. The `ResumeExtractor` then initiates a fallback using `pytesseract` to perform layout-aware Optical Character Recognition (OCR) on rendered page images.
+- **Solution**: The `SourceDetector` monitors character counts. If a PDF contains fewer than 100 characters in its first three pages, it flags the file as `image_pdf`. The `ResumeExtractor` then initiates a fallback using the pip-installable `easyocr` library to perform Optical Character Recognition (OCR) on rendered page images.
+- **Heuristics**:
+  - Page-render DPI is preset to 150 to balance processing speed and OCR accuracy.
+  - Runs GPU-free CPU-only OCR inference for maximum compatibility across user environments.
+  - Reconstructs text flows page-by-page.
 
 ### B. Overlapping Contract Timelines (Experience Years)
-- **Problem**: Resumes frequently contain overlapping timelines (e.g. concurrent freelance work, parallel jobs). Summing raw job durations would inflate the candidate's actual years of experience.
-- **Solution**: The `EvidenceArbitrationEngine` converts dates into numeric month values. It builds timeline segments and merges overlapping intervals using interval range union mathematics. The total years of experience is computed solely on the net non-overlapping work periods.
+- **Problem**: Candidates often list overlapping timelines (e.g. concurrent freelance contracts, parallel roles), which would inflate computed years of experience if raw durations were summed.
+- **Solution**: The `EvidenceArbitrationEngine` projects monthly ranges onto a unified timeline:
+  - Date ranges are parsed and converted to numerical months since a standard epoch (January 1970).
+  - List of intervals is sorted by start month.
+  - Overlapping intervals are merged using standard range union logic.
+  - Total years of experience = (total non-overlapping months) / 12, rounded to 1 decimal place.
+- **Example**:
+  - Job A: Jan 2025 - Dec 2025 (12 months)
+  - Job B: Jun 2025 - May 2026 (12 months)
+  - Raw sum: 24 months (2.0 years)
+  - Merged timeline: Jan 2025 - May 2026 (17 months = 1.4 years)
 
 ### C. Present/Ongoing Career Durations
-- **Problem**: End dates on resumes are often written as verbal keywords like "Present", "Current", "Now", or "Ongoing".
-- **Solution**: The normalizer standardizes these terms to the execution date by querying the pipeline's runtime timestamp (e.g., `2026-06-21`), ensuring precise experience month counts.
+- **Problem**: Resume fields record ongoing employment with verbal labels like "Present", "Current", "Now", or "Ongoing" rather than standard dates.
+- **Solution**: The date normalizer converts these labels to the current execution month/year by querying the pipeline's runtime timestamp. This ensures correct duration counts for ongoing roles.
 
 ### D. Inline Date and Company Text
-- **Problem**: Resume builders often format roles with the company name and date range on the same line (e.g. `People Prudent Feb 2026 - Present`). Traditional paragraph splitters might skip this line or misidentify the company name as a bullet point.
-- **Solution**: The experience parser uses regex matches for dates. If a date matches, it captures the text preceding the match on that line (trimming symbols like `|` or `,`) and resolves it as the company name.
+- **Problem**: Resumes frequently place the company name and date range on the same line (e.g. `People Prudent Feb 2026 - Present`), causing standard splitters to misidentify the company name.
+- **Solution**: The experience parser uses regex to locate date ranges. If a match is found on a line, it captures the preceding text on that line (stripping symbols like `|` or `,`) and resolves it as the company name.
 
 ### E. Phone Number Format Variations
-- **Problem**: Candidates record phone numbers in numerous local formats: with/without country codes, brackets, spaces, or hyphens (e.g. `+91 96858-56291`, `(968) 585-6291`, `9685856291`).
-- **Solution**: The phone normalizer utilizes the Google `phonenumbers` library to parse and sanitize values to strict E.164 formats, validating against regional phone format rules.
+- **Problem**: Candidates record phone numbers with different country codes, brackets, spaces, or hyphens (e.g. `+91 96858-56291`, `(968) 585-6291`, `9685856291`).
+- **Solution**: The phone normalizer utilizes the Google `phonenumbers` library to sanitize values to strict E.164 formats, validating against regional phone format rules (defaulting to IN, falling back to US, then global).
 
 ### F. Skills Taxonomy Mappings
 - **Problem**: Skills are listed with abbreviations, aliases, or spelling variations (e.g. "py", "JS", "Microsoft Excel").
@@ -35,7 +48,7 @@ This document lists the candidate ingestion edge cases handled by the transforme
 - **Solution**: The `SourceDetector` performs pre-flight checks (existence check, size check, header inspections). Any failing check appends warnings to pipeline metadata, returning an empty profile rather than crashing the execution.
 
 ### H. Education Entry Misalignment (Missing Double Newlines)
-- **Problem**: When a resume lists multiple education histories without double-newline spacing (e.g., adjacent lines), the parser's backward scanning logic might incorrectly group the degree and field details of one school into the subsequent entry (e.g. attaching university degree details to a high school entry).
+- **Problem**: When a resume lists multiple education histories without double-newline spacing (e.g., adjacent lines), the parser's backward scanning logic might incorrectly group the degree and field details of one school into the subsequent entry.
 - **Solution**: The education parser checks if a year line contains an institution indicator (like `Institute`, `Vidyalaya`, `School`). If it does, the parser halts the backward scan immediately, ensuring that degree description lines are kept aligned with their correct parent institution.
 
 ---

@@ -400,6 +400,19 @@
     // Fields metadata for the GUI Config Builder
     const fieldsMetadata = [
         {
+            id: "candidate_id",
+            label: "Candidate ID (candidate_id)",
+            defaultPath: "candidate_id",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "Candidate ID (candidate_id)", value: "candidate_id" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: true,
+            defaultRequired: true
+        },
+        {
             id: "full_name",
             label: "Candidate Full Name",
             defaultPath: "full_name",
@@ -427,6 +440,19 @@
             defaultRequired: true
         },
         {
+            id: "emails",
+            label: "Emails List (emails)",
+            defaultPath: "emails",
+            defaultType: "string[]",
+            typeOptions: ["string[]"],
+            paths: [
+                { label: "All Emails (emails)", value: "emails" }
+            ],
+            normalizers: ["none", "lowercase"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
             id: "phone",
             label: "Contact Phone Number",
             defaultPath: "phones[0]",
@@ -441,17 +467,133 @@
             defaultRequired: false
         },
         {
-            id: "skills",
-            label: "Skills & Keywords",
-            defaultPath: "skills[].name",
+            id: "phones",
+            label: "Phones List (phones)",
+            defaultPath: "phones",
             defaultType: "string[]",
-            typeOptions: ["string[]", "string"],
+            typeOptions: ["string[]"],
             paths: [
-                { label: "Skills flat list (skills[].name)", value: "skills[].name" },
-                { label: "Full Skills object (skills)", value: "skills" }
+                { label: "All Phones (phones)", value: "phones" }
             ],
-            normalizers: ["canonical", "none"],
+            normalizers: ["none", "E164"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "location",
+            label: "Location Profile Object (location)",
+            defaultPath: "location",
+            defaultType: "object",
+            typeOptions: ["object"],
+            paths: [
+                { label: "Full Location (location)", value: "location" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "location_city",
+            label: "Location City (location.city)",
+            defaultPath: "location.city",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "City (location.city)", value: "location.city" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "location_region",
+            label: "Location Region (location.region)",
+            defaultPath: "location.region",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "Region (location.region)", value: "location.region" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "location_country",
+            label: "Location Country (location.country)",
+            defaultPath: "location.country",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "Country (location.country)", value: "location.country" }
+            ],
+            normalizers: ["none", "iso3166"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "links",
+            label: "Links Object (links)",
+            defaultPath: "links",
+            defaultType: "object",
+            typeOptions: ["object"],
+            paths: [
+                { label: "Full Links (links)", value: "links" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "linkedin",
+            label: "LinkedIn Profile URL",
+            defaultPath: "links.linkedin",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "LinkedIn link (links.linkedin)", value: "links.linkedin" }
+            ],
+            normalizers: ["none"],
             defaultEnabled: true,
+            defaultRequired: false
+        },
+        {
+            id: "github",
+            label: "GitHub Profile URL (links.github)",
+            defaultPath: "links.github",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "GitHub link (links.github)", value: "links.github" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "portfolio",
+            label: "Portfolio Links (links.portfolio)",
+            defaultPath: "links.portfolio",
+            defaultType: "string[]",
+            typeOptions: ["string[]"],
+            paths: [
+                { label: "Portfolio (links.portfolio)", value: "links.portfolio" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "headline",
+            label: "Headline (headline)",
+            defaultPath: "headline",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "Headline (headline)", value: "headline" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
             defaultRequired: false
         },
         {
@@ -468,6 +610,33 @@
             defaultRequired: false
         },
         {
+            id: "skills",
+            label: "Skills Names List (skills[].name)",
+            defaultPath: "skills[].name",
+            defaultType: "string[]",
+            typeOptions: ["string[]", "string"],
+            paths: [
+                { label: "Skills flat list (skills[].name)", value: "skills[].name" },
+                { label: "Full Skills object (skills)", value: "skills" }
+            ],
+            normalizers: ["canonical", "none"],
+            defaultEnabled: true,
+            defaultRequired: false
+        },
+        {
+            id: "skills_detailed",
+            label: "Skills Detailed Object List (skills)",
+            defaultPath: "skills",
+            defaultType: "object[]",
+            typeOptions: ["object[]"],
+            paths: [
+                { label: "Full Skills object (skills)", value: "skills" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
             id: "current_company",
             label: "Current Company",
             defaultPath: "experience[0].company",
@@ -481,16 +650,68 @@
             defaultRequired: false
         },
         {
-            id: "linkedin",
-            label: "LinkedIn Profile URL",
-            defaultPath: "links.linkedin",
+            id: "experience",
+            label: "Experience History List (experience)",
+            defaultPath: "experience",
+            defaultType: "object[]",
+            typeOptions: ["object[]"],
+            paths: [
+                { label: "Full Experience (experience)", value: "experience" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "education",
+            label: "Education History List (education)",
+            defaultPath: "education",
+            defaultType: "object[]",
+            typeOptions: ["object[]"],
+            paths: [
+                { label: "Full Education (education)", value: "education" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "pipeline_run_timestamp",
+            label: "Pipeline Run Timestamp (pipeline_run_timestamp)",
+            defaultPath: "pipeline_run_timestamp",
             defaultType: "string",
             typeOptions: ["string"],
             paths: [
-                { label: "LinkedIn link (links.linkedin)", value: "links.linkedin" }
+                { label: "Run Timestamp (pipeline_run_timestamp)", value: "pipeline_run_timestamp" }
             ],
             normalizers: ["none"],
-            defaultEnabled: true,
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "sources_processed",
+            label: "Sources Processed List (sources_processed)",
+            defaultPath: "sources_processed",
+            defaultType: "string[]",
+            typeOptions: ["string[]"],
+            paths: [
+                { label: "Sources (sources_processed)", value: "sources_processed" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
+            defaultRequired: false
+        },
+        {
+            id: "warnings",
+            label: "Pipeline Warnings List (warnings)",
+            defaultPath: "warnings",
+            defaultType: "string[]",
+            typeOptions: ["string[]"],
+            paths: [
+                { label: "Warnings (warnings)", value: "warnings" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: false,
             defaultRequired: false
         }
     ];
@@ -637,6 +858,16 @@
         });
         
         if (config.fields && Array.isArray(config.fields)) {
+            if (config.fields.length > 0) {
+                isCustomConfig = true;
+                document.getElementById("config-status-badge").innerText = "CUSTOM";
+                document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-wine-100 text-wine-700 border border-wine-200 animate-pulse";
+            } else {
+                isCustomConfig = false;
+                document.getElementById("config-status-badge").innerText = "DEFAULT";
+                document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600";
+            }
+
             config.fields.forEach(spec => {
                 const meta = fieldsMetadata.find(f => f.id === spec.path || f.paths.some(p => p.value === spec.from)) 
                              || fieldsMetadata.find(f => f.id === spec.from);
@@ -670,7 +901,12 @@
                     document.getElementById(`field-req-${meta.id}`).checked = !!spec.required;
                 }
             });
+        } else {
+            isCustomConfig = false;
+            document.getElementById("config-status-badge").innerText = "DEFAULT";
+            document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600";
         }
+        updateTabVisibilities();
     }
 
     // Initialize custom config textarea
@@ -727,8 +963,7 @@
     setupDropzone(resumeDropzone, resumeFile, resumeLabel);
 
     // Config Toggle controller
-    function toggleConfig() {
-        isCustomConfig = !isCustomConfig;
+    function updateToggleUi() {
         const toggleBtn = document.getElementById("config-toggle");
         const dot = document.getElementById("config-toggle-dot");
         const defaultMsg = document.getElementById("default-config-msg");
@@ -754,18 +989,32 @@
             valPill.classList.add("hidden");
             valErrors.classList.add("hidden");
         }
+    }
+
+    // Config Tab Visibilities Controller
+    function updateTabVisibilities() {
+        const btnDefault = document.getElementById("btn-tab-default");
+        const btnCustom = document.getElementById("btn-tab-custom");
+        
+        if (isCustomConfig) {
+            btnDefault.classList.add("hidden");
+            btnCustom.classList.remove("hidden");
+        } else {
+            btnDefault.classList.remove("hidden");
+            btnCustom.classList.add("hidden");
+        }
+    }
+
+    function toggleConfig() {
+        isCustomConfig = !isCustomConfig;
+        updateToggleUi();
         buildJsonFromGui();
     }
 
     // Modal Control Functions
     function openConfigModal() {
         document.getElementById("config-modal").classList.remove("hidden");
-        const valBtn = document.getElementById("gui-validate-btn");
-        if (isCustomConfig) {
-            valBtn.classList.remove("hidden");
-        } else {
-            valBtn.classList.add("hidden");
-        }
+        updateToggleUi();
     }
 
     function closeConfigModal() {
@@ -774,16 +1023,16 @@
 
     function saveAndApplyConfig() {
         buildJsonFromGui();
-        const parsed = JSON.parse(configText.value);
-        const isPureDefault = parsed.fields.length === 0 && parsed.include_confidence && parsed.include_provenance && parsed.on_missing === "null";
         
-        if (!isPureDefault) {
+        if (isCustomConfig) {
             document.getElementById("config-status-badge").innerText = "CUSTOM";
             document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-wine-100 text-wine-700 border border-wine-200 animate-pulse";
         } else {
+            isCustomConfig = false;
             document.getElementById("config-status-badge").innerText = "DEFAULT";
             document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600";
         }
+        updateTabVisibilities();
         closeConfigModal();
     }
 
@@ -1232,7 +1481,8 @@
         if (csvFile.files[0]) formData.append("csv_file", csvFile.files[0]);
         if (resumeFile.files[0]) formData.append("resume_file", resumeFile.files[0]);
         
-        if (isCustomConfig) {
+        const configPayload = configText.value.trim();
+        if (isCustomConfig && configPayload) {
             formData.append("config", configText.value);
         }
 
@@ -1292,8 +1542,12 @@
                 resultsContainer.classList.remove("opacity-0");
                 resultsContainer.classList.add("opacity-100", "transition-opacity", "duration-500");
                 
-                // Set default display tab
-                switchTab("tab-default");
+                // Set default display tab based on config
+                if (isCustomConfig) {
+                    switchTab("tab-custom");
+                } else {
+                    switchTab("tab-default");
+                }
 
             } else {
                 // Pipeline error response received

@@ -126,9 +126,12 @@ class ResumeExtractor:
         elif detected_type == "image_pdf":
             try:
                 import pdfplumber
-                import pytesseract
-                # Test connection to tesseract binary
-                pytesseract.get_tesseract_version()
+                import easyocr
+                import numpy as np
+
+                # Initialize easyocr Reader lazily (English language, GPU disabled for system compatibility)
+                if not hasattr(self, "ocr_reader") or self.ocr_reader is None:
+                    self.ocr_reader = easyocr.Reader(['en'], gpu=False)
 
                 text = ""
                 page_count = 0
@@ -137,18 +140,22 @@ class ResumeExtractor:
                     for page in pdf.pages:
                         # Render the PDF page to a 150 DPI PIL image
                         pil_img = page.to_image(resolution=150).original
-                        page_text = pytesseract.image_to_string(pil_img)
-                        if page_text:
+                        # Convert PIL image to numpy array for easyocr input
+                        img_np = np.array(pil_img)
+                        # Read text using easyocr
+                        ocr_results = self.ocr_reader.readtext(img_np)
+                        if ocr_results:
+                            page_text = " ".join([res[1] for res in ocr_results])
                             text += page_text + "\n"
                 return {
                     "text": text,
-                    "method": "ocr_tesseract",
+                    "method": "ocr_easyocr",
                     "page_count": page_count,
                     "char_count": len(text)
                 }
             except Exception as e:
-                logger.error(f"pytesseract OCR text extraction failed for {file_path}: {e}")
-                warn_msg = "OCR failed. Install tesseract-ocr system package."
+                logger.error(f"easyocr OCR text extraction failed for {file_path}: {e}")
+                warn_msg = "OCR failed. Verify that easyocr is installed via pip."
                 self.warnings.append(warn_msg)
                 return {
                     "text": "",

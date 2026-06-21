@@ -203,12 +203,79 @@ class ProjectionEngine:
                     else:
                         cleaned_skills.append(s)
                 output["skills"] = cleaned_skills
+        else:
+            if "overall_confidence" not in output and "overall_confidence" in canonical_dict:
+                output["overall_confidence"] = canonical_dict["overall_confidence"]
 
         # Rule 9: If include_provenance is False, strip out audit trails
         if not config.include_provenance:
             output.pop("provenance", None)
+        else:
+            if "provenance" not in output and "provenance" in canonical_dict:
+                if config.fields:
+                    referenced_fields = self._get_referenced_canonical_fields(config.fields)
+                    filtered_provenance = [
+                        prov for prov in canonical_dict["provenance"]
+                        if isinstance(prov, dict) and prov.get("field") in referenced_fields
+                    ]
+                    output["provenance"] = filtered_provenance
+                else:
+                    output["provenance"] = canonical_dict["provenance"]
 
         return output
+
+    def _get_referenced_canonical_fields(self, fields: list[dict]) -> set[str]:
+        """Identifies which canonical fields are referenced by the custom projection configuration fields."""
+        referenced = set()
+        for field_spec in fields:
+            path = field_spec.get("path", "")
+            from_path = field_spec.get("from") or path
+            if not from_path:
+                continue
+            
+            from_path_lower = from_path.lower()
+            
+            if "email" in from_path_lower:
+                referenced.add("email")
+            if "phone" in from_path_lower:
+                referenced.add("phone")
+            if "linkedin" in from_path_lower:
+                referenced.add("linkedin_url")
+            if "github" in from_path_lower:
+                referenced.add("github_url")
+            if "portfolio" in from_path_lower:
+                referenced.add("portfolio_url")
+            if "full_name" in from_path_lower:
+                referenced.add("full_name")
+            if "headline" in from_path_lower:
+                referenced.add("headline")
+            if "location" in from_path_lower:
+                referenced.add("location")
+            if "current_company" in from_path_lower or "experience[0].company" in from_path_lower:
+                referenced.add("current_company")
+            if "skills" in from_path_lower:
+                referenced.add("skills")
+            if "experience" in from_path_lower:
+                if "company" in from_path_lower:
+                    referenced.add("current_company")
+                else:
+                    referenced.add("experience")
+                    referenced.add("years_experience")
+            if "education" in from_path_lower:
+                referenced.add("education")
+            if "years_experience" in from_path_lower:
+                referenced.add("years_experience")
+            if "links" in from_path_lower:
+                if "linkedin" in from_path_lower:
+                    referenced.add("linkedin_url")
+                elif "github" in from_path_lower:
+                    referenced.add("github_url")
+                elif "portfolio" in from_path_lower:
+                    referenced.add("portfolio_url")
+                else:
+                    referenced.update(["linkedin_url", "github_url", "portfolio_url"])
+                
+        return referenced
 
     def load_config(self, config_path: str) -> ProjectionConfig:
         """Loads a ProjectionConfig instance from a JSON configuration file path."""

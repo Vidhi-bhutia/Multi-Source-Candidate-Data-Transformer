@@ -1,357 +1,3068 @@
 {
   "python": {
     "canonical": "Python",
-    "aliases": ["python3", "python 3", "py", "python2", "python programming", "cpython"],
+    "aliases": [
+      "python3",
+      "python 3",
+      "py",
+      "python2",
+      "python programming",
+      "cpython"
+    ],
     "category": "languages"
   },
   "javascript": {
     "canonical": "JavaScript",
-    "aliases": ["js", "javascript programming", "js script", "ecmascript", "es6", "es5"],
+    "aliases": [
+      "js",
+      "javascript programming",
+      "js script",
+      "ecmascript",
+      "es6",
+      "es5"
+    ],
     "category": "languages"
   },
   "typescript": {
     "canonical": "TypeScript",
-    "aliases": ["ts", "typescript programming", "microsoft typescript", "ts-node", "typescrip"],
+    "aliases": [
+      "ts",
+      "typescript programming",
+      "microsoft typescript",
+      "ts-node",
+      "typescrip"
+    ],
     "category": "languages"
   },
   "cpp": {
     "canonical": "C++",
-    "aliases": ["c plus plus", "c/c++", "cpp11", "cpp14", "cpp17", "cpp20"],
+    "aliases": [
+      "c++",
+      "c plus plus",
+      "c/c++",
+      "cpp11",
+      "cpp14",
+      "cpp17",
+      "cpp20"
+    ],
     "category": "languages"
   },
   "c": {
     "canonical": "C",
-    "aliases": ["c programming", "ansi c", "pure c", "c language"],
+    "aliases": [
+      "c programming",
+      "ansi c",
+      "pure c",
+      "c language",
+      "C#"
+    ],
     "category": "languages"
   },
   "r_lang": {
     "canonical": "R",
-    "aliases": ["r programming", "r-project", "r language", "r statistics", "r-lang"],
+    "aliases": [
+      "r programming",
+      "r-project",
+      "r language",
+      "r statistics",
+      "r-lang"
+    ],
     "category": "languages"
   },
   "sql": {
     "canonical": "SQL",
-    "aliases": ["structured query language", "plsql", "t-sql", "sql programming", "pl/sql", "tsql"],
+    "aliases": [
+      "structured query language",
+      "plsql",
+      "t-sql",
+      "sql programming",
+      "pl/sql",
+      "tsql"
+    ],
     "category": "languages"
   },
   "react": {
     "canonical": "React",
-    "aliases": ["react.js", "reactjs", "react library", "react component", "react native", "react hook"],
+    "aliases": [
+      "react.js",
+      "reactjs",
+      "react library",
+      "react component",
+      "react native",
+      "react hook"
+    ],
     "category": "frontend"
   },
   "nodejs": {
     "canonical": "Node.js",
-    "aliases": ["node", "nodejs runtime", "node.js runtime", "node js", "node-js"],
+    "aliases": [
+      "node",
+      "nodejs runtime",
+      "node.js runtime",
+      "node js",
+      "node-js"
+    ],
     "category": "frontend"
   },
   "nextjs": {
     "canonical": "Next.js",
-    "aliases": ["next", "nextjs framework", "next.js framework", "next js", "next-js"],
+    "aliases": [
+      "next",
+      "nextjs framework",
+      "next.js framework",
+      "next js",
+      "next-js"
+    ],
     "category": "frontend"
   },
   "html": {
     "canonical": "HTML",
-    "aliases": ["html5", "xhtml", "markup language", "hypertext markup language", "htm"],
+    "aliases": [
+      "html5",
+      "xhtml",
+      "markup language",
+      "hypertext markup language",
+      "htm"
+    ],
     "category": "frontend"
   },
   "css": {
     "canonical": "CSS",
-    "aliases": ["css3", "cascading style sheets", "scss", "sass", "less css"],
+    "aliases": [
+      "css3",
+      "cascading style sheets",
+      "scss",
+      "sass",
+      "less css"
+    ],
     "category": "frontend"
   },
   "flask": {
     "canonical": "Flask",
-    "aliases": ["flask framework", "python flask", "flask python", "flask microframework", "flask-restful"],
+    "aliases": [
+      "flask framework",
+      "python flask",
+      "flask python",
+      "flask microframework",
+      "flask-restful"
+    ],
     "category": "backend"
   },
   "express": {
     "canonical": "Express",
-    "aliases": ["expressjs", "express.js", "express framework", "express nodejs", "express.js framework"],
+    "aliases": [
+      "expressjs",
+      "express.js",
+      "express framework",
+      "express nodejs",
+      "express.js framework"
+    ],
     "category": "backend"
   },
   "fastapi": {
     "canonical": "FastAPI",
-    "aliases": ["fast api", "fastapi framework", "python fastapi", "fast-api", "fastapi python"],
+    "aliases": [
+      "fast api",
+      "fastapi framework",
+      "python fastapi",
+      "fast-api",
+      "fastapi python"
+    ],
     "category": "backend"
   },
   "restapi": {
     "canonical": "REST API",
-    "aliases": ["restful api", "rest apis", "restful apis", "representational state transfer", "rest web services", "rest service"],
+    "aliases": [
+      "restful api",
+      "rest apis",
+      "restful apis",
+      "representational state transfer",
+      "rest web services",
+      "rest service"
+    ],
     "category": "backend"
   },
   "mysql": {
     "canonical": "MySQL",
-    "aliases": ["my sql", "mysql database", "mysql server", "oracle mysql", "mysql db"],
+    "aliases": [
+      "my sql",
+      "mysql database",
+      "mysql server",
+      "oracle mysql",
+      "mysql db"
+    ],
     "category": "databases"
   },
   "mongodb": {
     "canonical": "MongoDB",
-    "aliases": ["mongo", "mongo db", "mongodb database", "mongodb server", "nosql mongo"],
+    "aliases": [
+      "mongo",
+      "mongo db",
+      "mongodb database",
+      "mongodb server",
+      "nosql mongo"
+    ],
     "category": "databases"
   },
   "oracle": {
     "canonical": "Oracle Database",
-    "aliases": ["oracle db", "oracle 19c", "oracle 12c", "oracle database server", "oracle rdbms", "oracle sql"],
+    "aliases": [
+      "oracle db",
+      "oracle 19c",
+      "oracle 12c",
+      "oracle database server",
+      "oracle rdbms",
+      "oracle sql"
+    ],
     "category": "databases"
   },
   "cosmosdb": {
     "canonical": "Azure Cosmos DB",
-    "aliases": ["cosmos db", "cosmosdb", "azure cosmos", "microsoft cosmos db", "cosmos database"],
+    "aliases": [
+      "cosmos db",
+      "cosmosdb",
+      "azure cosmos",
+      "microsoft cosmos db",
+      "cosmos database"
+    ],
     "category": "databases"
   },
   "sqlite": {
     "canonical": "SQLite",
-    "aliases": ["sqlite3", "sqlite 3", "sqlite database", "sql lite", "sqlite db"],
+    "aliases": [
+      "sqlite3",
+      "sqlite 3",
+      "sqlite database",
+      "sql lite",
+      "sqlite db"
+    ],
     "category": "databases"
   },
   "powerbi": {
     "canonical": "Power BI",
-    "aliases": ["powerbi", "power-bi", "ms power bi", "microsoft power bi", "power query", "dax"],
+    "aliases": [
+      "powerbi",
+      "power-bi",
+      "ms power bi",
+      "microsoft power bi",
+      "power query",
+      "dax"
+    ],
     "category": "data_analytics"
   },
   "excel": {
     "canonical": "Microsoft Excel",
-    "aliases": ["ms excel", "excel spreadsheets", "vba excel", "advanced excel", "excel macros", "xlsx"],
+    "aliases": [
+      "ms excel",
+      "excel spreadsheets",
+      "vba excel",
+      "advanced excel",
+      "excel macros",
+      "xlsx"
+    ],
     "category": "data_analytics"
   },
   "datavisualization": {
     "canonical": "Data Visualization",
-    "aliases": ["data viz", "dataviz", "charts and graphs", "visualizing data", "data visualization techniques", "information visualization"],
+    "aliases": [
+      "data viz",
+      "dataviz",
+      "charts and graphs",
+      "visualizing data",
+      "data visualization techniques",
+      "information visualization"
+    ],
     "category": "data_analytics"
   },
   "statistics": {
     "canonical": "Statistics",
-    "aliases": ["statistical analysis", "stats", "biostatistics", "probability and statistics", "inferential statistics", "descriptive statistics"],
+    "aliases": [
+      "statistical analysis",
+      "stats",
+      "biostatistics",
+      "probability and statistics",
+      "inferential statistics",
+      "descriptive statistics"
+    ],
     "category": "data_analytics"
   },
   "datacleaning": {
     "canonical": "Data Cleaning",
-    "aliases": ["data cleansing", "data wrangling", "data preprocessing", "data preparation", "cleansing data"],
+    "aliases": [
+      "data cleansing",
+      "data wrangling",
+      "data preprocessing",
+      "data preparation",
+      "cleansing data"
+    ],
     "category": "data_analytics"
   },
   "pandas": {
     "canonical": "Pandas",
-    "aliases": ["pandas library", "python pandas", "pd", "pandas dataframe", "pandas dataframes"],
+    "aliases": [
+      "pandas library",
+      "python pandas",
+      "pd",
+      "pandas dataframe",
+      "pandas dataframes"
+    ],
     "category": "data_analytics"
   },
   "numpy": {
     "canonical": "NumPy",
-    "aliases": ["numpy library", "python numpy", "np", "numpy array", "numerical python"],
+    "aliases": [
+      "numpy library",
+      "python numpy",
+      "np",
+      "numpy array",
+      "numerical python"
+    ],
     "category": "data_analytics"
   },
   "machinelearning": {
     "canonical": "Machine Learning",
-    "aliases": ["ml", "machine-learning", "statistical learning", "predictive modeling", "ml algorithms", "supervised learning", "unsupervised learning"],
+    "aliases": [
+      "ml",
+      "machine-learning",
+      "statistical learning",
+      "predictive modeling",
+      "ml algorithms",
+      "supervised learning",
+      "unsupervised learning"
+    ],
     "category": "ml_ai"
   },
   "deeplearning": {
     "canonical": "Deep Learning",
-    "aliases": ["dl", "deep-learning", "neural networks", "artificial neural networks", "ann", "deep neural networks"],
+    "aliases": [
+      "dl",
+      "deep-learning",
+      "neural networks",
+      "artificial neural networks",
+      "ann",
+      "deep neural networks"
+    ],
     "category": "ml_ai"
   },
   "generativeai": {
     "canonical": "Generative AI",
-    "aliases": ["genai", "gen ai", "generative artificial intelligence", "large language models", "llm", "llms", "gpt"],
+    "aliases": [
+      "genai",
+      "gen ai",
+      "generative artificial intelligence",
+      "large language models",
+      "llm",
+      "llms",
+      "gpt"
+    ],
     "category": "ml_ai"
   },
   "promptengineering": {
     "canonical": "Prompt Engineering",
-    "aliases": ["prompting", "llm prompting", "prompt design", "prompt optimization", "system prompts"],
+    "aliases": [
+      "prompting",
+      "llm prompting",
+      "prompt design",
+      "prompt optimization",
+      "system prompts"
+    ],
     "category": "ml_ai"
   },
   "agenticai": {
     "canonical": "Agentic AI",
-    "aliases": ["ai agents", "autonomous agents", "agentic systems", "multi-agent systems", "ai agent development", "autonomous ai"],
+    "aliases": [
+      "ai agents",
+      "autonomous agents",
+      "agentic systems",
+      "multi-agent systems",
+      "ai agent development",
+      "autonomous ai"
+    ],
+    "category": "ml_ai"
+  },
+  "ai": {
+    "canonical": "Artificial Intelligence",
+    "aliases": [
+      "ai",
+      "artificial intelligence",
+      "artificial-intelligence"
+    ],
     "category": "ml_ai"
   },
   "nlp": {
     "canonical": "Natural Language Processing",
-    "aliases": ["nlp", "text processing", "text mining", "computational linguistics", "natural language understanding", "nlu"],
+    "aliases": [
+      "nlp",
+      "text processing",
+      "text mining",
+      "computational linguistics",
+      "natural language understanding",
+      "nlu"
+    ],
     "category": "ml_ai"
   },
   "computervision": {
     "canonical": "Computer Vision",
-    "aliases": ["cv", "image processing", "object detection", "image classification", "vision systems", "computervision"],
+    "aliases": [
+      "cv",
+      "image processing",
+      "object detection",
+      "image classification",
+      "vision systems",
+      "computervision"
+    ],
     "category": "ml_ai"
   },
   "modelevaluation": {
     "canonical": "Model Evaluation",
-    "aliases": ["model validation", "performance metrics", "cross validation", "confusion matrix", "auc roc", "accuracy metrics"],
+    "aliases": [
+      "model validation",
+      "performance metrics",
+      "cross validation",
+      "confusion matrix",
+      "auc roc",
+      "accuracy metrics"
+    ],
     "category": "ml_ai"
   },
   "keras": {
     "canonical": "Keras",
-    "aliases": ["keras library", "tf.keras", "keras neural networks", "keras python", "deep learning with keras"],
+    "aliases": [
+      "keras library",
+      "tf.keras",
+      "keras neural networks",
+      "keras python",
+      "deep learning with keras"
+    ],
     "category": "ml_ai"
   },
   "tensorflow": {
     "canonical": "TensorFlow",
-    "aliases": ["tf", "tensorflow2", "tensorflow library", "tf2", "tensor flow"],
+    "aliases": [
+      "tf",
+      "tensorflow2",
+      "tensorflow library",
+      "tf2",
+      "tensor flow"
+    ],
     "category": "ml_ai"
   },
   "scikitlearn": {
     "canonical": "scikit-learn",
-    "aliases": ["sklearn", "scikit learn", "scikit-learn library", "sklearn python", "scikitlearn"],
+    "aliases": [
+      "sklearn",
+      "scikit learn",
+      "scikit-learn library",
+      "sklearn python",
+      "scikitlearn"
+    ],
     "category": "ml_ai"
   },
   "aigovernance": {
     "canonical": "AI Governance",
-    "aliases": ["ai ethics", "responsible ai", "ethical ai", "ai compliance", "explainable ai", "xai", "trustworthy ai"],
+    "aliases": [
+      "ai ethics",
+      "responsible ai",
+      "ethical ai",
+      "ai compliance",
+      "explainable ai",
+      "xai",
+      "trustworthy ai"
+    ],
     "category": "ml_ai"
   },
   "langchain": {
     "canonical": "LangChain",
-    "aliases": ["lang chain", "langchain framework", "langchain python", "langchain js", "llm orchestration"],
+    "aliases": [
+      "lang chain",
+      "langchain framework",
+      "langchain python",
+      "langchain js",
+      "llm orchestration"
+    ],
     "category": "ml_ai"
   },
   "langgraph": {
     "canonical": "LangGraph",
-    "aliases": ["lang graph", "langgraph framework", "langgraph python", "agentic workflows with langgraph", "stateful agents"],
+    "aliases": [
+      "lang graph",
+      "langgraph framework",
+      "langgraph python",
+      "agentic workflows with langgraph",
+      "stateful agents"
+    ],
     "category": "ml_ai"
   },
   "aws": {
     "canonical": "Amazon Web Services",
-    "aliases": ["aws", "amazon cloud", "aws cloud", "amazon web services platform", "aws infrastructure"],
+    "aliases": [
+      "aws",
+      "amazon cloud",
+      "aws cloud",
+      "amazon web services platform",
+      "aws infrastructure"
+    ],
     "category": "cloud"
   },
   "azure": {
     "canonical": "Microsoft Azure",
-    "aliases": ["azure cloud", "ms azure", "azure platform", "microsoft cloud azure", "azure devops"],
+    "aliases": [
+      "azure cloud",
+      "ms azure",
+      "azure platform",
+      "microsoft cloud azure",
+      "azure devops"
+    ],
     "category": "cloud"
   },
   "gcp": {
     "canonical": "Google Cloud Platform",
-    "aliases": ["google cloud", "gcp cloud", "google cloud platform services", "gpc", "google cloud console"],
+    "aliases": [
+      "google cloud",
+      "gcp cloud",
+      "google cloud platform services",
+      "gpc",
+      "google cloud console"
+    ],
     "category": "cloud"
   },
   "cicd": {
     "canonical": "CI/CD",
-    "aliases": ["continuous integration", "continuous deployment", "ci-cd", "delivery pipelines", "continuous delivery", "ci cd pipelines"],
+    "aliases": [
+      "continuous integration",
+      "continuous deployment",
+      "ci-cd",
+      "delivery pipelines",
+      "continuous delivery",
+      "ci cd pipelines"
+    ],
     "category": "cloud"
   },
   "ec2": {
     "canonical": "Amazon EC2",
-    "aliases": ["elastic compute cloud", "ec2 instances", "aws ec2", "virtual servers in aws", "ec2 virtualization"],
+    "aliases": [
+      "elastic compute cloud",
+      "ec2 instances",
+      "aws ec2",
+      "virtual servers in aws",
+      "ec2 virtualization"
+    ],
     "category": "cloud"
   },
   "iam": {
     "canonical": "Identity and Access Management",
-    "aliases": ["iam", "aws iam", "identity access management", "cloud iam", "iam policies", "access control"],
+    "aliases": [
+      "iam",
+      "aws iam",
+      "identity access management",
+      "cloud iam",
+      "iam policies",
+      "access control"
+    ],
     "category": "cloud"
   },
   "autoscaling": {
     "canonical": "Auto Scaling",
-    "aliases": ["automatic scaling", "auto-scaling", "scale groups", "horizontal scaling", "aws auto scaling", "dynamic scaling"],
+    "aliases": [
+      "automatic scaling",
+      "auto-scaling",
+      "scale groups",
+      "horizontal scaling",
+      "aws auto scaling",
+      "dynamic scaling"
+    ],
     "category": "cloud"
   },
   "loadbalancing": {
     "canonical": "Load Balancing",
-    "aliases": ["load balancer", "elb", "alb", "application load balancer", "traffic routing", "network load balancing"],
+    "aliases": [
+      "load balancer",
+      "elb",
+      "alb",
+      "application load balancer",
+      "traffic routing",
+      "network load balancing"
+    ],
     "category": "cloud"
   },
   "cloudtrail": {
     "canonical": "AWS CloudTrail",
-    "aliases": ["cloudtrail", "cloud trail", "aws trail", "aws audit logs", "cloudtrail monitoring"],
+    "aliases": [
+      "cloudtrail",
+      "cloud trail",
+      "aws trail",
+      "aws audit logs",
+      "cloudtrail monitoring"
+    ],
     "category": "cloud"
   },
   "cloudwatch": {
     "canonical": "AWS CloudWatch",
-    "aliases": ["cloudwatch", "cloud watch", "aws metrics", "cloudwatch logs", "cloudwatch alarms"],
+    "aliases": [
+      "cloudwatch",
+      "cloud watch",
+      "aws metrics",
+      "cloudwatch logs",
+      "cloudwatch alarms"
+    ],
     "category": "cloud"
   },
   "azureblobstorage": {
     "canonical": "Azure Blob Storage",
-    "aliases": ["blob storage", "azure blob", "microsoft blob storage", "azure object storage", "azure storage account"],
+    "aliases": [
+      "blob storage",
+      "azure blob",
+      "microsoft blob storage",
+      "azure object storage",
+      "azure storage account"
+    ],
     "category": "cloud"
   },
   "azureboards": {
     "canonical": "Azure Boards",
-    "aliases": ["azure boards", "boards azure", "azure devops boards", "azure work items", "azure kanban"],
+    "aliases": [
+      "azure boards",
+      "boards azure",
+      "azure devops boards",
+      "azure work items",
+      "azure kanban"
+    ],
     "category": "cloud"
   },
   "n8n": {
     "canonical": "n8n",
-    "aliases": ["n8n workflow", "n8n automation", "n8n.io", "nodal automation", "n8n tool"],
+    "aliases": [
+      "n8n workflow",
+      "n8n automation",
+      "n8n.io",
+      "nodal automation",
+      "n8n tool"
+    ],
     "category": "automation"
   },
   "apintegrations": {
     "canonical": "API Integrations",
-    "aliases": ["api integration", "third party apis", "rest api integration", "connecting apis", "api connections", "webhook integrations"],
+    "aliases": [
+      "api integration",
+      "third party apis",
+      "rest api integration",
+      "connecting apis",
+      "api connections",
+      "webhook integrations"
+    ],
     "category": "automation"
   },
   "workflowautomation": {
     "canonical": "Workflow Automation",
-    "aliases": ["workflow engine", "process automation", "business process automation", "task automation", "automated workflows"],
+    "aliases": [
+      "workflow engine",
+      "process automation",
+      "business process automation",
+      "task automation",
+      "automated workflows"
+    ],
     "category": "automation"
   },
   "webscraping": {
     "canonical": "Web Scraping",
-    "aliases": ["data scraping", "web crawling", "screen scraping", "html parsing", "web extraction", "crawling websites"],
+    "aliases": [
+      "data scraping",
+      "web crawling",
+      "screen scraping",
+      "html parsing",
+      "web extraction",
+      "crawling websites"
+    ],
     "category": "automation"
   },
   "beautifulsoup": {
     "canonical": "Beautiful Soup",
-    "aliases": ["bs4", "beautifulsoup4", "beautiful soup 4", "beautifulsoup python", "html parsing with soup"],
+    "aliases": [
+      "bs4",
+      "beautifulsoup4",
+      "beautiful soup 4",
+      "beautifulsoup python",
+      "html parsing with soup"
+    ],
     "category": "automation"
   },
   "opal": {
     "canonical": "Opal",
-    "aliases": ["opal security", "opal access", "opal authorization", "opal automation", "opal policy"],
+    "aliases": [
+      "opal security",
+      "opal access",
+      "opal authorization",
+      "opal automation",
+      "opal policy"
+    ],
     "category": "automation"
   },
   "git": {
     "canonical": "Git",
-    "aliases": ["git version control", "git bash", "git repository", "git branching", "git commands"],
+    "aliases": [
+      "git version control",
+      "git bash",
+      "git repository",
+      "git branching",
+      "git commands"
+    ],
     "category": "devtools"
   },
   "github": {
     "canonical": "GitHub",
-    "aliases": ["gh", "github.com", "github repository", "github actions", "github workflow"],
+    "aliases": [
+      "gh",
+      "github.com",
+      "github repository",
+      "github actions",
+      "github workflow"
+    ],
     "category": "devtools"
   },
   "jira": {
     "canonical": "Jira",
-    "aliases": ["atlassian jira", "jira software", "jira service desk", "jira ticket management", "jira boards"],
+    "aliases": [
+      "atlassian jira",
+      "jira software",
+      "jira service desk",
+      "jira ticket management",
+      "jira boards"
+    ],
     "category": "devtools"
   },
   "teamcity": {
     "canonical": "TeamCity",
-    "aliases": ["jetbrains teamcity", "team city", "teamcity server", "teamcity build agent", "teamcity ci"],
+    "aliases": [
+      "jetbrains teamcity",
+      "team city",
+      "teamcity server",
+      "teamcity build agent",
+      "teamcity ci"
+    ],
     "category": "devtools"
   },
   "msipackaging": {
     "canonical": "MSI Packaging",
-    "aliases": ["windows installer", "msi builder", "msi deployment", "msi installer", "wix toolset", "msi repackaging"],
+    "aliases": [
+      "windows installer",
+      "msi builder",
+      "msi deployment",
+      "msi installer",
+      "wix toolset",
+      "msi repackaging"
+    ],
     "category": "devtools"
   },
   "authentication": {
     "canonical": "Authentication",
-    "aliases": ["authn", "user login", "mfa", "2fa", "sso", "single sign-on", "oauth2"],
+    "aliases": [
+      "authn",
+      "user login",
+      "mfa",
+      "2fa",
+      "sso",
+      "single sign-on",
+      "oauth2"
+    ],
     "category": "security"
   },
   "rbac": {
     "canonical": "Role-Based Access Control",
-    "aliases": ["rbac", "role based access control", "access management", "user permissions", "role assignment"],
+    "aliases": [
+      "role-based access control (rbac)",
+      "role-based access control",
+      "rbac",
+      "role based access control",
+      "access management",
+      "user permissions",
+      "role assignment"
+    ],
     "category": "security"
   },
   "authorizeddevicevalidation": {
     "canonical": "Authorized Device Validation",
-    "aliases": ["device trust", "device authorization", "trusted device validation", "device fingerprinting", "device validation", "authorized devices"],
+    "aliases": [
+      "device trust",
+      "device authorization",
+      "trusted device validation",
+      "device fingerprinting",
+      "device validation",
+      "authorized devices"
+    ],
     "category": "security"
   },
   "dsa": {
     "canonical": "Data Structures and Algorithms",
-    "aliases": ["dsa", "data structures", "algorithms", "algorithmic problem solving", "leetcoding", "big o notation"],
+    "aliases": [
+      "data structures and algorithms",
+      "dsa",
+      "data structures",
+      "algorithms",
+      "algorithmic problem solving",
+      "leetcoding",
+      "big o notation"
+    ],
     "category": "algorithms"
   },
   "oop": {
     "canonical": "Object-Oriented Programming",
-    "aliases": ["object oriented programming", "oops", "object-oriented design", "polymorphism", "encapsulation", "inheritance"],
+    "aliases": [
+      "object-oriented programming (oop)",
+      "object-oriented programming",
+      "object oriented programming",
+      "oops",
+      "object-oriented design",
+      "polymorphism",
+      "encapsulation",
+      "inheritance"
+    ],
     "category": "algorithms"
   },
   "federatedlearning": {
     "canonical": "Federated Learning",
-    "aliases": ["collaborative learning", "decentralized machine learning", "privacy-preserving ml", "federated optimization", "federated model training"],
+    "aliases": [
+      "collaborative learning",
+      "decentralized machine learning",
+      "privacy-preserving ml",
+      "federated optimization",
+      "federated model training"
+    ],
     "category": "algorithms"
+  },
+  "java": {
+    "canonical": "Java",
+    "aliases": [
+      "java"
+    ],
+    "category": "languages"
+  },
+  "angular": {
+    "canonical": "Angular",
+    "aliases": [
+      "angular"
+    ],
+    "category": "frontend"
+  },
+  "vuejs": {
+    "canonical": "Vue.js",
+    "aliases": [
+      "vue.js"
+    ],
+    "category": "frontend"
+  },
+  "django": {
+    "canonical": "Django",
+    "aliases": [
+      "django"
+    ],
+    "category": "languages"
+  },
+  "springboot": {
+    "canonical": "Spring Boot",
+    "aliases": [
+      "spring boot",
+      "springboot"
+    ],
+    "category": "backend"
+  },
+  "aspnet": {
+    "canonical": "ASP.NET",
+    "aliases": [
+      "asp.net"
+    ],
+    "category": "backend"
+  },
+  "php": {
+    "canonical": "PHP",
+    "aliases": [
+      "php"
+    ],
+    "category": "languages"
+  },
+  "laravel": {
+    "canonical": "Laravel",
+    "aliases": [
+      "laravel"
+    ],
+    "category": "backend"
+  },
+  "ruby": {
+    "canonical": "Ruby",
+    "aliases": [
+      "ruby"
+    ],
+    "category": "languages"
+  },
+  "rubyonrails": {
+    "canonical": "Ruby on Rails",
+    "aliases": [
+      "ruby on rails",
+      "rubyonrails"
+    ],
+    "category": "languages"
+  },
+  "go": {
+    "canonical": "Go",
+    "aliases": [
+      "go"
+    ],
+    "category": "languages"
+  },
+  "rust": {
+    "canonical": "Rust",
+    "aliases": [
+      "rust"
+    ],
+    "category": "languages"
+  },
+  "kotlin": {
+    "canonical": "Kotlin",
+    "aliases": [
+      "kotlin"
+    ],
+    "category": "languages"
+  },
+  "swift": {
+    "canonical": "Swift",
+    "aliases": [
+      "swift"
+    ],
+    "category": "languages"
+  },
+  "dart": {
+    "canonical": "Dart",
+    "aliases": [
+      "dart"
+    ],
+    "category": "languages"
+  },
+  "flutter": {
+    "canonical": "Flutter",
+    "aliases": [
+      "flutter"
+    ],
+    "category": "frontend"
+  },
+  "androiddevelopment": {
+    "canonical": "Android Development",
+    "aliases": [
+      "android development",
+      "androiddevelopment"
+    ],
+    "category": "general"
+  },
+  "iosdevelopment": {
+    "canonical": "iOS Development",
+    "aliases": [
+      "iosdevelopment",
+      "ios development"
+    ],
+    "category": "general"
+  },
+  "gitlab": {
+    "canonical": "GitLab",
+    "aliases": [
+      "gitlab"
+    ],
+    "category": "devtools"
+  },
+  "docker": {
+    "canonical": "Docker",
+    "aliases": [
+      "docker"
+    ],
+    "category": "languages"
+  },
+  "kubernetes": {
+    "canonical": "Kubernetes",
+    "aliases": [
+      "kubernetes"
+    ],
+    "category": "cloud"
+  },
+  "jenkins": {
+    "canonical": "Jenkins",
+    "aliases": [
+      "jenkins"
+    ],
+    "category": "cloud"
+  },
+  "terraform": {
+    "canonical": "Terraform",
+    "aliases": [
+      "terraform"
+    ],
+    "category": "cloud"
+  },
+  "ansible": {
+    "canonical": "Ansible",
+    "aliases": [
+      "ansible"
+    ],
+    "category": "cloud"
+  },
+  "linux": {
+    "canonical": "Linux",
+    "aliases": [
+      "linux"
+    ],
+    "category": "general"
+  },
+  "windows": {
+    "canonical": "Windows",
+    "aliases": [
+      "windows"
+    ],
+    "category": "general"
+  },
+  "bash": {
+    "canonical": "Bash",
+    "aliases": [
+      "bash"
+    ],
+    "category": "languages"
+  },
+  "powershell": {
+    "canonical": "PowerShell",
+    "aliases": [
+      "powershell"
+    ],
+    "category": "languages"
+  },
+  "firebase": {
+    "canonical": "Firebase",
+    "aliases": [
+      "firebase"
+    ],
+    "category": "cloud"
+  },
+  "postgresql": {
+    "canonical": "PostgreSQL",
+    "aliases": [
+      "postgresql"
+    ],
+    "category": "languages"
+  },
+  "sqlserver": {
+    "canonical": "SQL Server",
+    "aliases": [
+      "sqlserver",
+      "sql server"
+    ],
+    "category": "languages"
+  },
+  "redis": {
+    "canonical": "Redis",
+    "aliases": [
+      "redis"
+    ],
+    "category": "databases"
+  },
+  "elasticsearch": {
+    "canonical": "Elasticsearch",
+    "aliases": [
+      "elasticsearch"
+    ],
+    "category": "languages"
+  },
+  "graphql": {
+    "canonical": "GraphQL",
+    "aliases": [
+      "graphql"
+    ],
+    "category": "general"
+  },
+  "microservices": {
+    "canonical": "Microservices",
+    "aliases": [
+      "microservices"
+    ],
+    "category": "languages"
+  },
+  "systemdesign": {
+    "canonical": "System Design",
+    "aliases": [
+      "system design",
+      "systemdesign"
+    ],
+    "category": "general"
+  },
+  "lowleveldesign": {
+    "canonical": "Low Level Design",
+    "aliases": [
+      "lowleveldesign",
+      "low level design"
+    ],
+    "category": "general"
+  },
+  "highleveldesign": {
+    "canonical": "High Level Design",
+    "aliases": [
+      "high level design",
+      "highleveldesign"
+    ],
+    "category": "general"
+  },
+  "functionalprogramming": {
+    "canonical": "Functional Programming",
+    "aliases": [
+      "functionalprogramming",
+      "functional programming"
+    ],
+    "category": "languages"
+  },
+  "designpatterns": {
+    "canonical": "Design Patterns",
+    "aliases": [
+      "designpatterns",
+      "design patterns"
+    ],
+    "category": "general"
+  },
+  "solidprinciples": {
+    "canonical": "SOLID Principles",
+    "aliases": [
+      "solidprinciples",
+      "solid principles"
+    ],
+    "category": "languages"
+  },
+  "unittesting": {
+    "canonical": "Unit Testing",
+    "aliases": [
+      "unit testing",
+      "unittesting"
+    ],
+    "category": "general"
+  },
+  "integrationtesting": {
+    "canonical": "Integration Testing",
+    "aliases": [
+      "integration testing",
+      "integrationtesting"
+    ],
+    "category": "general"
+  },
+  "automationtesting": {
+    "canonical": "Automation Testing",
+    "aliases": [
+      "automation testing",
+      "automationtesting"
+    ],
+    "category": "general"
+  },
+  "selenium": {
+    "canonical": "Selenium",
+    "aliases": [
+      "selenium"
+    ],
+    "category": "general"
+  },
+  "cypress": {
+    "canonical": "Cypress",
+    "aliases": [
+      "cypress"
+    ],
+    "category": "languages"
+  },
+  "playwright": {
+    "canonical": "Playwright",
+    "aliases": [
+      "playwright"
+    ],
+    "category": "general"
+  },
+  "junit": {
+    "canonical": "JUnit",
+    "aliases": [
+      "junit"
+    ],
+    "category": "general"
+  },
+  "pytest": {
+    "canonical": "PyTest",
+    "aliases": [
+      "pytest"
+    ],
+    "category": "general"
+  },
+  "rag": {
+    "canonical": "RAG",
+    "aliases": [
+      "rag"
+    ],
+    "category": "ml_ai"
+  },
+  "llamaindex": {
+    "canonical": "LlamaIndex",
+    "aliases": [
+      "llamaindex"
+    ],
+    "category": "ml_ai"
+  },
+  "pytorch": {
+    "canonical": "PyTorch",
+    "aliases": [
+      "pytorch"
+    ],
+    "category": "languages"
+  },
+  "opencv": {
+    "canonical": "OpenCV",
+    "aliases": [
+      "opencv"
+    ],
+    "category": "languages"
+  },
+  "matplotlib": {
+    "canonical": "Matplotlib",
+    "aliases": [
+      "matplotlib"
+    ],
+    "category": "data_analytics"
+  },
+  "tableau": {
+    "canonical": "Tableau",
+    "aliases": [
+      "tableau"
+    ],
+    "category": "data_analytics"
+  },
+  "dataanalysis": {
+    "canonical": "Data Analysis",
+    "aliases": [
+      "data analysis",
+      "dataanalysis"
+    ],
+    "category": "data_analytics"
+  },
+  "datascience": {
+    "canonical": "Data Science",
+    "aliases": [
+      "data science",
+      "datascience"
+    ],
+    "category": "languages"
+  },
+  "featureengineering": {
+    "canonical": "Feature Engineering",
+    "aliases": [
+      "feature engineering",
+      "featureengineering"
+    ],
+    "category": "general"
+  },
+  "bigdata": {
+    "canonical": "Big Data",
+    "aliases": [
+      "big data",
+      "bigdata"
+    ],
+    "category": "data_analytics"
+  },
+  "apachespark": {
+    "canonical": "Apache Spark",
+    "aliases": [
+      "apache spark",
+      "apachespark"
+    ],
+    "category": "languages"
+  },
+  "hadoop": {
+    "canonical": "Hadoop",
+    "aliases": [
+      "hadoop"
+    ],
+    "category": "data_analytics"
+  },
+  "kafka": {
+    "canonical": "Kafka",
+    "aliases": [
+      "kafka"
+    ],
+    "category": "data_analytics"
+  },
+  "airflow": {
+    "canonical": "Airflow",
+    "aliases": [
+      "airflow"
+    ],
+    "category": "data_analytics"
+  },
+  "etl": {
+    "canonical": "ETL",
+    "aliases": [
+      "etl"
+    ],
+    "category": "data_analytics"
+  },
+  "datawarehousing": {
+    "canonical": "Data Warehousing",
+    "aliases": [
+      "datawarehousing",
+      "data warehousing"
+    ],
+    "category": "data_analytics"
+  },
+  "cybersecurity": {
+    "canonical": "Cybersecurity",
+    "aliases": [
+      "cybersecurity"
+    ],
+    "category": "languages"
+  },
+  "ethicalhacking": {
+    "canonical": "Ethical Hacking",
+    "aliases": [
+      "ethical hacking",
+      "ethicalhacking"
+    ],
+    "category": "languages"
+  },
+  "penetrationtesting": {
+    "canonical": "Penetration Testing",
+    "aliases": [
+      "penetration testing",
+      "penetrationtesting"
+    ],
+    "category": "security"
+  },
+  "networksecurity": {
+    "canonical": "Network Security",
+    "aliases": [
+      "networksecurity",
+      "network security"
+    ],
+    "category": "languages"
+  },
+  "cryptography": {
+    "canonical": "Cryptography",
+    "aliases": [
+      "cryptography"
+    ],
+    "category": "languages"
+  },
+  "digitalforensics": {
+    "canonical": "Digital Forensics",
+    "aliases": [
+      "digital forensics",
+      "digitalforensics"
+    ],
+    "category": "languages"
+  },
+  "incidentresponse": {
+    "canonical": "Incident Response",
+    "aliases": [
+      "incidentresponse",
+      "incident response"
+    ],
+    "category": "languages"
+  },
+  "siem": {
+    "canonical": "SIEM",
+    "aliases": [
+      "siem"
+    ],
+    "category": "security"
+  },
+  "firewalls": {
+    "canonical": "Firewalls",
+    "aliases": [
+      "firewalls"
+    ],
+    "category": "security"
+  },
+  "networking": {
+    "canonical": "Networking",
+    "aliases": [
+      "networking"
+    ],
+    "category": "general"
+  },
+  "tcpip": {
+    "canonical": "TCP/IP",
+    "aliases": [
+      "tcp/ip"
+    ],
+    "category": "languages"
+  },
+  "dns": {
+    "canonical": "DNS",
+    "aliases": [
+      "dns"
+    ],
+    "category": "general"
+  },
+  "vpn": {
+    "canonical": "VPN",
+    "aliases": [
+      "vpn"
+    ],
+    "category": "general"
+  },
+  "cisconetworking": {
+    "canonical": "Cisco Networking",
+    "aliases": [
+      "cisconetworking",
+      "cisco networking"
+    ],
+    "category": "languages"
+  },
+  "wireshark": {
+    "canonical": "Wireshark",
+    "aliases": [
+      "wireshark"
+    ],
+    "category": "general"
+  },
+  "cloudcomputing": {
+    "canonical": "Cloud Computing",
+    "aliases": [
+      "cloudcomputing",
+      "cloud computing"
+    ],
+    "category": "languages"
+  },
+  "devops": {
+    "canonical": "DevOps",
+    "aliases": [
+      "devops"
+    ],
+    "category": "cloud"
+  },
+  "sitereliabilityengineering": {
+    "canonical": "Site Reliability Engineering",
+    "aliases": [
+      "sitereliabilityengineering",
+      "site reliability engineering"
+    ],
+    "category": "cloud"
+  },
+  "apidevelopment": {
+    "canonical": "API Development",
+    "aliases": [
+      "api development",
+      "apidevelopment"
+    ],
+    "category": "backend"
+  },
+  "webdevelopment": {
+    "canonical": "Web Development",
+    "aliases": [
+      "webdevelopment",
+      "web development"
+    ],
+    "category": "general"
+  },
+  "frontenddevelopment": {
+    "canonical": "Frontend Development",
+    "aliases": [
+      "frontend development",
+      "frontenddevelopment"
+    ],
+    "category": "general"
+  },
+  "backenddevelopment": {
+    "canonical": "Backend Development",
+    "aliases": [
+      "backenddevelopment",
+      "backend development"
+    ],
+    "category": "languages"
+  },
+  "fullstackdevelopment": {
+    "canonical": "Full Stack Development",
+    "aliases": [
+      "fullstackdevelopment",
+      "full stack development"
+    ],
+    "category": "languages"
+  },
+  "mobileappdevelopment": {
+    "canonical": "Mobile App Development",
+    "aliases": [
+      "mobileappdevelopment",
+      "mobile app development"
+    ],
+    "category": "general"
+  },
+  "desktopapplicationdevelopment": {
+    "canonical": "Desktop Application Development",
+    "aliases": [
+      "desktopapplicationdevelopment",
+      "desktop application development"
+    ],
+    "category": "languages"
+  },
+  "embeddedsystems": {
+    "canonical": "Embedded Systems",
+    "aliases": [
+      "embeddedsystems",
+      "embedded systems"
+    ],
+    "category": "general"
+  },
+  "internetofthings": {
+    "canonical": "Internet of Things",
+    "aliases": [
+      "internet of things",
+      "internetofthings"
+    ],
+    "category": "general"
+  },
+  "robotics": {
+    "canonical": "Robotics",
+    "aliases": [
+      "robotics"
+    ],
+    "category": "languages"
+  },
+  "blockchain": {
+    "canonical": "Blockchain",
+    "aliases": [
+      "blockchain"
+    ],
+    "category": "languages"
+  },
+  "smartcontracts": {
+    "canonical": "Smart Contracts",
+    "aliases": [
+      "smart contracts",
+      "smartcontracts"
+    ],
+    "category": "languages"
+  },
+  "solidity": {
+    "canonical": "Solidity",
+    "aliases": [
+      "solidity"
+    ],
+    "category": "languages"
+  },
+  "web3": {
+    "canonical": "Web3",
+    "aliases": [
+      "web3"
+    ],
+    "category": "languages"
+  },
+  "unity": {
+    "canonical": "Unity",
+    "aliases": [
+      "unity"
+    ],
+    "category": "general"
+  },
+  "unrealengine": {
+    "canonical": "Unreal Engine",
+    "aliases": [
+      "unreal engine",
+      "unrealengine"
+    ],
+    "category": "general"
+  },
+  "gamedevelopment": {
+    "canonical": "Game Development",
+    "aliases": [
+      "gamedevelopment",
+      "game development"
+    ],
+    "category": "general"
+  },
+  "uidesign": {
+    "canonical": "UI Design",
+    "aliases": [
+      "ui design",
+      "uidesign"
+    ],
+    "category": "frontend"
+  },
+  "uxdesign": {
+    "canonical": "UX Design",
+    "aliases": [
+      "uxdesign",
+      "ux design"
+    ],
+    "category": "frontend"
+  },
+  "userresearch": {
+    "canonical": "User Research",
+    "aliases": [
+      "userresearch",
+      "user research"
+    ],
+    "category": "languages"
+  },
+  "wireframing": {
+    "canonical": "Wireframing",
+    "aliases": [
+      "wireframing"
+    ],
+    "category": "general"
+  },
+  "prototyping": {
+    "canonical": "Prototyping",
+    "aliases": [
+      "prototyping"
+    ],
+    "category": "general"
+  },
+  "figma": {
+    "canonical": "Figma",
+    "aliases": [
+      "figma"
+    ],
+    "category": "frontend"
+  },
+  "adobexd": {
+    "canonical": "Adobe XD",
+    "aliases": [
+      "adobexd",
+      "adobe xd"
+    ],
+    "category": "frontend"
+  },
+  "photoshop": {
+    "canonical": "Photoshop",
+    "aliases": [
+      "photoshop"
+    ],
+    "category": "frontend"
+  },
+  "illustrator": {
+    "canonical": "Illustrator",
+    "aliases": [
+      "illustrator"
+    ],
+    "category": "frontend"
+  },
+  "canva": {
+    "canonical": "Canva",
+    "aliases": [
+      "canva"
+    ],
+    "category": "languages"
+  },
+  "graphicdesign": {
+    "canonical": "Graphic Design",
+    "aliases": [
+      "graphicdesign",
+      "graphic design"
+    ],
+    "category": "languages"
+  },
+  "logodesign": {
+    "canonical": "Logo Design",
+    "aliases": [
+      "logo design",
+      "logodesign"
+    ],
+    "category": "languages"
+  },
+  "branding": {
+    "canonical": "Branding",
+    "aliases": [
+      "branding"
+    ],
+    "category": "general"
+  },
+  "videoediting": {
+    "canonical": "Video Editing",
+    "aliases": [
+      "video editing",
+      "videoediting"
+    ],
+    "category": "general"
+  },
+  "adobepremierepro": {
+    "canonical": "Adobe Premiere Pro",
+    "aliases": [
+      "adobepremierepro",
+      "adobe premiere pro"
+    ],
+    "category": "general"
+  },
+  "aftereffects": {
+    "canonical": "After Effects",
+    "aliases": [
+      "after effects",
+      "aftereffects"
+    ],
+    "category": "languages"
+  },
+  "davinciresolve": {
+    "canonical": "DaVinci Resolve",
+    "aliases": [
+      "davinci resolve",
+      "davinciresolve"
+    ],
+    "category": "languages"
+  },
+  "motiongraphics": {
+    "canonical": "Motion Graphics",
+    "aliases": [
+      "motiongraphics",
+      "motion graphics"
+    ],
+    "category": "languages"
+  },
+  "animation": {
+    "canonical": "Animation",
+    "aliases": [
+      "animation"
+    ],
+    "category": "general"
+  },
+  "blender": {
+    "canonical": "Blender",
+    "aliases": [
+      "blender"
+    ],
+    "category": "general"
+  },
+  "3dmodeling": {
+    "canonical": "3D Modeling",
+    "aliases": [
+      "3d modeling",
+      "3dmodeling"
+    ],
+    "category": "general"
+  },
+  "cad": {
+    "canonical": "CAD",
+    "aliases": [
+      "cad"
+    ],
+    "category": "languages"
+  },
+  "autocad": {
+    "canonical": "AutoCAD",
+    "aliases": [
+      "autocad"
+    ],
+    "category": "languages"
+  },
+  "productmanagement": {
+    "canonical": "Product Management",
+    "aliases": [
+      "product management",
+      "productmanagement"
+    ],
+    "category": "languages"
+  },
+  "projectmanagement": {
+    "canonical": "Project Management",
+    "aliases": [
+      "projectmanagement",
+      "project management"
+    ],
+    "category": "languages"
+  },
+  "agile": {
+    "canonical": "Agile",
+    "aliases": [
+      "agile"
+    ],
+    "category": "general"
+  },
+  "scrum": {
+    "canonical": "Scrum",
+    "aliases": [
+      "scrum"
+    ],
+    "category": "languages"
+  },
+  "kanban": {
+    "canonical": "Kanban",
+    "aliases": [
+      "kanban"
+    ],
+    "category": "general"
+  },
+  "confluence": {
+    "canonical": "Confluence",
+    "aliases": [
+      "confluence"
+    ],
+    "category": "languages"
+  },
+  "businessanalysis": {
+    "canonical": "Business Analysis",
+    "aliases": [
+      "business analysis",
+      "businessanalysis"
+    ],
+    "category": "general"
+  },
+  "businessintelligence": {
+    "canonical": "Business Intelligence",
+    "aliases": [
+      "businessintelligence",
+      "business intelligence"
+    ],
+    "category": "languages"
+  },
+  "marketresearch": {
+    "canonical": "Market Research",
+    "aliases": [
+      "marketresearch",
+      "market research"
+    ],
+    "category": "languages"
+  },
+  "productstrategy": {
+    "canonical": "Product Strategy",
+    "aliases": [
+      "productstrategy",
+      "product strategy"
+    ],
+    "category": "languages"
+  },
+  "roadmapping": {
+    "canonical": "Roadmapping",
+    "aliases": [
+      "roadmapping"
+    ],
+    "category": "general"
+  },
+  "stakeholdermanagement": {
+    "canonical": "Stakeholder Management",
+    "aliases": [
+      "stakeholdermanagement",
+      "stakeholder management"
+    ],
+    "category": "general"
+  },
+  "riskmanagement": {
+    "canonical": "Risk Management",
+    "aliases": [
+      "risk management",
+      "riskmanagement"
+    ],
+    "category": "general"
+  },
+  "operationsmanagement": {
+    "canonical": "Operations Management",
+    "aliases": [
+      "operations management",
+      "operationsmanagement"
+    ],
+    "category": "general"
+  },
+  "supplychainmanagement": {
+    "canonical": "Supply Chain Management",
+    "aliases": [
+      "supplychainmanagement",
+      "supply chain management"
+    ],
+    "category": "languages"
+  },
+  "procurement": {
+    "canonical": "Procurement",
+    "aliases": [
+      "procurement"
+    ],
+    "category": "languages"
+  },
+  "entrepreneurship": {
+    "canonical": "Entrepreneurship",
+    "aliases": [
+      "entrepreneurship"
+    ],
+    "category": "general"
+  },
+  "startupstrategy": {
+    "canonical": "Startup Strategy",
+    "aliases": [
+      "startupstrategy",
+      "startup strategy"
+    ],
+    "category": "general"
+  },
+  "businessdevelopment": {
+    "canonical": "Business Development",
+    "aliases": [
+      "business development",
+      "businessdevelopment"
+    ],
+    "category": "general"
+  },
+  "sales": {
+    "canonical": "Sales",
+    "aliases": [
+      "sales"
+    ],
+    "category": "general"
+  },
+  "b2bsales": {
+    "canonical": "B2B Sales",
+    "aliases": [
+      "b2bsales",
+      "b2b sales"
+    ],
+    "category": "general"
+  },
+  "b2csales": {
+    "canonical": "B2C Sales",
+    "aliases": [
+      "b2c sales",
+      "b2csales"
+    ],
+    "category": "languages"
+  },
+  "leadgeneration": {
+    "canonical": "Lead Generation",
+    "aliases": [
+      "lead generation",
+      "leadgeneration"
+    ],
+    "category": "general"
+  },
+  "crm": {
+    "canonical": "CRM",
+    "aliases": [
+      "crm"
+    ],
+    "category": "languages"
+  },
+  "customerrelationshipmanagement": {
+    "canonical": "Customer Relationship Management",
+    "aliases": [
+      "customer relationship management",
+      "customerrelationshipmanagement"
+    ],
+    "category": "languages"
+  },
+  "negotiation": {
+    "canonical": "Negotiation",
+    "aliases": [
+      "negotiation"
+    ],
+    "category": "languages"
+  },
+  "customersuccess": {
+    "canonical": "Customer Success",
+    "aliases": [
+      "customersuccess",
+      "customer success"
+    ],
+    "category": "languages"
+  },
+  "customersupport": {
+    "canonical": "Customer Support",
+    "aliases": [
+      "customersupport",
+      "customer support"
+    ],
+    "category": "languages"
+  },
+  "marketing": {
+    "canonical": "Marketing",
+    "aliases": [
+      "marketing"
+    ],
+    "category": "general"
+  },
+  "digitalmarketing": {
+    "canonical": "Digital Marketing",
+    "aliases": [
+      "digital marketing",
+      "digitalmarketing"
+    ],
+    "category": "devtools"
+  },
+  "seo": {
+    "canonical": "SEO",
+    "aliases": [
+      "seo"
+    ],
+    "category": "general"
+  },
+  "sem": {
+    "canonical": "SEM",
+    "aliases": [
+      "sem"
+    ],
+    "category": "general"
+  },
+  "googleads": {
+    "canonical": "Google Ads",
+    "aliases": [
+      "google ads",
+      "googleads"
+    ],
+    "category": "languages"
+  },
+  "metaads": {
+    "canonical": "Meta Ads",
+    "aliases": [
+      "meta ads",
+      "metaads"
+    ],
+    "category": "general"
+  },
+  "socialmediamarketing": {
+    "canonical": "Social Media Marketing",
+    "aliases": [
+      "socialmediamarketing",
+      "social media marketing"
+    ],
+    "category": "languages"
+  },
+  "contentmarketing": {
+    "canonical": "Content Marketing",
+    "aliases": [
+      "contentmarketing",
+      "content marketing"
+    ],
+    "category": "languages"
+  },
+  "emailmarketing": {
+    "canonical": "Email Marketing",
+    "aliases": [
+      "emailmarketing",
+      "email marketing"
+    ],
+    "category": "ml_ai"
+  },
+  "affiliatemarketing": {
+    "canonical": "Affiliate Marketing",
+    "aliases": [
+      "affiliate marketing",
+      "affiliatemarketing"
+    ],
+    "category": "general"
+  },
+  "influencermarketing": {
+    "canonical": "Influencer Marketing",
+    "aliases": [
+      "influencermarketing",
+      "influencer marketing"
+    ],
+    "category": "languages"
+  },
+  "copywriting": {
+    "canonical": "Copywriting",
+    "aliases": [
+      "copywriting"
+    ],
+    "category": "languages"
+  },
+  "publicrelations": {
+    "canonical": "Public Relations",
+    "aliases": [
+      "publicrelations",
+      "public relations"
+    ],
+    "category": "languages"
+  },
+  "finance": {
+    "canonical": "Finance",
+    "aliases": [
+      "finance"
+    ],
+    "category": "languages"
+  },
+  "financialanalysis": {
+    "canonical": "Financial Analysis",
+    "aliases": [
+      "financialanalysis",
+      "financial analysis"
+    ],
+    "category": "languages"
+  },
+  "financialmodeling": {
+    "canonical": "Financial Modeling",
+    "aliases": [
+      "financialmodeling",
+      "financial modeling"
+    ],
+    "category": "languages"
+  },
+  "accounting": {
+    "canonical": "Accounting",
+    "aliases": [
+      "accounting"
+    ],
+    "category": "languages"
+  },
+  "bookkeeping": {
+    "canonical": "Bookkeeping",
+    "aliases": [
+      "bookkeeping"
+    ],
+    "category": "general"
+  },
+  "budgeting": {
+    "canonical": "Budgeting",
+    "aliases": [
+      "budgeting"
+    ],
+    "category": "general"
+  },
+  "taxation": {
+    "canonical": "Taxation",
+    "aliases": [
+      "taxation"
+    ],
+    "category": "general"
+  },
+  "auditing": {
+    "canonical": "Auditing",
+    "aliases": [
+      "auditing"
+    ],
+    "category": "general"
+  },
+  "investmentanalysis": {
+    "canonical": "Investment Analysis",
+    "aliases": [
+      "investment analysis",
+      "investmentanalysis"
+    ],
+    "category": "general"
+  },
+  "economics": {
+    "canonical": "Economics",
+    "aliases": [
+      "economics"
+    ],
+    "category": "languages"
+  },
+  "humanresources": {
+    "canonical": "Human Resources",
+    "aliases": [
+      "humanresources",
+      "human resources"
+    ],
+    "category": "languages"
+  },
+  "talentacquisition": {
+    "canonical": "Talent Acquisition",
+    "aliases": [
+      "talentacquisition",
+      "talent acquisition"
+    ],
+    "category": "languages"
+  },
+  "recruitment": {
+    "canonical": "Recruitment",
+    "aliases": [
+      "recruitment"
+    ],
+    "category": "languages"
+  },
+  "payrollmanagement": {
+    "canonical": "Payroll Management",
+    "aliases": [
+      "payroll management",
+      "payrollmanagement"
+    ],
+    "category": "general"
+  },
+  "employeerelations": {
+    "canonical": "Employee Relations",
+    "aliases": [
+      "employeerelations",
+      "employee relations"
+    ],
+    "category": "general"
+  },
+  "performancemanagement": {
+    "canonical": "Performance Management",
+    "aliases": [
+      "performancemanagement",
+      "performance management"
+    ],
+    "category": "languages"
+  },
+  "legalresearch": {
+    "canonical": "Legal Research",
+    "aliases": [
+      "legalresearch",
+      "legal research"
+    ],
+    "category": "languages"
+  },
+  "contractdrafting": {
+    "canonical": "Contract Drafting",
+    "aliases": [
+      "contract drafting",
+      "contractdrafting"
+    ],
+    "category": "languages"
+  },
+  "compliance": {
+    "canonical": "Compliance",
+    "aliases": [
+      "compliance"
+    ],
+    "category": "languages"
+  },
+  "teaching": {
+    "canonical": "Teaching",
+    "aliases": [
+      "teaching"
+    ],
+    "category": "languages"
+  },
+  "training": {
+    "canonical": "Training",
+    "aliases": [
+      "training"
+    ],
+    "category": "ml_ai"
+  },
+  "curriculumdevelopment": {
+    "canonical": "Curriculum Development",
+    "aliases": [
+      "curriculum development",
+      "curriculumdevelopment"
+    ],
+    "category": "languages"
+  },
+  "technicalwriting": {
+    "canonical": "Technical Writing",
+    "aliases": [
+      "technical writing",
+      "technicalwriting"
+    ],
+    "category": "languages"
+  },
+  "documentation": {
+    "canonical": "Documentation",
+    "aliases": [
+      "documentation"
+    ],
+    "category": "languages"
+  },
+  "academicwriting": {
+    "canonical": "Academic Writing",
+    "aliases": [
+      "academicwriting",
+      "academic writing"
+    ],
+    "category": "languages"
+  },
+  "creativewriting": {
+    "canonical": "Creative Writing",
+    "aliases": [
+      "creative writing",
+      "creativewriting"
+    ],
+    "category": "languages"
+  },
+  "blogging": {
+    "canonical": "Blogging",
+    "aliases": [
+      "blogging"
+    ],
+    "category": "general"
+  },
+  "research": {
+    "canonical": "Research",
+    "aliases": [
+      "research"
+    ],
+    "category": "languages"
+  },
+  "literaturereview": {
+    "canonical": "Literature Review",
+    "aliases": [
+      "literaturereview",
+      "literature review"
+    ],
+    "category": "general"
+  },
+  "publicspeaking": {
+    "canonical": "Public Speaking",
+    "aliases": [
+      "public speaking",
+      "publicspeaking"
+    ],
+    "category": "languages"
+  },
+  "presentationskills": {
+    "canonical": "Presentation Skills",
+    "aliases": [
+      "presentation skills",
+      "presentationskills"
+    ],
+    "category": "general"
+  },
+  "communication": {
+    "canonical": "Communication",
+    "aliases": [
+      "communication"
+    ],
+    "category": "languages"
+  },
+  "verbalcommunication": {
+    "canonical": "Verbal Communication",
+    "aliases": [
+      "verbal communication",
+      "verbalcommunication"
+    ],
+    "category": "languages"
+  },
+  "writtencommunication": {
+    "canonical": "Written Communication",
+    "aliases": [
+      "written communication",
+      "writtencommunication"
+    ],
+    "category": "languages"
+  },
+  "activelistening": {
+    "canonical": "Active Listening",
+    "aliases": [
+      "active listening",
+      "activelistening"
+    ],
+    "category": "languages"
+  },
+  "leadership": {
+    "canonical": "Leadership",
+    "aliases": [
+      "leadership"
+    ],
+    "category": "soft_skills"
+  },
+  "teamwork": {
+    "canonical": "Teamwork",
+    "aliases": [
+      "teamwork"
+    ],
+    "category": "soft_skills"
+  },
+  "collaboration": {
+    "canonical": "Collaboration",
+    "aliases": [
+      "collaboration"
+    ],
+    "category": "languages"
+  },
+  "criticalthinking": {
+    "canonical": "Critical Thinking",
+    "aliases": [
+      "critical thinking",
+      "criticalthinking"
+    ],
+    "category": "languages"
+  },
+  "analyticalthinking": {
+    "canonical": "Analytical Thinking",
+    "aliases": [
+      "analyticalthinking",
+      "analytical thinking"
+    ],
+    "category": "languages"
+  },
+  "problemsolving": {
+    "canonical": "Problem Solving",
+    "aliases": [
+      "problem solving",
+      "problemsolving"
+    ],
+    "category": "soft_skills"
+  },
+  "decisionmaking": {
+    "canonical": "Decision Making",
+    "aliases": [
+      "decision making",
+      "decisionmaking"
+    ],
+    "category": "languages"
+  },
+  "creativity": {
+    "canonical": "Creativity",
+    "aliases": [
+      "creativity"
+    ],
+    "category": "languages"
+  },
+  "innovation": {
+    "canonical": "Innovation",
+    "aliases": [
+      "innovation"
+    ],
+    "category": "soft_skills"
+  },
+  "adaptability": {
+    "canonical": "Adaptability",
+    "aliases": [
+      "adaptability"
+    ],
+    "category": "soft_skills"
+  },
+  "flexibility": {
+    "canonical": "Flexibility",
+    "aliases": [
+      "flexibility"
+    ],
+    "category": "soft_skills"
+  },
+  "emotionalintelligence": {
+    "canonical": "Emotional Intelligence",
+    "aliases": [
+      "emotionalintelligence",
+      "emotional intelligence"
+    ],
+    "category": "languages"
+  },
+  "timemanagement": {
+    "canonical": "Time Management",
+    "aliases": [
+      "time management",
+      "timemanagement"
+    ],
+    "category": "soft_skills"
+  },
+  "organization": {
+    "canonical": "Organization",
+    "aliases": [
+      "organization"
+    ],
+    "category": "soft_skills"
+  },
+  "planning": {
+    "canonical": "Planning",
+    "aliases": [
+      "planning"
+    ],
+    "category": "soft_skills"
+  },
+  "strategicthinking": {
+    "canonical": "Strategic Thinking",
+    "aliases": [
+      "strategic thinking",
+      "strategicthinking"
+    ],
+    "category": "languages"
+  },
+  "systemsthinking": {
+    "canonical": "Systems Thinking",
+    "aliases": [
+      "systemsthinking",
+      "systems thinking"
+    ],
+    "category": "soft_skills"
+  },
+  "attentiontodetail": {
+    "canonical": "Attention to Detail",
+    "aliases": [
+      "attention to detail",
+      "attentiontodetail"
+    ],
+    "category": "ml_ai"
+  },
+  "multitasking": {
+    "canonical": "Multitasking",
+    "aliases": [
+      "multitasking"
+    ],
+    "category": "soft_skills"
+  },
+  "conflictresolution": {
+    "canonical": "Conflict Resolution",
+    "aliases": [
+      "conflict resolution",
+      "conflictresolution"
+    ],
+    "category": "languages"
+  },
+  "persuasion": {
+    "canonical": "Persuasion",
+    "aliases": [
+      "persuasion"
+    ],
+    "category": "soft_skills"
+  },
+  "storytelling": {
+    "canonical": "Storytelling",
+    "aliases": [
+      "storytelling"
+    ],
+    "category": "soft_skills"
+  },
+  "mentoring": {
+    "canonical": "Mentoring",
+    "aliases": [
+      "mentoring"
+    ],
+    "category": "soft_skills"
+  },
+  "coaching": {
+    "canonical": "Coaching",
+    "aliases": [
+      "coaching"
+    ],
+    "category": "languages"
+  },
+  "relationshipbuilding": {
+    "canonical": "Relationship Building",
+    "aliases": [
+      "relationship building",
+      "relationshipbuilding"
+    ],
+    "category": "soft_skills"
+  },
+  "selfmanagement": {
+    "canonical": "Self Management",
+    "aliases": [
+      "selfmanagement",
+      "self management"
+    ],
+    "category": "soft_skills"
+  },
+  "accountability": {
+    "canonical": "Accountability",
+    "aliases": [
+      "accountability"
+    ],
+    "category": "languages"
+  },
+  "ownership": {
+    "canonical": "Ownership",
+    "aliases": [
+      "ownership"
+    ],
+    "category": "soft_skills"
+  },
+  "initiative": {
+    "canonical": "Initiative",
+    "aliases": [
+      "initiative"
+    ],
+    "category": "soft_skills"
+  },
+  "learningagility": {
+    "canonical": "Learning Agility",
+    "aliases": [
+      "learningagility",
+      "learning agility"
+    ],
+    "category": "soft_skills"
+  },
+  "continuouslearning": {
+    "canonical": "Continuous Learning",
+    "aliases": [
+      "continuous learning",
+      "continuouslearning"
+    ],
+    "category": "languages"
+  },
+  "curiosity": {
+    "canonical": "Curiosity",
+    "aliases": [
+      "curiosity"
+    ],
+    "category": "languages"
+  },
+  "professionalism": {
+    "canonical": "Professionalism",
+    "aliases": [
+      "professionalism"
+    ],
+    "category": "soft_skills"
+  },
+  "workethic": {
+    "canonical": "Work Ethic",
+    "aliases": [
+      "work ethic",
+      "workethic"
+    ],
+    "category": "languages"
+  },
+  "stressmanagement": {
+    "canonical": "Stress Management",
+    "aliases": [
+      "stressmanagement",
+      "stress management"
+    ],
+    "category": "soft_skills"
+  },
+  "resilience": {
+    "canonical": "Resilience",
+    "aliases": [
+      "resilience"
+    ],
+    "category": "languages"
+  },
+  "culturalawareness": {
+    "canonical": "Cultural Awareness",
+    "aliases": [
+      "cultural awareness",
+      "culturalawareness"
+    ],
+    "category": "languages"
+  },
+  "crossfunctionalcollaboration": {
+    "canonical": "Cross Functional Collaboration",
+    "aliases": [
+      "crossfunctionalcollaboration",
+      "cross functional collaboration"
+    ],
+    "category": "languages"
+  },
+  "microsoftword": {
+    "canonical": "Microsoft Word",
+    "aliases": [
+      "microsoft word",
+      "microsoftword"
+    ],
+    "category": "languages"
+  },
+  "microsoftpowerpoint": {
+    "canonical": "Microsoft PowerPoint",
+    "aliases": [
+      "microsoftpowerpoint",
+      "microsoft powerpoint"
+    ],
+    "category": "languages"
+  },
+  "googledocs": {
+    "canonical": "Google Docs",
+    "aliases": [
+      "google docs",
+      "googledocs"
+    ],
+    "category": "languages"
+  },
+  "googlesheets": {
+    "canonical": "Google Sheets",
+    "aliases": [
+      "googlesheets",
+      "google sheets"
+    ],
+    "category": "languages"
+  },
+  "googleslides": {
+    "canonical": "Google Slides",
+    "aliases": [
+      "googleslides",
+      "google slides"
+    ],
+    "category": "languages"
+  },
+  "notion": {
+    "canonical": "Notion",
+    "aliases": [
+      "notion"
+    ],
+    "category": "devtools"
+  },
+  "slack": {
+    "canonical": "Slack",
+    "aliases": [
+      "slack"
+    ],
+    "category": "languages"
+  },
+  "trello": {
+    "canonical": "Trello",
+    "aliases": [
+      "trello"
+    ],
+    "category": "devtools"
+  },
+  "asana": {
+    "canonical": "Asana",
+    "aliases": [
+      "asana"
+    ],
+    "category": "devtools"
+  },
+  "mondaycom": {
+    "canonical": "Monday.com",
+    "aliases": [
+      "monday.com"
+    ],
+    "category": "languages"
+  },
+  "airtable": {
+    "canonical": "Airtable",
+    "aliases": [
+      "airtable"
+    ],
+    "category": "ml_ai"
+  },
+  "zoom": {
+    "canonical": "Zoom",
+    "aliases": [
+      "zoom"
+    ],
+    "category": "devtools"
+  },
+  "microsoftteams": {
+    "canonical": "Microsoft Teams",
+    "aliases": [
+      "microsoft teams",
+      "microsoftteams"
+    ],
+    "category": "languages"
+  },
+  "customerservice": {
+    "canonical": "Customer Service",
+    "aliases": [
+      "customer service",
+      "customerservice"
+    ],
+    "category": "languages"
+  },
+  "hospitalitymanagement": {
+    "canonical": "Hospitality Management",
+    "aliases": [
+      "hospitalitymanagement",
+      "hospitality management"
+    ],
+    "category": "general"
+  },
+  "eventmanagement": {
+    "canonical": "Event Management",
+    "aliases": [
+      "event management",
+      "eventmanagement"
+    ],
+    "category": "general"
+  },
+  "photography": {
+    "canonical": "Photography",
+    "aliases": [
+      "photography"
+    ],
+    "category": "general"
+  },
+  "videography": {
+    "canonical": "Videography",
+    "aliases": [
+      "videography"
+    ],
+    "category": "general"
+  },
+  "musicproduction": {
+    "canonical": "Music Production",
+    "aliases": [
+      "music production",
+      "musicproduction"
+    ],
+    "category": "languages"
+  },
+  "singing": {
+    "canonical": "Singing",
+    "aliases": [
+      "singing"
+    ],
+    "category": "general"
+  },
+  "dancing": {
+    "canonical": "Dancing",
+    "aliases": [
+      "dancing"
+    ],
+    "category": "languages"
+  },
+  "acting": {
+    "canonical": "Acting",
+    "aliases": [
+      "acting"
+    ],
+    "category": "languages"
+  },
+  "painting": {
+    "canonical": "Painting",
+    "aliases": [
+      "painting"
+    ],
+    "category": "ml_ai"
+  },
+  "drawing": {
+    "canonical": "Drawing",
+    "aliases": [
+      "drawing"
+    ],
+    "category": "general"
+  },
+  "fitnesscoaching": {
+    "canonical": "Fitness Coaching",
+    "aliases": [
+      "fitnesscoaching",
+      "fitness coaching"
+    ],
+    "category": "languages"
+  },
+  "personaltraining": {
+    "canonical": "Personal Training",
+    "aliases": [
+      "personal training",
+      "personaltraining"
+    ],
+    "category": "ml_ai"
+  },
+  "yoga": {
+    "canonical": "Yoga",
+    "aliases": [
+      "yoga"
+    ],
+    "category": "general"
+  },
+  "swimming": {
+    "canonical": "Swimming",
+    "aliases": [
+      "swimming"
+    ],
+    "category": "general"
+  },
+  "nutrition": {
+    "canonical": "Nutrition",
+    "aliases": [
+      "nutrition"
+    ],
+    "category": "general"
+  },
+  "firstaid": {
+    "canonical": "First Aid",
+    "aliases": [
+      "firstaid",
+      "first aid"
+    ],
+    "category": "ml_ai"
+  },
+  "mechanicalengineering": {
+    "canonical": "Mechanical Engineering",
+    "aliases": [
+      "mechanical engineering",
+      "mechanicalengineering"
+    ],
+    "category": "languages"
+  },
+  "electricalengineering": {
+    "canonical": "Electrical Engineering",
+    "aliases": [
+      "electrical engineering",
+      "electricalengineering"
+    ],
+    "category": "languages"
+  },
+  "civilengineering": {
+    "canonical": "Civil Engineering",
+    "aliases": [
+      "civilengineering",
+      "civil engineering"
+    ],
+    "category": "languages"
+  },
+  "chemicalengineering": {
+    "canonical": "Chemical Engineering",
+    "aliases": [
+      "chemical engineering",
+      "chemicalengineering"
+    ],
+    "category": "languages"
+  },
+  "aerospaceengineering": {
+    "canonical": "Aerospace Engineering",
+    "aliases": [
+      "aerospaceengineering",
+      "aerospace engineering"
+    ],
+    "category": "languages"
+  },
+  "biotechnology": {
+    "canonical": "Biotechnology",
+    "aliases": [
+      "biotechnology"
+    ],
+    "category": "languages"
+  },
+  "bioinformatics": {
+    "canonical": "Bioinformatics",
+    "aliases": [
+      "bioinformatics"
+    ],
+    "category": "languages"
+  },
+  "healthcaremanagement": {
+    "canonical": "Healthcare Management",
+    "aliases": [
+      "healthcaremanagement",
+      "healthcare management"
+    ],
+    "category": "languages"
+  },
+  "nursing": {
+    "canonical": "Nursing",
+    "aliases": [
+      "nursing"
+    ],
+    "category": "general"
+  },
+  "pharmacy": {
+    "canonical": "Pharmacy",
+    "aliases": [
+      "pharmacy"
+    ],
+    "category": "languages"
+  },
+  "qualityassurance": {
+    "canonical": "Quality Assurance",
+    "aliases": [
+      "qualityassurance",
+      "quality assurance"
+    ],
+    "category": "languages"
+  },
+  "qualitycontrol": {
+    "canonical": "Quality Control",
+    "aliases": [
+      "quality control",
+      "qualitycontrol"
+    ],
+    "category": "languages"
+  },
+  "manufacturing": {
+    "canonical": "Manufacturing",
+    "aliases": [
+      "manufacturing"
+    ],
+    "category": "languages"
+  },
+  "leanmanufacturing": {
+    "canonical": "Lean Manufacturing",
+    "aliases": [
+      "lean manufacturing",
+      "leanmanufacturing"
+    ],
+    "category": "languages"
+  },
+  "sixsigma": {
+    "canonical": "Six Sigma",
+    "aliases": [
+      "sixsigma",
+      "six sigma"
+    ],
+    "category": "general"
+  },
+  "processimprovement": {
+    "canonical": "Process Improvement",
+    "aliases": [
+      "process improvement",
+      "processimprovement"
+    ],
+    "category": "languages"
+  },
+  "leanmanagement": {
+    "canonical": "Lean Management",
+    "aliases": [
+      "lean management",
+      "leanmanagement"
+    ],
+    "category": "general"
+  },
+  "supplychainanalytics": {
+    "canonical": "Supply Chain Analytics",
+    "aliases": [
+      "supplychainanalytics",
+      "supply chain analytics"
+    ],
+    "category": "languages"
+  },
+  "logisticsmanagement": {
+    "canonical": "Logistics Management",
+    "aliases": [
+      "logisticsmanagement",
+      "logistics management"
+    ],
+    "category": "languages"
+  },
+  "inventorymanagement": {
+    "canonical": "Inventory Management",
+    "aliases": [
+      "inventorymanagement",
+      "inventory management"
+    ],
+    "category": "general"
+  },
+  "forecasting": {
+    "canonical": "Forecasting",
+    "aliases": [
+      "forecasting"
+    ],
+    "category": "languages"
+  },
+  "linearalgebra": {
+    "canonical": "Linear Algebra",
+    "aliases": [
+      "linearalgebra",
+      "linear algebra"
+    ],
+    "category": "general"
+  },
+  "calculus": {
+    "canonical": "Calculus",
+    "aliases": [
+      "calculus"
+    ],
+    "category": "languages"
+  },
+  "probability": {
+    "canonical": "Probability",
+    "aliases": [
+      "probability"
+    ],
+    "category": "general"
+  },
+  "optimization": {
+    "canonical": "Optimization",
+    "aliases": [
+      "optimization"
+    ],
+    "category": "general"
+  },
+  "quantumcomputing": {
+    "canonical": "Quantum Computing",
+    "aliases": [
+      "quantumcomputing",
+      "quantum computing"
+    ],
+    "category": "languages"
+  },
+  "edgecomputing": {
+    "canonical": "Edge Computing",
+    "aliases": [
+      "edge computing",
+      "edgecomputing"
+    ],
+    "category": "languages"
+  },
+  "ar": {
+    "canonical": "AR",
+    "aliases": [
+      "ar"
+    ],
+    "category": "languages"
+  },
+  "vr": {
+    "canonical": "VR",
+    "aliases": [
+      "vr"
+    ],
+    "category": "general"
+  },
+  "mixedreality": {
+    "canonical": "Mixed Reality",
+    "aliases": [
+      "mixedreality",
+      "mixed reality"
+    ],
+    "category": "general"
+  },
+  "spatialcomputing": {
+    "canonical": "Spatial Computing",
+    "aliases": [
+      "spatial computing",
+      "spatialcomputing"
+    ],
+    "category": "languages"
   }
 }
