@@ -36,12 +36,22 @@ def run_pipeline():
     config_str = request.form.get("config")
     config_file = request.files.get("config_file")
 
-    # Verify that at least one source file is uploaded
-    if not (csv_file and csv_file.filename != '') and not (resume_file and resume_file.filename != ''):
-        return jsonify({
-            "success": False,
-            "error": "No input files provided. Provide at least one of csv_file or resume_file."
-        }), 400
+    # Verify that at least one source file is uploaded. Fallback to sample files if none provided.
+    csv_uploaded = csv_file and csv_file.filename != ''
+    resume_uploaded = resume_file and resume_file.filename != ''
+    
+    use_sample_fallback = False
+    if not csv_uploaded and not resume_uploaded:
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        fallback_csv = os.path.join(base_dir, "sample_data", "candidates.csv")
+        fallback_resume = os.path.join(base_dir, "sample_data", "vidhi_resume.pdf")
+        if os.path.exists(fallback_csv) and os.path.exists(fallback_resume):
+            use_sample_fallback = True
+        else:
+            return jsonify({
+                "success": False,
+                "error": "No input files provided. Provide at least one of csv_file or resume_file."
+            }), 400
 
     # Write files to a localized temporary directory and parse
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -49,13 +59,18 @@ def run_pipeline():
         resume_path = None
         config_path = None
 
-        if csv_file and csv_file.filename != '':
-            csv_path = os.path.join(temp_dir, secure_filename(csv_file.filename))
-            csv_file.save(csv_path)
+        if use_sample_fallback:
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            csv_path = os.path.join(base_dir, "sample_data", "candidates.csv")
+            resume_path = os.path.join(base_dir, "sample_data", "vidhi_resume.pdf")
+        else:
+            if csv_uploaded:
+                csv_path = os.path.join(temp_dir, secure_filename(csv_file.filename))
+                csv_file.save(csv_path)
 
-        if resume_file and resume_file.filename != '':
-            resume_path = os.path.join(temp_dir, secure_filename(resume_file.filename))
-            resume_file.save(resume_path)
+            if resume_uploaded:
+                resume_path = os.path.join(temp_dir, secure_filename(resume_file.filename))
+                resume_file.save(resume_path)
 
         # Handle config overrides
         if config_file and config_file.filename != '':

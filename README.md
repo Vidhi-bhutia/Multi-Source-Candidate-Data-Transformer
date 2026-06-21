@@ -40,8 +40,7 @@ Source Files ➔ Source Detector ➔ [CSV Extractor | Resume Extractor] ➔ Clai
 ## Setup
 
 ```bash
-git clone <repository_url>
-cd candidate-transformer
+git clone https://github.com/Vidhi-bhutia/Multi-Source-Candidate-Data-Transformer.git
 pip install -r requirements.txt
 python run.py
 ```

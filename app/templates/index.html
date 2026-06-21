@@ -8,255 +8,361 @@
         top: 24px;
         bottom: -24px;
         width: 2px;
-        background-color: #e2e8f0;
+        background-color: #e2e8f0; /* slate-200 */
     }
     .step-item:last-child .step-timeline-line {
         display: none;
+    }
+    
+    /* Elegant custom micro-transitions */
+    .hover-card-lift {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-card-lift:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* IDE Container Styling - Clean Light Theme */
+    .ide-window {
+        background-color: #ffffff; /* pure white code block */
+        border: 1px solid #cbd5e1; /* slate-300: clean visible border */
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Soft Tooltip styling */
+    [title] {
+        position: relative;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="flex flex-col lg:flex-row gap-6 p-6 flex-grow overflow-hidden h-[calc(100vh-73px)]">
+<div class="flex flex-col gap-4 p-5 flex-grow overflow-hidden h-[calc(100vh-73px)]">
     
-    <!-- SECTION 1: INPUT PANEL (35% width) -->
-    <div class="w-full lg:w-[35%] flex flex-col gap-5 overflow-y-auto pr-1">
+    <!-- TOP BAR: Ingest Candidate Profiles -->
+    <div class="bg-white border border-slate-200 rounded-xl p-4.5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-wine-50 text-wine-700 flex items-center justify-center border border-wine-100 shadow-sm select-none">
+                <svg class="w-5 h-5 text-wine-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xs font-bold text-wine-700 uppercase tracking-wider">Ingest Candidate Profile</h2>
+                <p class="text-[10px] text-slate-400">Provide spreadsheets or resume files to standardise data</p>
+            </div>
+        </div>
         
-        <!-- Box 1: Upload Sources -->
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-            <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span>📁</span> Upload Sources
-            </h2>
-            
-            <form id="pipeline-form" class="space-y-4">
-                <!-- CSV Dropzone -->
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-2">Structured Ingestion (CSV)</label>
-                    <div id="csv-dropzone" class="border-2 border-dashed border-slate-200 hover:border-wine-500 rounded-xl p-4 text-center cursor-pointer transition bg-slate-50 flex flex-col items-center justify-center group">
-                        <span class="text-2xl mb-1 group-hover:scale-110 transition duration-200">📊</span>
-                        <p class="text-xs text-slate-600 font-medium" id="csv-label">Drag & drop candidates.csv or click to upload</p>
-                        <span class="text-[10px] text-slate-400 mt-1">Accepts CSV files (max 5MB)</span>
-                        <input type="file" id="csv-file" name="csv_file" accept=".csv" class="hidden" />
+        <!-- Dropzones & Run triggers aligned horizontally -->
+        <div class="flex flex-grow flex-wrap items-center justify-end gap-3.5">
+            <form id="pipeline-form" class="flex items-center gap-3 flex-wrap">
+                <!-- CSV Mini Dropzone -->
+                <div id="csv-dropzone" class="border border-dashed border-slate-300 hover:border-wine-500 rounded-xl py-2 px-3.5 cursor-pointer transition duration-300 bg-gradient-to-b from-white to-slate-50 flex items-center gap-2.5 group select-none min-w-[220px] hover:shadow-md hover:shadow-wine-900/5 hover:bg-wine-50/5">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100/80 flex items-center justify-center border border-slate-200 transition-all duration-300 group-hover:bg-wine-50 group-hover:border-wine-200 group-hover:scale-105">
+                        <svg class="w-4 h-4 text-slate-500 transition duration-300 group-hover:text-wine-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"></path>
+                        </svg>
                     </div>
-                    <div id="csv-warn" class="hidden text-xs text-amber-600 mt-1 flex items-center gap-1">
-                        <span>⚠️</span> Warning: File size exceeds 5MB. Processing may take longer.
+                    <div class="text-left">
+                        <p class="text-[10px] text-slate-650 font-bold leading-tight transition duration-350 group-hover:text-slate-800" id="csv-label">Drag & drop CSV or click</p>
+                        <p class="text-[8px] text-slate-450 leading-relaxed">Recruiter columns (max 5MB)</p>
                     </div>
+                    <input type="file" id="csv-file" name="csv_file" accept=".csv" class="hidden" />
                 </div>
-
-                <!-- Resume Dropzone -->
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-2">Unstructured Ingestion (PDF / DOCX)</label>
-                    <div id="resume-dropzone" class="border-2 border-dashed border-slate-200 hover:border-wine-500 rounded-xl p-4 text-center cursor-pointer transition bg-slate-50 flex flex-col items-center justify-center group">
-                        <span class="text-2xl mb-1 group-hover:scale-110 transition duration-200">📄</span>
-                        <p class="text-xs text-slate-600 font-medium" id="resume-label">Drag & drop resume.pdf/.docx or click to upload</p>
-                        <span class="text-[10px] text-slate-400 mt-1">Accepts PDF, DOCX (OCR supported)</span>
-                        <input type="file" id="resume-file" name="resume_file" accept=".pdf,.docx" class="hidden" />
+                <div id="csv-warn" class="hidden text-[10px] text-amber-600 bg-amber-50 border border-amber-200 px-2 py-1 rounded">
+                    <span class="font-bold">[WARN]</span> Size warning.
+                </div>
+                
+                <!-- Resume Mini Dropzone -->
+                <div id="resume-dropzone" class="border border-dashed border-slate-300 hover:border-wine-500 rounded-xl py-2 px-3.5 cursor-pointer transition duration-300 bg-gradient-to-b from-white to-slate-50 flex items-center gap-2.5 group select-none min-w-[220px] hover:shadow-md hover:shadow-wine-900/5 hover:bg-wine-50/5">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100/80 flex items-center justify-center border border-slate-200 transition-all duration-300 group-hover:bg-wine-50 group-hover:border-wine-200 group-hover:scale-105">
+                        <svg class="w-4 h-4 text-slate-500 transition duration-300 group-hover:text-wine-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                        </svg>
                     </div>
+                    <div class="text-left">
+                        <p class="text-[10px] text-slate-650 font-bold leading-tight transition duration-350 group-hover:text-slate-800" id="resume-label">Drag & drop resume or click</p>
+                        <p class="text-[8px] text-slate-450 leading-relaxed">PDF, DOCX formats</p>
+                    </div>
+                    <input type="file" id="resume-file" name="resume_file" accept=".pdf,.docx" class="hidden" />
                 </div>
             </form>
-            <p class="text-[10px] text-slate-400 mt-3 text-center italic">
-                Need at least one structured (CSV) or unstructured (Resume) source to run.
-            </p>
-        </div>
 
-        <!-- Box 2: Output Config -->
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex-grow flex flex-col min-h-[300px]">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider flex items-center gap-2">
-                    <span>⚙️</span> Output Config
-                </h2>
+            <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+
+            <!-- Modal Config Switch Trigger -->
+            <button onclick="openConfigModal()" class="bg-slate-50 hover:bg-slate-100 border border-slate-300 text-slate-700 text-xs font-semibold py-2.5 px-4 rounded-xl transition duration-200 flex items-center gap-2 shadow-sm hover:border-slate-400 active:scale-98">
+                <svg class="w-4 h-4 text-slate-500 animate-spin-hover" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Output Config
+                <span id="config-status-badge" class="ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 border border-slate-300">DEFAULT</span>
+            </button>
+
+            <!-- Major Action Trigger -->
+            <button id="run-btn" onclick="executePipeline()" class="bg-gradient-to-r from-wine-800 to-wine-700 hover:from-wine-700 hover:to-wine-600 text-white text-xs font-bold py-2.5 px-6 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-md shadow-wine-900/10 hover:shadow-wine-900/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span id="run-text">Run Transformation Pipeline</span>
+                <span id="run-spinner" class="hidden w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- MAIN WORKSPACE: SIDEBAR LOGS (25%) & EXPANDED RESULTS (75%) -->
+    <div class="flex flex-col lg:flex-row gap-5 flex-grow overflow-hidden">
+        
+        <!-- SIDEBAR LOG PANEL (25% width) - Compact and secondary -->
+        <div class="w-full lg:w-[25%] bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col overflow-hidden shrink-0">
+            <h2 class="text-xs font-bold text-wine-700 uppercase tracking-wider mb-3 flex items-center gap-1.5 pb-2 border-b border-slate-100 select-none">
+                Pipeline Ingest Logs
+            </h2>
+            
+            <div class="flex-grow overflow-y-auto relative pr-1.5 space-y-6 pt-2" id="log-container">
+                <div id="log-empty-state" class="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+                    <span class="text-xs font-bold text-slate-400 mb-2">LOGS PENDING</span>
+                    <p class="text-[10px] text-slate-500 font-semibold">Log Pipeline Operations</p>
+                    <p class="text-[8px] text-slate-400 mt-0.5">Logs will print here in real-time</p>
+                </div>
                 
-                <!-- Toggle Switch -->
-                <div class="flex items-center gap-2">
-                    <span class="text-xs text-slate-500 font-medium">Custom</span>
-                    <button id="config-toggle" class="relative inline-flex h-5 w-10 items-center rounded-full bg-slate-200 transition" onclick="toggleConfig()">
-                        <span id="config-toggle-dot" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition translate-x-1"></span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Configuration Options -->
-            <div class="flex-grow flex flex-col space-y-3">
-                <div id="default-config-msg" class="flex-grow flex flex-col justify-center items-center text-center p-6 bg-slate-50 border border-slate-100 rounded-xl">
-                    <span class="text-3xl mb-2">⚡</span>
-                    <p class="text-xs font-semibold text-slate-800">Default Pass-Through Active</p>
-                    <p class="text-[10px] text-slate-500 mt-1 max-w-[200px]">Returns full Canonical Candidate profiles including confidence and provenance.</p>
-                </div>
-
-                <div id="custom-config-area" class="hidden flex-grow flex flex-col space-y-3">
-                    <textarea id="config-text" class="flex-grow w-full h-[180px] p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-mono focus:outline-none focus:border-wine-500 focus:ring-1 focus:ring-wine-500" placeholder="Paste projection JSON here..."></textarea>
-                    
-                    <div class="flex items-center justify-between gap-3">
-                        <button onclick="validateConfig()" class="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-200 hover:bg-slate-300 rounded-lg transition">
-                            Validate Config
-                        </button>
-                        <div id="validation-pill" class="hidden px-2.5 py-1 text-[10px] font-bold rounded-full"></div>
-                    </div>
-                    <div id="validation-errors" class="hidden text-[10px] text-red-650 font-mono bg-red-50 border border-red-200 p-2.5 rounded-lg max-h-[80px] overflow-y-auto"></div>
-                </div>
+                <div id="log-timeline-list" class="hidden space-y-4"></div>
             </div>
         </div>
 
-        <!-- Big Execution Button -->
-        <button id="run-btn" onclick="executePipeline()" class="w-full bg-wine-700 hover:bg-wine-600 text-white font-bold py-3 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-wine-900/30 disabled:opacity-50 disabled:cursor-not-allowed">
-            <span id="run-text">🚀 Run Transformation Pipeline</span>
-            <span id="run-spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-        </button>
-    </div>
-
-    <!-- SECTION 2: PIPELINE LOG (30% width) -->
-    <div class="w-full lg:w-[30%] bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col overflow-hidden">
-        <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider mb-4 flex items-center gap-2 pb-3 border-b border-slate-100">
-            <span>📊</span> Ingestion Log
-        </h2>
-        
-        <!-- Timeline Stepper Container -->
-        <div class="flex-grow overflow-y-auto relative pr-2 space-y-6 pt-2" id="log-container">
-            <!-- Empty state for logs -->
-            <div id="log-empty-state" class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
-                <span class="text-4xl mb-3 text-slate-300">⏳</span>
-                <p class="text-xs text-slate-500 font-semibold">Log pipeline processes</p>
-                <p class="text-[10px] text-slate-400 mt-1">Start run to inspect step-by-step progress</p>
-            </div>
+        <!-- CORE RESULTS DASHBOARD (75% width) - Core Focus and Expanded -->
+        <div class="w-full lg:w-[75%] bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col overflow-hidden flex-grow border-l-4 border-l-wine-600">
             
-            <!-- Dynamically populated timeline elements -->
-            <div id="log-timeline-list" class="hidden space-y-6"></div>
-        </div>
-    </div>
-
-    <!-- SECTION 3: RESULTS PANEL (35% width) -->
-    <div class="w-full lg:w-[35%] bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col overflow-hidden">
-        
-        <!-- Tabs Header -->
-        <div class="bg-slate-50 border-b border-slate-200 flex text-xs">
-            <button onclick="switchTab('tab-default')" id="btn-tab-default" class="flex-1 py-3.5 px-2 text-center font-semibold text-wine-700 border-b-2 border-wine-500 bg-white transition">
-                Default Output
-            </button>
-            <button onclick="switchTab('tab-custom')" id="btn-tab-custom" class="flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
-                Projected
-            </button>
-            <button onclick="switchTab('tab-inspector')" id="btn-tab-inspector" class="flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
-                Claims
-            </button>
-            <button onclick="switchTab('tab-validation')" id="btn-tab-validation" class="flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
-                Metrics
-            </button>
-        </div>
-
-        <!-- Tab Body Content -->
-        <div class="flex-grow overflow-hidden relative" id="results-container">
-            
-            <!-- Empty state for Results -->
-            <div id="results-empty-state" class="absolute inset-0 flex flex-col justify-center items-center text-center p-6 bg-white">
-                <span class="text-5xl mb-4">🔷</span>
-                <p class="text-sm text-slate-700 font-semibold">Transformation results dashboard</p>
-                <p class="text-xs text-slate-400 mt-1 max-w-[240px]">Submit at least one candidate record source file to inspect arbitrated claims, mappings, and validator diagnostics.</p>
-            </div>
-
-            <!-- Red Error Alert box -->
-            <div id="pipeline-error-box" class="hidden absolute inset-0 flex flex-col justify-center items-center p-6 bg-red-50 border border-red-200 z-10 overflow-y-auto">
-                <span class="text-4xl mb-2">🚨</span>
-                <h3 class="text-sm font-bold text-red-700 uppercase tracking-wider">Pipeline Execution Crashed</h3>
-                <p id="error-message-text" class="text-xs text-red-600 mt-2 text-center max-w-[280px] font-medium"></p>
-                <pre id="error-traceback" class="hidden w-full mt-4 p-3 text-[10px] bg-slate-50 border border-red-200 rounded-lg text-red-800 overflow-x-auto text-left font-mono"></pre>
-                <button onclick="dismissError()" class="mt-4 px-4 py-2 text-xs font-semibold text-red-700 bg-red-100 hover:bg-red-200 rounded-lg border border-red-300 transition">
-                    Dismiss Error
+            <!-- Tabs Header -->
+            <div class="bg-slate-100/80 p-1.5 border-b border-slate-200 flex gap-1.5 text-xs shrink-0 select-none">
+                <button onclick="switchTab('tab-default')" id="btn-tab-default" class="flex-1 py-2 px-2.5 rounded-lg text-center font-bold text-wine-750 bg-white shadow-sm border border-slate-200/50 transition duration-150">
+                    Default Ingest Profile
+                </button>
+                <button onclick="switchTab('tab-custom')" id="btn-tab-custom" class="flex-1 py-2 px-2.5 rounded-lg text-center font-semibold text-slate-505 hover:text-slate-800 hover:bg-slate-50/50 transition duration-150">
+                    Reshaped Projected View
+                </button>
+                <button onclick="switchTab('tab-inspector')" id="btn-tab-inspector" class="flex-1 py-2 px-2.5 rounded-lg text-center font-semibold text-slate-505 hover:text-slate-800 hover:bg-slate-50/50 transition duration-150">
+                    Claims Audit Trail
+                </button>
+                <button onclick="switchTab('tab-validation')" id="btn-tab-validation" class="flex-1 py-2 px-2.5 rounded-lg text-center font-semibold text-slate-505 hover:text-slate-800 hover:bg-slate-50/50 transition duration-150">
+                    Ingestion Diagnostics
                 </button>
             </div>
 
-            <!-- Tab 1: Default Canonical JSON -->
-            <div id="tab-default" class="hidden p-4 h-full flex flex-col space-y-3">
-                <div class="flex justify-between items-center bg-slate-50 px-3 py-2 border border-slate-200 rounded-lg">
-                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Canonical Profile Schema (JSON)</span>
-                    <button onclick="copyToClipboard('default-pre-code')" class="px-2.5 py-1 text-[10px] font-semibold text-wine-700 bg-wine-50 border border-wine-200 hover:bg-wine-100 rounded transition">Copy JSON</button>
+            <!-- Tab Body Content -->
+            <div class="flex-grow overflow-hidden relative" id="results-container">
+                <!-- Empty state for Results -->
+                <div id="results-empty-state" class="absolute inset-0 flex flex-col justify-center items-center text-center p-8 bg-slate-50/50">
+                    <div class="text-xs font-bold text-slate-400 select-none mb-3">PIPELINE OUT</div>
+                    <p class="text-xs text-slate-750 font-bold">Pipeline Ingestion Output Dashboard</p>
+                    <p class="text-[10px] text-slate-450 mt-1 max-w-[320px]">Upload recruiter candidate list CSV or PDF resume source file and execute pipeline to display canonical profiles, custom mapping outputs, and diagnostics.</p>
                 </div>
-                <div class="flex-grow overflow-auto p-4 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[10px] leading-relaxed">
-                    <pre><code id="default-pre-code" class="text-slate-800 whitespace-pre-wrap"></code></pre>
+                
+                <!-- Red Error Alert box -->
+                <div id="pipeline-error-box" class="hidden absolute inset-0 flex flex-col justify-center items-center p-6 bg-red-50 border border-red-200 z-10 overflow-y-auto">
+                    <div class="text-red-700 font-bold text-sm mb-2">CRITICAL ERROR</div>
+                    <h3 class="text-xs font-bold text-red-700 uppercase tracking-wider">Pipeline Ingestion Crashed</h3>
+                    <p id="error-message-text" class="text-[10px] text-red-650 mt-1.5 text-center max-w-[340px] font-semibold"></p>
+                    <pre id="error-traceback" class="hidden w-full mt-3 p-3 text-[9px] bg-slate-50 border border-red-200 rounded-lg text-red-800 overflow-x-auto text-left font-mono"></pre>
+                    <button onclick="dismissError()" class="mt-4 px-4 py-1.5 text-xs font-semibold text-red-755 bg-red-100 hover:bg-red-200 rounded-lg border border-red-300 transition">
+                        Dismiss Error
+                    </button>
+                </div>
+
+                <!-- Tab 1: Default Canonical JSON -->
+                <div id="tab-default" class="hidden p-4 h-full flex flex-col">
+                    <div class="ide-window flex flex-col flex-grow overflow-hidden">
+                        <!-- macOS style header bar -->
+                        <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5 rounded-t-xl border-b border-slate-200 shrink-0">
+                            <div class="flex items-center gap-2 select-none">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/90"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/90"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]/90"></span>
+                                <span class="text-[10px] text-slate-500 font-mono ml-2 font-semibold">canonical_profile.json</span>
+                            </div>
+                            <button onclick="copyToClipboard('default-pre-code')" class="px-3 py-1 text-[10px] font-semibold text-slate-650 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-250 hover:border-slate-350 rounded-md transition shadow-sm active:scale-95">Copy JSON</button>
+                        </div>
+                        <!-- IDE code viewport -->
+                        <div class="flex-grow overflow-auto p-5 font-mono text-[10.5px] leading-relaxed bg-white text-slate-800">
+                            <pre><code id="default-pre-code" class="whitespace-pre-wrap"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Custom config Projected Output JSON -->
+                <div id="tab-custom" class="hidden p-4 h-full flex flex-col">
+                    <div class="ide-window flex flex-col flex-grow overflow-hidden">
+                        <!-- macOS style header bar -->
+                        <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5 rounded-t-xl border-b border-slate-200 shrink-0">
+                            <div class="flex items-center gap-2 select-none">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/90"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/90"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]/90"></span>
+                                <span class="text-[10px] text-slate-500 font-mono ml-2 font-semibold">reshaped_payload.json</span>
+                            </div>
+                            <button onclick="copyToClipboard('custom-pre-code')" class="px-3 py-1 text-[10px] font-semibold text-slate-650 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-250 hover:border-slate-350 rounded-md transition shadow-sm active:scale-95">Copy JSON</button>
+                        </div>
+                        <!-- IDE code viewport -->
+                        <div class="flex-grow overflow-auto p-5 font-mono text-[10.5px] leading-relaxed bg-white text-slate-800">
+                            <pre><code id="custom-pre-code" class="whitespace-pre-wrap"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Evidence Inspector Claims Table -->
+                <div id="tab-inspector" class="hidden p-4.5 h-full flex flex-col space-y-3">
+                    <div class="flex justify-between items-center shrink-0">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Ingested Claims Audit Trail</span>
+                        <div class="flex items-center gap-1.5">
+                            <label class="text-[10px] text-slate-500 font-semibold">Source Filter:</label>
+                            <select id="claims-source-filter" onchange="filterClaimsTable()" class="bg-slate-50 border border-slate-200 text-xs px-2 py-0.5 rounded text-slate-850 focus:outline-none">
+                                <option value="ALL">All Sources</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex-grow overflow-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-left border-collapse text-[10px]">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-650 font-bold sticky top-0">
+                                    <th class="p-2.5">Field</th>
+                                    <th class="p-2.5">Raw Value</th>
+                                    <th class="p-2.5">Source</th>
+                                    <th class="p-2.5">Method</th>
+                                    <th class="p-2.5">Pos.</th>
+                                    <th class="p-2.5">Conf</th>
+                                </tr>
+                            </thead>
+                            <tbody id="claims-table-body" class="divide-y divide-slate-100 bg-white"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Validation Dashboard -->
+                <div id="tab-validation" class="hidden p-4.5 h-full flex flex-col space-y-4 overflow-y-auto">
+                    <!-- Overall Confidence Meter -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">Overall Profile Ingestion Confidence</span>
+                            <span id="validation-score" class="text-sm font-bold text-wine-700">0.0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2">
+                            <div id="validation-score-bar" class="bg-wine-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p class="text-[9px] text-slate-450 mt-2">Score is calculated as a weighted confidence average across populated canonical attributes.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-center shrink-0">
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-sm">
+                            <span class="block text-xs font-bold text-slate-450 uppercase select-none" id="validation-status-icon">VAL</span>
+                            <span class="block text-[9px] text-slate-500 mt-1 uppercase font-bold">Validator Status</span>
+                            <span class="block text-xs font-bold text-slate-850 mt-0.5" id="validation-status-text">NOT RUN</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-sm">
+                            <span class="block text-xl text-amber-600 font-bold" id="warnings-count">0</span>
+                            <span class="block text-[9px] text-slate-500 mt-1 uppercase font-bold">Active Warnings</span>
+                            <span class="block text-xs font-bold text-slate-850 mt-0.5" id="warnings-severity">NONE</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 flex-grow">
+                        <h3 class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Diagnostic Details</h3>
+                        <div id="validation-issues-list" class="space-y-2"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <!-- Tab 2: Custom config Projected Output JSON -->
-            <div id="tab-custom" class="hidden p-4 h-full flex flex-col space-y-3">
-                <div class="flex justify-between items-center bg-slate-50 px-3 py-2 border border-slate-200 rounded-lg">
-                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Projected Output Payload (JSON)</span>
-                    <button onclick="copyToClipboard('custom-pre-code')" class="px-2.5 py-1 text-[10px] font-semibold text-wine-700 bg-wine-50 border border-wine-200 hover:bg-wine-100 rounded transition">Copy JSON</button>
+<!-- POPUP CONFIG MODAL -->
+<div id="config-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center hidden backdrop-blur-sm transition-opacity duration-300">
+    <div class="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden max-h-[90vh]">
+        <!-- Modal Header -->
+        <div class="bg-slate-50 px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+            <h2 class="text-sm font-bold text-wine-700 uppercase tracking-wider flex items-center gap-2">
+                Custom Output Schema Setup
+            </h2>
+            <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-650 text-xl font-bold transition focus:outline-none">&times;</button>
+        </div>
+        
+        <!-- Modal Body (Scrollable config) -->
+        <div class="p-5 overflow-y-auto space-y-4 flex-grow">
+            <!-- Default vs Custom Toggle -->
+            <div class="flex items-center justify-between bg-wine-50/30 border border-wine-100 rounded-xl p-3">
+                <div>
+                    <h4 class="text-xs font-bold text-slate-850">Use Custom Schema Reshaping</h4>
+                    <p class="text-[9px] text-slate-500">Reshape the canonical candidate profile to target format</p>
                 </div>
-                <div class="flex-grow overflow-auto p-4 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[10px] leading-relaxed">
-                    <pre><code id="custom-pre-code" class="text-slate-800 whitespace-pre-wrap"></code></pre>
-                </div>
+                <button id="config-toggle" class="relative inline-flex h-5.5 w-11 items-center rounded-full bg-slate-200 transition focus:outline-none" onclick="toggleConfig()">
+                    <span id="config-toggle-dot" class="inline-block h-4 w-4 transform rounded-full bg-white transition translate-x-1"></span>
+                </button>
             </div>
 
-            <!-- Tab 3: Evidence Inspector Claims Table -->
-            <div id="tab-inspector" class="hidden p-4 h-full flex flex-col space-y-3">
-                <!-- Filters header -->
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Ingested Claims Audit Trail</span>
-                    <!-- Source filter select -->
-                    <div class="flex items-center gap-1.5">
-                        <label class="text-[10px] text-slate-500 font-medium">Source Filter:</label>
-                        <select id="claims-source-filter" onchange="filterClaimsTable()" class="bg-slate-50 border border-slate-200 text-xs px-2 py-1 rounded text-slate-800 focus:outline-none">
-                            <option value="ALL">All Sources</option>
-                            <!-- Dynamically loaded -->
+            <!-- Config Messages -->
+            <div id="default-config-msg" class="flex flex-col justify-center items-center text-center p-6 bg-slate-50 border border-slate-100 rounded-xl">
+                <span class="text-xs font-bold text-slate-400 mb-2">PASS-THROUGH</span>
+                <p class="text-xs font-bold text-slate-850">Default Pass-Through Active</p>
+                <p class="text-[10px] text-slate-500 mt-1 max-w-[300px]">Ingestion outputs the full canonical profile including overall confidence scores and audit trail timeline values.</p>
+            </div>
+
+            <!-- Custom config visual editor -->
+            <div id="custom-config-area" class="hidden flex-col space-y-3.5 pr-1">
+                <textarea id="config-text" class="hidden"></textarea>
+                
+                <!-- Validation Status Container -->
+                <div class="flex flex-col gap-2 bg-slate-50 border border-slate-200 rounded-xl p-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Configuration Validity</span>
+                        <span id="validation-pill" class="hidden px-2.5 py-1 text-[10px] font-bold rounded-full"></span>
+                    </div>
+                    <div id="validation-errors" class="hidden text-[10px] text-red-650 bg-red-50 border border-red-200 px-3 py-2 rounded-lg font-mono"></div>
+                </div>
+                
+                <!-- Global Panel -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-150 pb-1.5">
+                        <span class="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Global Settings</span>
+                        <span class="text-[9px] text-slate-400">Toggles & Missing Actions</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="gui-include-confidence" checked class="rounded border-slate-300 text-wine-600 focus:ring-wine-500 w-4 h-4 transition" onchange="buildJsonFromGui()">
+                            <span class="text-[11px] font-bold text-slate-755">Confidence Score</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="gui-include-provenance" class="rounded border-slate-300 text-wine-600 focus:ring-wine-500 w-4 h-4 transition" onchange="buildJsonFromGui()">
+                            <span class="text-[11px] font-bold text-slate-755">Provenance History</span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between gap-3 pt-1 border-t border-slate-150">
+                        <span class="text-[11px] font-semibold text-slate-700">On Missing Value:</span>
+                        <select id="gui-on-missing" class="text-[11px] bg-white border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-wine-500 cursor-pointer text-slate-700" onchange="buildJsonFromGui()">
+                            <option value="null">Set to null</option>
+                            <option value="omit">Omit field</option>
+                            <option value="error">Raise error</option>
                         </select>
                     </div>
                 </div>
-                <!-- Claims table container -->
-                <div class="flex-grow overflow-auto border border-slate-200 rounded-xl">
-                    <table class="w-full text-left border-collapse text-[10px]">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
-                                <th class="p-2.5">Field</th>
-                                <th class="p-2.5">Raw Value</th>
-                                <th class="p-2.5">Source</th>
-                                <th class="p-2.5">Method</th>
-                                <th class="p-2.5">Pos.</th>
-                                <th class="p-2.5">Conf</th>
-                            </tr>
-                        </thead>
-                        <tbody id="claims-table-body" class="divide-y divide-slate-100 bg-white">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+
+                <!-- Fields selection list -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-1.5 mb-2">
+                        <span class="text-[10px] font-bold text-slate-655 uppercase tracking-wider">Field Mappings</span>
+                        <span class="text-[9px] text-slate-450">Check fields to include</span>
+                    </div>
+                    <div class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1" id="gui-fields-container"></div>
                 </div>
             </div>
-
-            <!-- Tab 4: Validation Dashboard -->
-            <div id="tab-validation" class="hidden p-4 h-full flex flex-col space-y-4 overflow-y-auto">
-                <!-- Overall Confidence Meter -->
-                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">Overall Profile Confidence</span>
-                        <span id="validation-score" class="text-sm font-bold text-wine-700">0.0%</span>
-                    </div>
-                    <div class="w-full bg-slate-200 rounded-full h-2">
-                        <div id="validation-score-bar" class="bg-wine-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                    <p class="text-[10px] text-slate-500 mt-2">Score is calculated as a weighted confidence average across populated canonical attributes.</p>
-                </div>
-
-                <!-- Diagnostics Summary Blocks -->
-                <div class="grid grid-cols-2 gap-3 text-center">
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                        <span class="block text-xl" id="validation-status-icon">⚪</span>
-                        <span class="block text-[10px] text-slate-500 mt-1 uppercase font-semibold">Validator Status</span>
-                        <span class="block text-xs font-bold text-slate-800 mt-0.5" id="validation-status-text">NOT RUN</span>
-                    </div>
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                        <span class="block text-xl text-amber-600" id="warnings-count">0</span>
-                        <span class="block text-[10px] text-slate-500 mt-1 uppercase font-semibold">Active Warnings</span>
-                        <span class="block text-xs font-bold text-slate-800 mt-0.5" id="warnings-severity">NONE</span>
-                    </div>
-                </div>
-
-                <!-- Validation Issues (Errors / Warnings lists) -->
-                <div class="space-y-3 flex-grow">
-                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Diagnostic Details</h3>
-                    <div id="validation-issues-list" class="space-y-2">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-            </div>
-
+        </div>
+        
+        <!-- Modal Footer -->
+        <div class="bg-slate-50 px-5 py-3 border-t border-slate-200 flex items-center justify-end gap-3 shrink-0">
+            <button onclick="closeConfigModal()" class="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-250 hover:bg-slate-100 rounded-lg transition shadow-sm animate-fade-in">Cancel</button>
+            <button id="gui-validate-btn" onclick="validateConfig()" class="hidden px-4 py-2 text-xs font-bold text-slate-750 bg-slate-200 hover:bg-slate-300 rounded-lg transition shadow-sm">Validate Schema</button>
+            <button onclick="saveAndApplyConfig()" class="px-4 py-2 text-xs font-bold text-white bg-wine-700 hover:bg-wine-600 rounded-lg transition shadow-md">Apply Configuration</button>
         </div>
     </div>
 </div>
@@ -291,6 +397,104 @@
     let pipelineLogData = [];
     let claimsData = [];
 
+    // Fields metadata for the GUI Config Builder
+    const fieldsMetadata = [
+        {
+            id: "full_name",
+            label: "Candidate Full Name",
+            defaultPath: "full_name",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "Canonical Name (full_name)", value: "full_name" }
+            ],
+            normalizers: ["none", "lowercase"],
+            defaultEnabled: true,
+            defaultRequired: true
+        },
+        {
+            id: "primary_email",
+            label: "Primary Email Address",
+            defaultPath: "emails[0]",
+            defaultType: "string",
+            typeOptions: ["string", "string[]"],
+            paths: [
+                { label: "First Email (emails[0])", value: "emails[0]" },
+                { label: "All Emails (emails)", value: "emails" }
+            ],
+            normalizers: ["none", "lowercase"],
+            defaultEnabled: true,
+            defaultRequired: true
+        },
+        {
+            id: "phone",
+            label: "Contact Phone Number",
+            defaultPath: "phones[0]",
+            defaultType: "string",
+            typeOptions: ["string", "string[]"],
+            paths: [
+                { label: "First Phone (phones[0])", value: "phones[0]" },
+                { label: "All Phones (phones)", value: "phones" }
+            ],
+            normalizers: ["E164", "none"],
+            defaultEnabled: true,
+            defaultRequired: false
+        },
+        {
+            id: "skills",
+            label: "Skills & Keywords",
+            defaultPath: "skills[].name",
+            defaultType: "string[]",
+            typeOptions: ["string[]", "string"],
+            paths: [
+                { label: "Skills flat list (skills[].name)", value: "skills[].name" },
+                { label: "Full Skills object (skills)", value: "skills" }
+            ],
+            normalizers: ["canonical", "none"],
+            defaultEnabled: true,
+            defaultRequired: false
+        },
+        {
+            id: "years_experience",
+            label: "Years of Experience",
+            defaultPath: "years_experience",
+            defaultType: "number",
+            typeOptions: ["number", "string"],
+            paths: [
+                { label: "Years calculated", value: "years_experience" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: true,
+            defaultRequired: false
+        },
+        {
+            id: "current_company",
+            label: "Current Company",
+            defaultPath: "experience[0].company",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "First Company (experience[0].company)", value: "experience[0].company" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: true,
+            defaultRequired: false
+        },
+        {
+            id: "linkedin",
+            label: "LinkedIn Profile URL",
+            defaultPath: "links.linkedin",
+            defaultType: "string",
+            typeOptions: ["string"],
+            paths: [
+                { label: "LinkedIn link (links.linkedin)", value: "links.linkedin" }
+            ],
+            normalizers: ["none"],
+            defaultEnabled: true,
+            defaultRequired: false
+        }
+    ];
+
     // Pre-filled custom config sample
     const sampleCustomConfig = {
         "fields": [
@@ -304,8 +508,175 @@
         "on_missing": "null"
     };
 
+    // Render GUI fields dynamically
+    function renderGuiFields() {
+        const container = document.getElementById("gui-fields-container");
+        container.innerHTML = "";
+        
+        fieldsMetadata.forEach(f => {
+            const fieldEl = document.createElement("div");
+            fieldEl.className = "border border-slate-200 rounded-xl p-3 bg-white hover:border-slate-300 transition shadow-sm space-y-2";
+            
+            const pathsHtml = f.paths.map(p => `<option value="${p.value}">${p.label}</option>`).join('');
+            const typesHtml = f.typeOptions.map(t => `<option value="${t}">${t}</option>`).join('');
+            const normsHtml = f.normalizers.map(n => `<option value="${n}">${n}</option>`).join('');
+            
+            fieldEl.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        <input type="checkbox" id="field-check-${f.id}" ${f.defaultEnabled ? 'checked' : ''} onchange="toggleFieldGui('${f.id}')" class="rounded border-slate-300 text-wine-600 focus:ring-wine-500 w-4 h-4 transition">
+                        <span class="text-xs font-bold text-slate-800">${f.label}</span>
+                    </label>
+                    <span class="text-[9px] text-slate-400 font-mono">${f.defaultPath}</span>
+                </div>
+                
+                <div id="field-body-${f.id}" class="${f.defaultEnabled ? '' : 'hidden'} space-y-2 pt-2 border-t border-slate-100">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Rename Key to:</label>
+                            <input type="text" id="field-rename-${f.id}" value="${f.id}" oninput="buildJsonFromGui()" class="w-full text-xs p-1 border border-slate-200 rounded focus:outline-none focus:border-wine-500 focus:ring-1 focus:ring-wine-500 text-slate-800 font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Select Path (from):</label>
+                            <select id="field-path-${f.id}" onchange="buildJsonFromGui()" class="w-full text-xs p-1 border border-slate-200 bg-white rounded focus:outline-none focus:border-wine-500 focus:ring-1 focus:ring-wine-500 cursor-pointer text-slate-705">
+                                ${pathsHtml}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Type:</label>
+                            <select id="field-type-${f.id}" onchange="buildJsonFromGui()" class="w-full text-xs p-1 border border-slate-200 bg-white rounded focus:outline-none cursor-pointer text-slate-705">
+                                ${typesHtml}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Normalize:</label>
+                            <select id="field-norm-${f.id}" onchange="buildJsonFromGui()" class="w-full text-xs p-1 border border-slate-200 bg-white rounded focus:outline-none cursor-pointer text-slate-705">
+                                ${normsHtml}
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-center h-full pt-3">
+                            <label class="flex items-center gap-1.5 cursor-pointer select-none">
+                                <input type="checkbox" id="field-req-${f.id}" ${f.defaultRequired ? 'checked' : ''} onchange="buildJsonFromGui()" class="rounded border-slate-300 text-wine-600 w-3.5 h-3.5 focus:ring-wine-500">
+                                <span class="text-[10px] font-semibold text-slate-600">Required</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(fieldEl);
+        });
+    }
+
+    function toggleFieldGui(fieldId) {
+        const check = document.getElementById(`field-check-${fieldId}`);
+        const body = document.getElementById(`field-body-${fieldId}`);
+        if (check.checked) {
+            body.classList.remove("hidden");
+        } else {
+            body.classList.add("hidden");
+        }
+        buildJsonFromGui();
+    }
+
+    // Build config JSON text from visual GUI inputs
+    function buildJsonFromGui() {
+        const fields = [];
+        
+        if (isCustomConfig) {
+            fieldsMetadata.forEach(f => {
+                const isChecked = document.getElementById(`field-check-${f.id}`).checked;
+                if (isChecked) {
+                    const path = document.getElementById(`field-rename-${f.id}`).value.trim() || f.id;
+                    const from = document.getElementById(`field-path-${f.id}`).value;
+                    const type = document.getElementById(`field-type-${f.id}`).value;
+                    const norm = document.getElementById(`field-norm-${f.id}`).value;
+                    const required = document.getElementById(`field-req-${f.id}`).checked;
+                    
+                    const spec = {
+                        path: path,
+                        from: from,
+                        type: type,
+                        required: required
+                    };
+                    if (norm !== "none") {
+                        spec.normalize = norm;
+                    }
+                    fields.push(spec);
+                }
+            });
+        }
+        
+        const includeConfidence = document.getElementById("gui-include-confidence").checked;
+        const includeProvenance = document.getElementById("gui-include-provenance").checked;
+        const onMissing = document.getElementById("gui-on-missing").value;
+        
+        const config = {
+            fields: fields,
+            include_confidence: includeConfidence,
+            include_provenance: includeProvenance,
+            on_missing: onMissing
+        };
+        
+        configText.value = JSON.stringify(config, null, 2);
+    }
+
+    // Sync visual GUI inputs with a given config object
+    function loadGuiFromConfig(config) {
+        if (!config) return;
+        
+        document.getElementById("gui-include-confidence").checked = config.include_confidence !== false;
+        document.getElementById("gui-include-provenance").checked = !!config.include_provenance;
+        document.getElementById("gui-on-missing").value = config.on_missing || "null";
+        
+        fieldsMetadata.forEach(f => {
+            document.getElementById(`field-check-${f.id}`).checked = false;
+            document.getElementById(`field-body-${f.id}`).classList.add("hidden");
+        });
+        
+        if (config.fields && Array.isArray(config.fields)) {
+            config.fields.forEach(spec => {
+                const meta = fieldsMetadata.find(f => f.id === spec.path || f.paths.some(p => p.value === spec.from)) 
+                             || fieldsMetadata.find(f => f.id === spec.from);
+                             
+                if (meta) {
+                    const chk = document.getElementById(`field-check-${meta.id}`);
+                    chk.checked = true;
+                    
+                    const body = document.getElementById(`field-body-${meta.id}`);
+                    body.classList.remove("hidden");
+                    
+                    document.getElementById(`field-rename-${meta.id}`).value = spec.path;
+                    
+                    const pathSelect = document.getElementById(`field-path-${meta.id}`);
+                    if (spec.from && pathSelect.querySelector(`option[value="${spec.from}"]`)) {
+                        pathSelect.value = spec.from;
+                    }
+                    
+                    const typeSelect = document.getElementById(`field-type-${meta.id}`);
+                    if (spec.type && typeSelect.querySelector(`option[value="${spec.type}"]`)) {
+                        typeSelect.value = spec.type;
+                    }
+                    
+                    const normSelect = document.getElementById(`field-norm-${meta.id}`);
+                    if (spec.normalize && normSelect.querySelector(`option[value="${spec.normalize}"]`)) {
+                        normSelect.value = spec.normalize;
+                    } else {
+                        normSelect.value = "none";
+                    }
+                    
+                    document.getElementById(`field-req-${meta.id}`).checked = !!spec.required;
+                }
+            });
+        }
+    }
+
     // Initialize custom config textarea
     configText.value = JSON.stringify(sampleCustomConfig, null, 2);
+    renderGuiFields();
+    loadGuiFromConfig(sampleCustomConfig);
 
     // Setup Dropzone Event Handlers
     function setupDropzone(zone, input, label, sizeCheck = false) {
@@ -358,23 +729,62 @@
     // Config Toggle controller
     function toggleConfig() {
         isCustomConfig = !isCustomConfig;
+        const toggleBtn = document.getElementById("config-toggle");
+        const dot = document.getElementById("config-toggle-dot");
+        const defaultMsg = document.getElementById("default-config-msg");
+        const customArea = document.getElementById("custom-config-area");
+        const valBtn = document.getElementById("gui-validate-btn");
+        
         if (isCustomConfig) {
-            configToggle.classList.remove("bg-slate-200");
-            configToggle.classList.add("bg-wine-600");
-            configToggleDot.classList.remove("translate-x-1");
-            configToggleDot.classList.add("translate-x-5");
-            defaultConfigMsg.classList.add("hidden");
-            customConfigArea.classList.remove("hidden");
+            toggleBtn.classList.remove("bg-slate-200");
+            toggleBtn.classList.add("bg-wine-600");
+            dot.classList.remove("translate-x-1");
+            dot.classList.add("translate-x-5");
+            defaultMsg.classList.add("hidden");
+            customArea.classList.remove("hidden");
+            if (valBtn) valBtn.classList.remove("hidden");
         } else {
-            configToggle.classList.remove("bg-wine-600");
-            configToggle.classList.add("bg-slate-200");
-            configToggleDot.classList.remove("translate-x-5");
-            configToggleDot.classList.add("translate-x-1");
-            defaultConfigMsg.classList.remove("hidden");
-            customConfigArea.classList.add("hidden");
+            toggleBtn.classList.remove("bg-wine-600");
+            toggleBtn.classList.add("bg-slate-200");
+            dot.classList.remove("translate-x-5");
+            dot.classList.add("translate-x-1");
+            defaultMsg.classList.remove("hidden");
+            customArea.classList.add("hidden");
+            if (valBtn) valBtn.classList.add("hidden");
             valPill.classList.add("hidden");
             valErrors.classList.add("hidden");
         }
+        buildJsonFromGui();
+    }
+
+    // Modal Control Functions
+    function openConfigModal() {
+        document.getElementById("config-modal").classList.remove("hidden");
+        const valBtn = document.getElementById("gui-validate-btn");
+        if (isCustomConfig) {
+            valBtn.classList.remove("hidden");
+        } else {
+            valBtn.classList.add("hidden");
+        }
+    }
+
+    function closeConfigModal() {
+        document.getElementById("config-modal").classList.add("hidden");
+    }
+
+    function saveAndApplyConfig() {
+        buildJsonFromGui();
+        const parsed = JSON.parse(configText.value);
+        const isPureDefault = parsed.fields.length === 0 && parsed.include_confidence && parsed.include_provenance && parsed.on_missing === "null";
+        
+        if (!isPureDefault) {
+            document.getElementById("config-status-badge").innerText = "CUSTOM";
+            document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-wine-100 text-wine-700 border border-wine-200 animate-pulse";
+        } else {
+            document.getElementById("config-status-badge").innerText = "DEFAULT";
+            document.getElementById("config-status-badge").className = "ml-1 text-[8px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600";
+        }
+        closeConfigModal();
     }
 
     // Validate Config function (POST /api/validate-config)
@@ -425,30 +835,43 @@
         list.innerHTML = "";
 
         logs.forEach(item => {
-            const isCrashed = item.step.includes("Crashed") || item.step.includes("Failed");
-            const isComplete = item.step.includes("Completed") || item.step.includes("Success") || item.step.includes("Built") || item.step.includes("Detected");
+            const isCrashed = item.step.includes("Crashed") || item.step.includes("Failed") || item.step.includes("Exception") || item.step.includes("Error");
+            const isSkipped = item.step.includes("Skipped");
             
-            let statusIcon = "⏳";
-            let iconClass = "bg-slate-200 text-slate-500 border-slate-300";
+            let statusIconHtml = "";
+            let iconClass = "";
             
             if (isCrashed) {
-                statusIcon = "❌";
-                iconClass = "bg-red-100 text-red-700 border-red-300";
-            } else if (isComplete) {
-                statusIcon = "✅";
-                iconClass = "bg-wine-50 text-wine-700 border-wine-200";
+                statusIconHtml = `
+                    <svg class="w-4 h-4 text-red-650" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+                iconClass = "bg-red-50 border-red-200 shadow-sm shadow-red-100/50";
+            } else if (isSkipped) {
+                statusIconHtml = `
+                    <svg class="w-3.5 h-3.5 text-slate-450" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                `;
+                iconClass = "bg-slate-100 border-slate-300 text-slate-500 shadow-sm shadow-slate-100/50";
             } else {
-                iconClass = "bg-wine-50 text-wine-700 border-wine-300 animate-pulse";
+                statusIconHtml = `
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
+                    </svg>
+                `;
+                iconClass = "bg-emerald-50 border-emerald-250 text-emerald-700 shadow-sm shadow-emerald-100/50";
             }
 
             const stepEl = document.createElement("div");
             stepEl.className = "flex gap-3 relative step-item";
             stepEl.innerHTML = `
                 <div class="step-timeline-line"></div>
-                <div class="w-10 h-10 rounded-full border flex items-center justify-center text-xs z-10 shrink-0 ${iconClass}">
-                    ${statusIcon}
+                <div class="w-9 h-9 rounded-full border flex items-center justify-center z-10 shrink-0 ${iconClass}">
+                    ${statusIconHtml}
                 </div>
-                <div class="pt-1 select-none">
+                <div class="pt-0.5 select-none">
                     <h4 class="text-xs font-bold text-slate-800 tracking-wide">${item.step}</h4>
                     <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed">${item.details}</p>
                 </div>
@@ -457,24 +880,24 @@
         });
     }
 
-    // JSON syntax highlighting parser
+    // JSON syntax highlighting parser tailored for light theme background
     function syntaxHighlight(json) {
         if (typeof json != 'string') {
              json = JSON.stringify(json, undefined, 2);
         }
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
-            var cls = 'text-amber-700'; // number
+            var cls = 'text-amber-650 font-medium'; // number
             if (/^"/.test(match)) {
                 if (/:$/.test(match)) {
-                    cls = 'text-indigo-600 font-semibold'; // key
+                    cls = 'text-indigo-650 font-semibold'; // key (indigo)
                 } else {
-                    cls = 'text-emerald-700'; // string
+                    cls = 'text-emerald-700'; // string (emerald green)
                 }
             } else if (/true|false/.test(match)) {
-                cls = 'text-orange-600';
+                cls = 'text-orange-650 font-medium'; // boolean
             } else if (/null/.test(match)) {
-                cls = 'text-slate-400';
+                cls = 'text-slate-400 font-medium'; // null
             }
             return '<span class="' + cls + '">' + match + '</span>';
         });
@@ -497,9 +920,9 @@
             const btn = document.getElementById(id);
             const targetBtnId = "btn-" + tabId;
             if (id === targetBtnId) {
-                btn.className = "flex-1 py-3.5 px-2 text-center font-bold text-wine-700 border-b-2 border-wine-500 bg-white transition";
+                btn.className = "flex-1 py-2 px-2.5 rounded-lg text-center font-bold text-wine-750 bg-white shadow-sm border border-slate-200/50 transition duration-150";
             } else {
-                btn.className = "flex-1 py-3.5 px-2 text-center font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition";
+                btn.className = "flex-1 py-2 px-2.5 rounded-lg text-center font-semibold text-slate-505 hover:text-slate-800 hover:bg-slate-50/50 transition duration-150";
             }
         });
     }
@@ -539,6 +962,84 @@
         });
     }
 
+    // Confidence calculation explanation generator returning HTML structure
+    function getConfidenceExplanation(c) {
+        let lines = [];
+        if (c.source_type === "STRUCTURED" || c.source === "candidates.csv") {
+            let base = 1.00;
+            let explanation = "Structured Source: base weight = 1.00";
+            if (c.field === "headline") {
+                base = 0.80;
+                explanation = "Structured Source but headline field mapping: base weight = 0.80";
+            }
+            lines.push(`<div class="font-bold text-wine-400 border-b border-slate-800 pb-1 mb-1.5 uppercase tracking-wider text-[8px]">Confidence Audit</div>`);
+            lines.push(`<div class="text-slate-300 font-medium">${explanation}</div>`);
+            lines.push(`<div class="mt-2 pt-1 border-t border-slate-800/80 font-bold text-emerald-450">Final Weight: ${base.toFixed(2)}</div>`);
+            return lines.join('');
+        }
+        
+        let sourceWeight = 0.70;
+        let methodWeight = 1.00;
+        let positionWeight = 1.00;
+        let matchMultiplier = 1.00;
+        
+        if (c.extraction_method === "REGEX_CONTACT_BLOCK") {
+            if (c.field === "location") {
+                methodWeight = 0.80;
+            } else {
+                methodWeight = 0.95;
+            }
+        } else if (c.extraction_method === "HEURISTIC") {
+            methodWeight = 0.70;
+        } else if (c.extraction_method === "REGEX_SECTION_BODY" || c.extraction_method === "merge_experience") {
+            methodWeight = 0.85;
+        } else if (c.extraction_method === "FULL_DOC_SCAN") {
+            methodWeight = 0.85;
+        }
+        
+        if (c.extraction_position === "CONTACT_BLOCK") {
+            positionWeight = 1.00;
+        } else if (c.extraction_position === "NAMED_SECTION") {
+            positionWeight = 0.90;
+        } else if (c.extraction_position === "PROSE_BODY") {
+            positionWeight = 0.65;
+        } else if (c.extraction_position === "FULL_DOCUMENT") {
+            positionWeight = 0.90;
+        }
+        
+        if (c.field === "skills") {
+            if (c.match_type === "exact") {
+                matchMultiplier = 1.00;
+            } else if (c.match_type === "alias") {
+                matchMultiplier = 0.95;
+            } else if (c.match_type === "fuzzy") {
+                matchMultiplier = 0.75;
+            } else {
+                matchMultiplier = 0.40;
+            }
+        }
+        
+        let baseConf = sourceWeight * methodWeight * positionWeight * matchMultiplier;
+        
+        lines.push(`<div class="font-bold text-wine-400 border-b border-slate-800 pb-1 mb-1.5 uppercase tracking-wider text-[8px]">Confidence Audit</div>`);
+        lines.push(`<div class="text-slate-350">Unstructured source: <span class="font-mono text-slate-200">${sourceWeight.toFixed(2)}</span></div>`);
+        lines.push(`<div class="mt-1.5 space-y-1 text-slate-400 text-[9px]">`);
+        lines.push(`<div>• Method (${c.extraction_method}): <span class="font-mono text-slate-350">${methodWeight.toFixed(2)}</span></div>`);
+        lines.push(`<div>• Position (${c.extraction_position}): <span class="font-mono text-slate-350">${positionWeight.toFixed(2)}</span></div>`);
+        if (c.field === "skills") {
+            lines.push(`<div>• Skill Match (${c.match_type || 'unverified'}): <span class="font-mono text-slate-350">${matchMultiplier.toFixed(2)}</span></div>`);
+        }
+        lines.push(`</div>`);
+        
+        let diff = c.confidence - baseConf;
+        if (diff > 0.005) {
+            lines.push(`<div class="text-sky-400 font-medium mt-1.5">• Corroboration: <span class="font-mono text-sky-350">+${diff.toFixed(2)}</span></div>`);
+        }
+        
+        lines.push(`<div class="mt-2.5 pt-1.5 border-t border-slate-800/80 font-bold text-emerald-450">Final Weight: ${c.confidence.toFixed(2)}</div>`);
+        return lines.join('');
+    }
+
     // Populate Claims Inspector tab
     function renderClaimsTable(claims) {
         const body = document.getElementById("claims-table-body");
@@ -560,11 +1061,11 @@
         });
 
         claims.forEach(c => {
-            let confClass = "text-red-700 bg-red-100 border border-red-300";
+            let confClass = "text-red-700 bg-red-105 border border-red-200/50";
             if (c.confidence > 0.8) {
-                confClass = "text-green-700 bg-green-100 border border-green-300";
+                confClass = "text-emerald-700 bg-emerald-105 border border-emerald-200/50";
             } else if (c.confidence >= 0.5) {
-                confClass = "text-amber-700 bg-amber-100 border border-amber-300";
+                confClass = "text-amber-700 bg-amber-105 border border-amber-200/50";
             }
 
             const row = document.createElement("tr");
@@ -578,12 +1079,18 @@
             }
 
             row.innerHTML = `
-                <td class="p-2 font-mono text-[9px] text-wine-700 font-semibold">${c.field}</td>
-                <td class="p-2 text-slate-850 truncate max-w-[120px]" title="${JSON.stringify(c.raw_value)}">${displayVal}</td>
-                <td class="p-2 text-slate-500 truncate max-w-[80px]" title="${c.source}">${c.source}</td>
-                <td class="p-2 text-slate-400">${c.extraction_method}</td>
-                <td class="p-2 text-slate-400">${c.extraction_position}</td>
-                <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[8px] font-bold ${confClass}">${c.confidence.toFixed(2)}</span></td>
+                <td class="p-2.5 font-mono text-[9px] text-wine-700 font-semibold align-middle">${c.field}</td>
+                <td class="p-2.5 text-slate-850 truncate max-w-[120px] align-middle" title="${JSON.stringify(c.raw_value).replace(/"/g, '&quot;')}">${displayVal}</td>
+                <td class="p-2.5 text-slate-500 truncate max-w-[85px] align-middle" title="${c.source}">${c.source}</td>
+                <td class="p-2.5 text-slate-450 align-middle font-mono text-[9px]">${c.extraction_method}</td>
+                <td class="p-2.5 text-slate-450 align-middle font-mono text-[9px]">${c.extraction_position}</td>
+                <td class="p-2.5 align-middle relative group">
+                    <span class="px-2 py-0.5 rounded text-[9px] font-bold cursor-help ${confClass}">${c.confidence.toFixed(2)}</span>
+                    <!-- Custom hover card tooltip positioned absolute left side of cell -->
+                    <div class="absolute right-[90%] top-1/2 -translate-y-1/2 mr-3 hidden group-hover:block z-50 bg-slate-900 border border-slate-800 text-slate-200 p-3 rounded-lg shadow-xl w-60 text-left font-sans font-normal text-[10px] leading-relaxed select-none pointer-events-none transition duration-150">
+                        ${getConfidenceExplanation(c)}
+                    </div>
+                </td>
             `;
             body.appendChild(row);
         });
@@ -623,11 +1130,13 @@
 
         // Set schema validity statuses
         if (valResult.valid) {
-            valStatusIcon.innerText = "✅";
+            valStatusIcon.innerText = "PASS";
+            valStatusIcon.className = "block text-xs font-black text-green-600 select-none";
             valStatusText.innerText = "VALID";
             valStatusText.className = "block text-xs font-bold text-green-600 mt-0.5";
         } else {
-            valStatusIcon.innerText = "❌";
+            valStatusIcon.innerText = "FAIL";
+            valStatusIcon.className = "block text-xs font-black text-red-650 select-none";
             valStatusText.innerText = "ERRORS";
             valStatusText.className = "block text-xs font-bold text-red-600 mt-0.5";
         }
@@ -655,7 +1164,7 @@
                 const item = document.createElement("div");
                 item.className = "flex gap-2.5 p-2.5 bg-red-50 border border-red-200 rounded-xl text-red-700 items-start";
                 item.innerHTML = `
-                    <span class="text-xs">🔴</span>
+                    <span class="text-[9px] font-bold bg-red-100 text-red-700 border border-red-300 px-1 py-0.5 rounded select-none shrink-0">ERR</span>
                     <div>
                         <h4 class="text-xs font-bold font-mono text-red-600">${err.field}</h4>
                         <p class="text-[10px] text-red-600/80 mt-0.5">${err.error}</p>
@@ -671,7 +1180,7 @@
                 const item = document.createElement("div");
                 item.className = "flex gap-2.5 p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 items-start";
                 item.innerHTML = `
-                    <span class="text-xs">⚠️</span>
+                    <span class="text-[9px] font-bold bg-amber-100 text-amber-800 border border-amber-300 px-1 py-0.5 rounded select-none shrink-0">WARN</span>
                     <div>
                         <p class="text-[10px] text-amber-700 font-medium">${warn}</p>
                     </div>
@@ -703,8 +1212,13 @@
         timelineList.classList.remove("hidden");
         timelineList.innerHTML = `
             <div class="flex gap-3 relative step-item animate-pulse">
-                <div class="w-10 h-10 rounded-full border border-wine-300 bg-wine-50 text-wine-700 flex items-center justify-center text-xs z-10 shrink-0">⏳</div>
-                <div class="pt-1">
+                <div class="w-9 h-9 rounded-full border border-wine-200 bg-wine-50 text-wine-700 flex items-center justify-center z-10 shrink-0 shadow-sm shadow-wine-100/50">
+                    <svg class="w-4 h-4 text-wine-600 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <div class="pt-0.5">
                     <h4 class="text-xs font-bold text-slate-800 tracking-wide">Initializing Pipeline Run</h4>
                     <p class="text-[10px] text-slate-500 mt-0.5">Scaffolding temporary sandboxes and preparing extractors...</p>
                 </div>
@@ -733,7 +1247,7 @@
             // Clean loader locks
             runBtn.disabled = false;
             runSpinner.classList.add("hidden");
-            runText.innerText = "🚀 Run Transformation Pipeline";
+            runText.innerText = "Run Transformation Pipeline";
 
             if (response.status === 200 && res.success) {
                 // Populate log list
@@ -755,9 +1269,14 @@
                             field: c.field,
                             raw_value: c.raw_value,
                             source: c.source,
+                            source_type: c.source_type || (c.source === "candidates.csv" ? "STRUCTURED" : "UNSTRUCTURED"),
                             extraction_method: c.extraction_method,
                             extraction_position: c.extraction_position,
-                            confidence: c.confidence
+                            confidence: c.confidence,
+                            match_type: c.match_type,
+                            extraction_notes: c.extraction_notes,
+                            normalization_applied: c.normalization_applied,
+                            corroborated_by: c.corroborated_by
                         };
                     });
                     return acc.concat(parsedClaims);
@@ -797,7 +1316,7 @@
             // Route/Network crashes
             runBtn.disabled = false;
             runSpinner.classList.add("hidden");
-            runText.innerText = "🚀 Run Transformation Pipeline";
+            runText.innerText = "Run Transformation Pipeline";
 
             const errBox = document.getElementById("pipeline-error-box");
             errBox.classList.remove("hidden");

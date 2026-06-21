@@ -70,6 +70,9 @@ INDIAN_CITIES = ["Mumbai", "Delhi", "Bengaluru", "Bangalore", "Pune", "Chennai",
 # Degree keywords for education block parsing
 DEGREE_KEYWORDS = ["B.Tech", "B.E.", "B.Sc", "Bachelor", "M.Tech", "M.Sc", "Master", "MBA", "PhD", "Ph.D", "Diploma", "Class XII", "Class X", "12th", "10th", "HSC", "SSC", "CBSE", "ICSE"]
 
+# School indicators for education block parsing
+INSTITUTION_INDICATORS = ["Institute", "University", "School", "Vidyalaya", "College", "Academy"]
+
 
 class ResumeExtractor:
     """Extracts claims from unstructured PDF, DOCX, and scanned PDF resumes using evidence-based methods."""
@@ -307,6 +310,9 @@ class ResumeExtractor:
                 phone_match = re.search(pattern, line)
                 if phone_match:
                     phone_val = phone_match.group(0).strip()
+                    # Skip if the match is a date range or a simple year/number
+                    if re.match(r'^\d{4}\s*[\-–—]\s*\d{4}$', phone_val) or re.match(r'^\d{4}$', phone_val):
+                        continue
                     # Base confidence: 0.70 * 0.95 * 1.00 = 0.665
                     claims.append(Claim(
                         field="phone",
@@ -485,13 +491,43 @@ class ResumeExtractor:
             method = ExtractionMethod.FULL_DOC_SCAN
 
         # 1. Tokenize skill section string (commas, semicolons, pipes, bullets, newlines)
-        tokens_raw = re.split(r'[,;|•\n\-\*]+', skills_text)
         tokens = []
-        for t in tokens_raw:
-            t_clean = t.strip()
-            # Filter tokens: length 2-50, and must not be pure digits
-            if len(t_clean) >= 2 and len(t_clean) <= 50 and not t_clean.isdigit():
-                tokens.append(t_clean)
+        if position == ExtractionPosition.NAMED_SECTION:
+            raw_lines = [l.strip() for l in skills_text.split('\n') if l.strip()]
+            blocks = []
+            current_block = ""
+            for line in raw_lines:
+                if ":" in line:
+                    if current_block:
+                        blocks.append(current_block)
+                    current_block = line
+                else:
+                    if current_block:
+                        current_block += " " + line
+                    else:
+                        current_block = line
+            if current_block:
+                blocks.append(current_block)
+
+            for block in blocks:
+                tokens_raw = re.split(r'[,;|•\t\*]+', block)
+                for t in tokens_raw:
+                    t_clean = t.strip()
+                    if not t_clean:
+                        continue
+                    if ":" in t_clean:
+                        t_clean = t_clean.split(":")[-1].strip()
+                    if len(t_clean) >= 2 and len(t_clean) <= 50 and not t_clean.isdigit():
+                        tokens.append(t_clean)
+        else:
+            clean_text = skills_text.replace('\n', ' ')
+            tokens_raw = re.split(r'[,;|•\t\*]+', clean_text)
+            for t in tokens_raw:
+                t_clean = t.strip()
+                if not t_clean:
+                    continue
+                if len(t_clean) >= 2 and len(t_clean) <= 50 and not t_clean.isdigit():
+                    tokens.append(t_clean)
 
         for token in tokens:
             token_lower = token.lower()
@@ -586,58 +622,74 @@ class ResumeExtractor:
     def _extract_experience(self, experience_text: str, source_name: str) -> list[ExperienceEntry]:
         """Part 6: Extracts work experience entries, parses date ranges, and checks concurrency."""
         entries = []
-        # Split section into separate text blocks
-        blocks = experience_text.split('\n\n')
-
-        for block in blocks:
-            lines = [l.strip() for l in block.split('\n') if l.strip()]
-            if not lines:
-                continue
-
+        raw_lines = [l.strip() for l in experience_text.split('\n') if l.strip()]
+        
+        # 1. Identify date lines
+        date_lines_info = []
+        for idx, line in enumerate(raw_lines):
             start_date = None
             end_date = None
             is_present = False
-            date_line = None
+            company_candidate = None
+            matched = False
 
-            # 1. Parse Date Ranges (evaluate 4 specific patterns in order)
-            for line in lines:
-                # Pattern 1: Month YYYY – Month YYYY
-                m1 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\s*[\-–—]\s*({MONTHS_PATTERN})\s+(\d{{4}})\b', line, re.IGNORECASE)
-                if m1:
-                    start_date = f"{m1.group(2)}-{self._normalize_month(m1.group(1))}"
-                    end_date = f"{m1.group(4)}-{self._normalize_month(m1.group(3))}"
-                    date_line = line
-                    break
+            # Pattern 1: Month YYYY – Month YYYY
+            m1 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\s*[\-–—]\s*({MONTHS_PATTERN})\s+(\d{{4}})\b', line, re.IGNORECASE)
+            if m1:
+                start_date = f"{m1.group(2)}-{self._normalize_month(m1.group(1))}"
+                end_date = f"{m1.group(4)}-{self._normalize_month(m1.group(3))}"
+                prefix = line[:m1.start()].strip().rstrip(',|:-').strip()
+                if prefix and len(prefix) < 50:
+                    company_candidate = prefix
+                matched = True
 
+            if not matched:
                 # Pattern 2: Month YYYY – Present
                 m2 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\s*[\-–—]\s*(present|current|now|ongoing)\b', line, re.IGNORECASE)
                 if m2:
                     start_date = f"{m2.group(2)}-{self._normalize_month(m2.group(1))}"
-                    end_date = None  # None for present/ongoing
+                    end_date = None
                     is_present = True
-                    date_line = line
-                    break
+                    prefix = line[:m2.start()].strip().rstrip(',|:-').strip()
+                    if prefix and len(prefix) < 50:
+                        company_candidate = prefix
+                    matched = True
 
+            if not matched:
                 # Pattern 3: YYYY – YYYY
                 m3 = re.search(r'\b(\d{4})\s*[\-–—]\s*(\d{4})\b', line)
                 if m3:
                     start_date = m3.group(1)
                     end_date = m3.group(2)
-                    date_line = line
-                    break
+                    prefix = line[:m3.start()].strip().rstrip(',|:-').strip()
+                    if prefix and len(prefix) < 50:
+                        company_candidate = prefix
+                    matched = True
 
+            if not matched:
                 # Pattern 4: Month YYYY (Start date only)
                 m4 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\b', line, re.IGNORECASE)
                 if m4:
                     start_date = f"{m4.group(2)}-{self._normalize_month(m4.group(1))}"
                     end_date = None
-                    date_line = line
-                    break
+                    prefix = line[:m4.start()].strip().rstrip(',|:-').strip()
+                    if prefix and len(prefix) < 50:
+                        company_candidate = prefix
+                    matched = True
 
-            # 2. Filter out date lines from block evaluations
+            if matched:
+                date_lines_info.append({
+                    "idx": idx,
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "is_present": is_present,
+                    "line": line,
+                    "company_candidate": company_candidate
+                })
+
+        # Helper to parse a single block of lines
+        def parse_experience_block(lines, start_date, end_date, company_candidate, date_line):
             non_date_lines = [l for l in lines if l != date_line]
-
-            # 3. Job Title Heuristic
             title = None
             TITLE_KEYWORDS = {"engineer", "developer", "analyst", "intern", "manager", "lead", "director", "consultant", "architect", "designer", "researcher", "scientist"}
             for line in non_date_lines:
@@ -645,19 +697,15 @@ class ResumeExtractor:
                     title = line
                     break
 
-            # 4. Company Name Heuristic
-            company = None
+            company = company_candidate
             COMPANY_INDICATORS = {"inc", "llc", "ltd", "corp", "solutions", "technologies"}
-            
-            # Pass 1: look for explicit company keywords
-            for line in non_date_lines:
-                if title and line == title:
-                    continue
-                if any(ci in line.lower() for ci in COMPANY_INDICATORS):
-                    company = line
-                    break
-            
-            # Pass 2: fall back to the first non-date, non-title line
+            if not company:
+                for line in non_date_lines:
+                    if title and line == title:
+                        continue
+                    if any(ci in line.lower() for ci in COMPANY_INDICATORS):
+                        company = line
+                        break
             if not company:
                 for line in non_date_lines:
                     if title and line == title:
@@ -665,7 +713,6 @@ class ResumeExtractor:
                     company = line
                     break
 
-            # 5. Extract Summary from remaining lines
             summary_lines = []
             for line in lines:
                 if (title and line == title) or (company and line == company) or (date_line and line == date_line):
@@ -673,37 +720,134 @@ class ResumeExtractor:
                 summary_lines.append(line)
             
             summary = "\n".join(summary_lines).strip() if summary_lines else None
-
-            # Base confidence: 0.70 (source) * 0.85 (method) * 0.90 (position) = 0.535
             adjusted_conf = self._adjust_confidence(0.535)
 
             if company or title:
-                entry = ExperienceEntry(
+                return ExperienceEntry(
                     company=company,
                     title=title,
                     start=start_date,
                     end=end_date,
                     summary=summary,
-                    concurrent=False,  # Checked below
+                    concurrent=False,
                     sources=["resume"],
                     confidence=adjusted_conf
                 )
-                entries.append(entry)
+            return None
+
+        # Build entries using date-line grouping
+        if date_lines_info:
+            claimed_indices = set()
+            # 1. Backward scan
+            for k, info in enumerate(date_lines_info):
+                d_idx = info["idx"]
+                claimed_indices.add(d_idx)
+                
+                backward_lines = []
+                prev_d_idx = date_lines_info[k - 1]["idx"] if k > 0 else -1
+                for b_idx in range(d_idx - 1, prev_d_idx, -1):
+                    line_text = raw_lines[b_idx]
+                    if re.match(r'^[^\w\s\(\[\{]', line_text):
+                        break
+                    match_letter = re.search(r'[a-zA-Z]', line_text)
+                    if match_letter and not match_letter.group(0).isupper():
+                        break
+                    if b_idx in claimed_indices:
+                        break
+                    backward_lines.insert(0, b_idx)
+                    claimed_indices.add(b_idx)
+                info["backward_lines"] = backward_lines
+
+            # 2. Forward scan
+            for k, info in enumerate(date_lines_info):
+                d_idx = info["idx"]
+                forward_lines = []
+                
+                next_limit = len(raw_lines)
+                if k + 1 < len(date_lines_info):
+                    next_info = date_lines_info[k + 1]
+                    if next_info["backward_lines"]:
+                        next_limit = next_info["backward_lines"][0]
+                    else:
+                        next_limit = next_info["idx"]
+                        
+                for f_idx in range(d_idx + 1, next_limit):
+                    forward_lines.append(f_idx)
+                    claimed_indices.add(f_idx)
+                info["forward_lines"] = forward_lines
+
+            # 3. Process entries
+            for info in date_lines_info:
+                entry_line_indices = info["backward_lines"] + [info["idx"]] + info["forward_lines"]
+                entry_lines = [raw_lines[idx] for idx in entry_line_indices]
+                entry = parse_experience_block(
+                    entry_lines,
+                    info["start_date"],
+                    info["end_date"],
+                    info["company_candidate"],
+                    info["line"]
+                )
+                if entry:
+                    entries.append(entry)
+        else:
+            # Fallback to double newline split
+            blocks = experience_text.split('\n\n')
+            for block in blocks:
+                lines = [l.strip() for l in block.split('\n') if l.strip()]
+                if not lines:
+                    continue
+                start_date = None
+                end_date = None
+                date_line = None
+                company_candidate = None
+                for line in lines:
+                    m1 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\s*[\-–—]\s*({MONTHS_PATTERN})\s+(\d{{4}})\b', line, re.IGNORECASE)
+                    if m1:
+                        start_date = f"{m1.group(2)}-{self._normalize_month(m1.group(1))}"
+                        end_date = f"{m1.group(4)}-{self._normalize_month(m1.group(3))}"
+                        date_line = line
+                        prefix = line[:m1.start()].strip().rstrip(',|:-').strip()
+                        if prefix and len(prefix) < 50: company_candidate = prefix
+                        break
+                    m2 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\s*[\-–—]\s*(present|current|now|ongoing)\b', line, re.IGNORECASE)
+                    if m2:
+                        start_date = f"{m2.group(2)}-{self._normalize_month(m2.group(1))}"
+                        end_date = None
+                        date_line = line
+                        prefix = line[:m2.start()].strip().rstrip(',|:-').strip()
+                        if prefix and len(prefix) < 50: company_candidate = prefix
+                        break
+                    m3 = re.search(r'\b(\d{4})\s*[\-–—]\s*(\d{4})\b', line)
+                    if m3:
+                        start_date = m3.group(1)
+                        end_date = m3.group(2)
+                        date_line = line
+                        prefix = line[:m3.start()].strip().rstrip(',|:-').strip()
+                        if prefix and len(prefix) < 50: company_candidate = prefix
+                        break
+                    m4 = re.search(rf'\b({MONTHS_PATTERN})\s+(\d{{4}})\b', line, re.IGNORECASE)
+                    if m4:
+                        start_date = f"{m4.group(2)}-{self._normalize_month(m4.group(1))}"
+                        end_date = None
+                        date_line = line
+                        prefix = line[:m4.start()].strip().rstrip(',|:-').strip()
+                        if prefix and len(prefix) < 50: company_candidate = prefix
+                        break
+                entry = parse_experience_block(lines, start_date, end_date, company_candidate, date_line)
+                if entry:
+                    entries.append(entry)
 
         # 6. Concurrency Check (Overlapping intervals)
         intervals = []
         for idx, entry in enumerate(entries):
-            # Parse dates to cumulative month values for comparisons
             s_val = self._date_to_int(entry.start)
             e_val = self._date_to_int(entry.end)
             intervals.append((s_val, e_val, idx))
 
-        # Check all distinct pairings for overlap bounds
         for i in range(len(intervals)):
             s1, e1, idx1 = intervals[i]
             for j in range(i + 1, len(intervals)):
                 s2, e2, idx2 = intervals[j]
-                # Two ranges [s1, e1] and [s2, e2] overlap if: s1 <= e2 and s2 <= e1
                 if s1 <= e2 and s2 <= e1:
                     entries[idx1].concurrent = True
                     entries[idx2].concurrent = True
@@ -713,26 +857,67 @@ class ResumeExtractor:
     def _extract_education(self, education_text: str) -> list[EducationEntry]:
         """Part 7: Extracts education entries (institutions, degree titles, graduation years)."""
         entries = []
-        blocks = education_text.split('\n\n')
+        raw_lines = [l.strip() for l in education_text.split('\n') if l.strip()]
 
-        for block in blocks:
-            lines = [l.strip() for l in block.split('\n') if l.strip()]
-            if not lines:
-                continue
+        HEADER_KEYWORDS = {"year", "degree", "certificate", "institute", "cgpa", "board", "passing", "percentage", "mark", "gpa", "institutions", "degrees"}
+        
+        def is_header_line(text: str) -> bool:
+            words = set(re.findall(r'\b\w+\b', text.lower()))
+            intersect = words.intersection(HEADER_KEYWORDS)
+            if len(intersect) >= 2 and not re.search(r'\b(?:19|20)\d{2}\b', text):
+                return True
+            return False
 
+        def has_school_indicator(text: str) -> bool:
+            return any(re.search(rf'\b{re.escape(ind)}\b', text, re.IGNORECASE) for ind in INSTITUTION_INDICATORS)
+
+        # Identify year lines
+        year_lines_info = []
+        for idx, line in enumerate(raw_lines):
+            matches = re.findall(r'\b(?:19|20)\d{2}\b', line)
+            if matches:
+                end_year = int(matches[-1])
+                year_lines_info.append({
+                    "idx": idx,
+                    "end_year": end_year,
+                    "line": line
+                })
+
+        def parse_education_block(lines, default_end_year):
             institution = None
             degree = None
             field = None
-            end_year = None
+            end_year = default_end_year
 
-            # 1. Parse end year (last 4-digit number in the block)
-            for line in reversed(lines):
-                match = re.search(r'\b(19|20)\d{2}\b', line)
-                if match:
-                    end_year = int(match.group(0))
-                    break
+            if not end_year:
+                for line in reversed(lines):
+                    match = re.search(r'\b(?:19|20)\d{2}\b', line)
+                    if match:
+                        end_year = int(match.group(0))
+                        break
 
-            # 2. Parse Degree Title and Field of Study
+            # Match Institution Name using indicators first
+            ACADEMIC_KEYWORDS = {"business", "systems", "science", "sciences", "engineering", "management", "administration", "arts", "commerce", "design", "law", "studies", "humanities", "social", "applied", "advanced"}
+            inst_pattern = r'\b(?:[A-Z][A-Za-z0-9]*\s+){1,3}(?:' + '|'.join(INSTITUTION_INDICATORS) + r')(?:\s+(?:of|and|for))?(?:\s+[A-Z][A-Za-z0-9]*){0,3}\b'
+            
+            for line in lines:
+                inst_match = re.search(inst_pattern, line)
+                if inst_match:
+                    inst_val = inst_match.group(0)
+                    while True:
+                        words = inst_val.split()
+                        if not words:
+                            break
+                        first_word = words[0].lower().rstrip(',.:;-')
+                        if first_word in ACADEMIC_KEYWORDS:
+                            inst_val = " ".join(words[1:])
+                        else:
+                            break
+                    if len(inst_val) > 4:
+                        institution = inst_val
+                        break
+
+            # Parse Degree and Field
             for line in lines:
                 matched_keyword = None
                 for keyword in DEGREE_KEYWORDS:
@@ -741,29 +926,35 @@ class ResumeExtractor:
                         break
 
                 if matched_keyword:
-                    degree = line
-                    # Look for field patterns following degree (e.g. "B.Tech in Computer Science")
-                    field_match = re.search(rf'\b{re.escape(matched_keyword)}\b\s*(?:in|of|\-)?\s*(.*)', line, re.IGNORECASE)
+                    start_pos = line.lower().find(matched_keyword.lower())
+                    end_pos = len(line)
+                    if institution and institution in line:
+                        inst_pos = line.find(institution)
+                        if inst_pos > start_pos:
+                            end_pos = inst_pos
+                    
+                    degree_text = line[start_pos:end_pos].strip().rstrip(',|:-').strip()
+                    degree = degree_text
+
+                    # Extract field
+                    field_match = re.search(rf'\b{re.escape(matched_keyword)}\b\s*(?:in|of|\-)?\s*(.*)', degree_text, re.IGNORECASE)
                     if field_match and field_match.group(1):
                         field_val = field_match.group(1).strip()
                         if field_val:
-                            field = field_val
+                            field = field_val.strip("()").strip()
                     break
 
-            # 3. Parse Institution Name (first line that is not a degree line or a short year line)
-            for line in lines:
-                has_degree = any(re.search(rf'\b{re.escape(keyword)}\b', line, re.IGNORECASE) for keyword in DEGREE_KEYWORDS)
-                is_year = re.search(r'\b(19|20)\d{2}\b', line) and len(line.strip()) < 15
+            if not institution:
+                for line in lines:
+                    has_degree = any(re.search(rf'\b{re.escape(keyword)}\b', line, re.IGNORECASE) for keyword in DEGREE_KEYWORDS)
+                    is_year = re.search(r'\b(?:19|20)\d{2}\b', line) and len(line.strip()) < 15
+                    if not has_degree and not is_year:
+                        institution = line
+                        break
 
-                if not has_degree and not is_year:
-                    institution = line
-                    break
-
-            # Base confidence: 0.70 (source) * 0.85 (method) * 0.90 (position) = 0.535
             adjusted_conf = self._adjust_confidence(0.535)
-
             if institution or degree:
-                entry = EducationEntry(
+                return EducationEntry(
                     institution=institution,
                     degree=degree,
                     field=field,
@@ -771,7 +962,70 @@ class ResumeExtractor:
                     sources=["resume"],
                     confidence=adjusted_conf
                 )
-                entries.append(entry)
+            return None
+
+        # Build entries using year-line grouping
+        if year_lines_info:
+            claimed_indices = set()
+            # 1. Backward scan
+            for k, info in enumerate(year_lines_info):
+                d_idx = info["idx"]
+                claimed_indices.add(d_idx)
+                
+                backward_lines = []
+                prev_d_idx = year_lines_info[k - 1]["idx"] if k > 0 else -1
+                for b_idx in range(d_idx - 1, prev_d_idx, -1):
+                    line_text = raw_lines[b_idx]
+                    if is_header_line(line_text):
+                        break
+                    if b_idx in claimed_indices:
+                        break
+                    if has_school_indicator(raw_lines[d_idx]):
+                        break
+                    if has_school_indicator(line_text):
+                        # Include this institution line, but stop scanning backward beyond it
+                        backward_lines.insert(0, b_idx)
+                        claimed_indices.add(b_idx)
+                        break
+                    backward_lines.insert(0, b_idx)
+                    claimed_indices.add(b_idx)
+                info["backward_lines"] = backward_lines
+
+            # 2. Forward scan
+            for k, info in enumerate(year_lines_info):
+                d_idx = info["idx"]
+                forward_lines = []
+                
+                next_limit = len(raw_lines)
+                if k + 1 < len(year_lines_info):
+                    next_info = year_lines_info[k + 1]
+                    if next_info["backward_lines"]:
+                        next_limit = next_info["backward_lines"][0]
+                    else:
+                        next_limit = next_info["idx"]
+                        
+                for f_idx in range(d_idx + 1, next_limit):
+                    forward_lines.append(f_idx)
+                    claimed_indices.add(f_idx)
+                info["forward_lines"] = forward_lines
+
+            # 3. Process entries
+            for info in year_lines_info:
+                entry_line_indices = info["backward_lines"] + [info["idx"]] + info["forward_lines"]
+                entry_lines = [raw_lines[idx] for idx in entry_line_indices]
+                entry = parse_education_block(entry_lines, info["end_year"])
+                if entry:
+                    entries.append(entry)
+        else:
+            # Fallback to double newline split
+            blocks = education_text.split('\n\n')
+            for block in blocks:
+                lines = [l.strip() for l in block.split('\n') if l.strip()]
+                if not lines:
+                    continue
+                entry = parse_education_block(lines, None)
+                if entry:
+                    entries.append(entry)
 
         return entries
 
